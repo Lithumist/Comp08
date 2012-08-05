@@ -10,4 +10,4 @@ Release/
 *.opensdf
 
 # this because it's f*cking massive
-Comp08.sdf
+*.sdf
