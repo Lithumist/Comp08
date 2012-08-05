@@ -10,6 +10,8 @@
 
 #include <SFML/Graphics.hpp>
 
+class player;
+
 namespace global
 {
 
@@ -18,6 +20,9 @@ namespace global
 
 	// If this is true, the main loop is running
 	extern bool bLoopRunning;
+
+	// A pointer to the current player object that is contained inside the gameManager
+	extern player* plPlayer;
 
 
 } // End namespace

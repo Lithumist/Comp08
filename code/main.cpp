@@ -5,12 +5,14 @@
 
 #include "global.h"
 #include "ut.h"
+#include "game_manager.h"
 #include "player.h"
 
 #include <iostream>
 
 
-player mainPlayer;
+// The game manager
+gameManager game;
 
 
 
@@ -35,8 +37,8 @@ int main()
 	// Seed the random number generator
 	ut::seed();
 
-	// Test
-	mainPlayer.init(50,50);
+	// Start a new game
+	game.newGame();
 
 
 
@@ -95,7 +97,7 @@ int main_loop()
 			if(ev.type == sf::Event::Closed)
 				global::bLoopRunning = false;
 
-			mainPlayer.events(&ev);
+			game.events(&ev);
 
 		}
 
@@ -107,7 +109,7 @@ int main_loop()
 			#####
 		*/
 
-		mainPlayer.step();
+		game.step();
 
 
 		/*
@@ -116,7 +118,7 @@ int main_loop()
 			#####
 		*/
 		ut::frameStart();
-		mainPlayer.draw();
+		game.draw();
 		ut::frameEnd();
 
 	}

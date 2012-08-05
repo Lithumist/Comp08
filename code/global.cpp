@@ -16,5 +16,8 @@ namespace global
 	// If this is true, the main loop is running
 	bool bLoopRunning = true;
 
+	// A pointer to the current player object that is contained inside the gameManager
+	player* plPlayer = NULL;
+
 
 } // End namespace
