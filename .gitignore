@@ -1,13 +1,5 @@
 # .gitignore file
-
-
-# builds
 Debug/
 Release/
-
-
-# this because it can't be opened while VS2010 is running
 *.opensdf
-
-# this because it's f*cking massive
 *.sdf
