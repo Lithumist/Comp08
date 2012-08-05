@@ -5,8 +5,12 @@
 
 #include "global.h"
 #include "ut.h"
+#include "player.h"
 
 #include <iostream>
+
+
+player mainPlayer;
 
 
 
@@ -25,8 +29,14 @@ int main()
 	sf::RenderWindow rw(sf::VideoMode(640,480),"Comp08");
 	global::rwpWindow = &rw;
 
+	// Set the fps limit to 60
+	global::rwpWindow->setFramerateLimit(60);
+
 	// Seed the random number generator
 	ut::seed();
+
+	// Test
+	mainPlayer.init(50,50);
 
 
 
@@ -84,6 +94,9 @@ int main_loop()
 			// window closed
 			if(ev.type == sf::Event::Closed)
 				global::bLoopRunning = false;
+
+			mainPlayer.events(&ev);
+
 		}
 
 
@@ -94,12 +107,17 @@ int main_loop()
 			#####
 		*/
 
+		mainPlayer.step();
+
 
 		/*
 			#####
 			## Rendering
 			#####
 		*/
+		ut::frameStart();
+		mainPlayer.draw();
+		ut::frameEnd();
 
 	}
 

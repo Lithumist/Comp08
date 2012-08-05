@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Header Files\global">
       <UniqueIdentifier>{fbb70d9d-18b1-4bb5-849d-08b0442e56ef}</UniqueIdentifier>
     </Filter>
@@ -25,6 +21,12 @@
     <Filter Include="Source Files\ut">
       <UniqueIdentifier>{eabe630c-52f7-4469-a691-c5538fe8f012}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\player">
+      <UniqueIdentifier>{80f2688b-c8ef-4630-9237-8c8938ad5772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\player">
+      <UniqueIdentifier>{b33fdacb-6edb-4346-b765-c8cc36ff4cce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\code\main.cpp">
@@ -36,6 +38,9 @@
     <ClCompile Include="..\code\ut.cpp">
       <Filter>Source Files\ut</Filter>
     </ClCompile>
+    <ClCompile Include="..\code\player.cpp">
+      <Filter>Source Files\player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\code\global.h">
@@ -43,6 +48,9 @@
     </ClInclude>
     <ClInclude Include="..\code\ut.h">
       <Filter>Header Files\ut</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\player.h">
+      <Filter>Header Files\player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
