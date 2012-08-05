@@ -10,6 +10,15 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\code\global.cpp" />
+    <ClCompile Include="..\code\main.cpp" />
+    <ClCompile Include="..\code\ut.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\code\global.h" />
+    <ClInclude Include="..\code\ut.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{107008F6-395B-46F2-B1F5-D5822D810B07}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

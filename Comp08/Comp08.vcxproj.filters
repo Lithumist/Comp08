@@ -13,5 +13,36 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\global">
+      <UniqueIdentifier>{fbb70d9d-18b1-4bb5-849d-08b0442e56ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\global">
+      <UniqueIdentifier>{25c77268-9caf-43d5-b3a6-20317c51ad8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ut">
+      <UniqueIdentifier>{89fe3a56-a069-4de7-bfad-283a67ce9bad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ut">
+      <UniqueIdentifier>{eabe630c-52f7-4469-a691-c5538fe8f012}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\code\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\global.cpp">
+      <Filter>Source Files\global</Filter>
+    </ClCompile>
+    <ClCompile Include="..\code\ut.cpp">
+      <Filter>Source Files\ut</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\code\global.h">
+      <Filter>Header Files\global</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\ut.h">
+      <Filter>Header Files\ut</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
