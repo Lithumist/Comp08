@@ -1,5 +1,8 @@
 # .gitignore file
 Debug/
 Release/
+ipch/
+Comp08/Debug/
+Comp08/Release/
 *.opensdf
 *.sdf
