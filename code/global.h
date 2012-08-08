@@ -11,6 +11,7 @@
 #include <SFML/Graphics.hpp>
 
 class player;
+class level;
 
 namespace global
 {
@@ -23,6 +24,9 @@ namespace global
 
 	// A pointer to the current player object that is contained inside the gameManager
 	extern player* plPlayer;
+
+	// A pointer to the current level object that is contained inside the gameManager
+	extern level* lvlLevel;
 
 
 } // End namespace

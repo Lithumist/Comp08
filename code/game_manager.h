@@ -10,6 +10,7 @@
 #include "ut.h"
 #include "global.h"
 #include "player.h"
+#include "level.h"
 
 class gameManager
 {
@@ -50,6 +51,7 @@ class gameManager
 		///
 
 		player gamePlayer;
+		level gameLevel;
 
 
 };

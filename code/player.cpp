@@ -83,6 +83,7 @@ void player::draw()
 	sf::RectangleShape rct;
 	rct.setPosition(x,y);
 	rct.setSize(sf::Vector2f(16,16));
+	rct.setFillColor(sf::Color(0,255,0));
 
 	global::rwpWindow->draw(rct);
 }

@@ -15,8 +15,12 @@ namespace ut
 	// Sets the seed for random number generation to the current time
 	void seed()
 	{
-		srand((unsigned int)time(NULL));
+		current_seed = (unsigned int)time(NULL);
+		time_t lol = time(NULL);
+		srand(current_seed);
 	}
+	// The current seed (do not modify! )
+	unsigned int current_seed = 0;
 
 
 	// Generates a random number between min and max (inclusive)

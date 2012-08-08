@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="..\code\game_manager.cpp" />
     <ClCompile Include="..\code\global.cpp" />
+    <ClCompile Include="..\code\level.cpp" />
     <ClCompile Include="..\code\main.cpp" />
     <ClCompile Include="..\code\player.cpp" />
     <ClCompile Include="..\code\ut.cpp" />
@@ -20,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="..\code\game_manager.h" />
     <ClInclude Include="..\code\global.h" />
+    <ClInclude Include="..\code\level.h" />
     <ClInclude Include="..\code\player.h" />
     <ClInclude Include="..\code\ut.h" />
   </ItemGroup>

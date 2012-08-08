@@ -2,7 +2,7 @@
 	ut.h
 	(short for "utilities.h")
 
-	Defines a namespace containing useful utility functions that
+	Declares a namespace containing useful utility functions that
 	the rest of the game uses.
 */
 
@@ -19,6 +19,8 @@ namespace ut
 
 	// Sets the seed for random number generation to the current time
 	void seed();
+	// The current seed (do not modify! )
+	extern unsigned int current_seed;
 
 	// Generates a random number between min and max (inclusive)
 	int random(int min, int max);

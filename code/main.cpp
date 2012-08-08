@@ -7,12 +7,14 @@
 #include "ut.h"
 #include "game_manager.h"
 #include "player.h"
+#include "level.h"
 
 #include <iostream>
 
 
 // The game manager
 gameManager game;
+
 
 
 
@@ -36,6 +38,7 @@ int main()
 
 	// Seed the random number generator
 	ut::seed();
+	std::cout << "seed: " << ut::current_seed << std::endl;
 
 	// Start a new game
 	game.newGame();

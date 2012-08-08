@@ -13,8 +13,12 @@
 ///
 void gameManager::newGame()
 {
-	// Eeset the player and set the global pointer
-	gamePlayer.init(0,0);
+	// Generate a new level and set global pointer
+	gameLevel.generate();
+	global::lvlLevel = &gameLevel;
+
+	// Reset the player and set the global pointer
+	gamePlayer.init(gameLevel.getPlayerStartX()*16,gameLevel.getPlayerStartY()*16);
 	global::plPlayer = &gamePlayer;
 }
 
@@ -47,6 +51,9 @@ void gameManager::step()
 ///
 void gameManager::draw()
 {
-	// Do player events
+	// Render the map
+	global::lvlLevel->draw();
+
+	// Render the player
 	global::plPlayer->draw();
 }

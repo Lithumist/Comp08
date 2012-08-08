@@ -19,5 +19,8 @@ namespace global
 	// A pointer to the current player object that is contained inside the gameManager
 	player* plPlayer = NULL;
 
+	// A pointer to the current level object that is contained inside the gameManager
+	level* lvlLevel = NULL;
+
 
 } // End namespace

@@ -33,6 +33,12 @@
     <Filter Include="Source Files\game manager">
       <UniqueIdentifier>{fe51ad07-3299-4f00-99f2-520d6af0e1cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\level">
+      <UniqueIdentifier>{1ecf4858-b812-4aad-a385-581c5fade067}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\level">
+      <UniqueIdentifier>{0885f29d-8fbc-46c9-adfc-bc6d328a2b10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\code\main.cpp">
@@ -50,6 +56,9 @@
     <ClCompile Include="..\code\game_manager.cpp">
       <Filter>Source Files\game manager</Filter>
     </ClCompile>
+    <ClCompile Include="..\code\level.cpp">
+      <Filter>Source Files\level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\code\global.h">
@@ -63,6 +72,9 @@
     </ClInclude>
     <ClInclude Include="..\code\game_manager.h">
       <Filter>Header Files\game manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\level.h">
+      <Filter>Header Files\level</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
