@@ -50,6 +50,29 @@ float level::getPlayerStartX(){ if(map_is_ready) return p_start_x; else return -
 float level::getPlayerStartY(){ if(map_is_ready) return p_start_y; else return -1;}
 
 
+///
+// Completely recalculate the edgeList (goes through whole map!)
+///
+void level::recalculateEdgeList()
+{
+	for(int ypos=1; ypos<C_MAP_HEIGHT_IN_TILES-1; ypos++)
+	{
+		for(int xpos=1; xpos<C_MAP_WIDTH_IN_TILES-1; xpos++)
+		{ if(cell_data[getCellIndex(xpos,ypos)].active == true && cell_data[getCellIndex(xpos,ypos)].type == 1) {
+
+			if( cell_data[getCellIndex(xpos+1,ypos)].active == false ||
+				cell_data[getCellIndex(xpos-1,ypos)].active == false ||
+				cell_data[getCellIndex(xpos,ypos+1)].active == false ||
+				cell_data[getCellIndex(xpos,ypos-1)].active == false
+				)
+
+				edgeList.push_back(&cell_data[getCellIndex(xpos,ypos)]);
+
+		}}
+	}
+}
+
+
 
 ///
 // Generates a new level
@@ -77,6 +100,16 @@ void level::generate()
 
 	cell_data[getCellIndex(p_start_x,p_start_y)].active = false;
 	cell_data[getCellIndex(p_start_x,p_start_y)].type = 0;
+
+	recalculateEdgeList();
+
+	// remove some walls from edge list
+	for(int t=0; t<500; t++)
+	{
+		edgeList[ut::random(0,edgeList.size()-1)]->active = false;
+		edgeList[ut::random(0,edgeList.size()-1)]->type = 0;
+		recalculateEdgeList();
+	}
 
 
 	map_is_ready = true;

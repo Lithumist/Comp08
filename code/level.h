@@ -11,6 +11,7 @@
 #include "global.h"
 #include "ut.h"
 #include <iostream>
+#include <vector>
 
 const int C_MAP_WIDTH_IN_TILES = 40;
 const int C_MAP_HEIGHT_IN_TILES = 30;
@@ -64,6 +65,9 @@ class level
 		// Returns -1 if map isn't ready
 		float getPlayerStartY();
 
+		// Completely recalculate the edgeList (goes through whole map!)
+		void recalculateEdgeList();
+
 
 
 
@@ -98,6 +102,9 @@ class level
 
 		// Player start position x and y
 		float p_start_x, p_start_y;
+
+		// A vector of pointers to cells from "cell_data" that are edge walls
+		std::vector<mapCell*> edgeList;
 
 
 };
