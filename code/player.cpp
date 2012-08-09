@@ -25,6 +25,21 @@ void player::init(float xpos, float ypos)
 	keyDown = false;
 	keyLeft = false;
 	keyRight = false;
+
+	rmCell = false;
+
+	cellPlayer.width = 16;
+	cellPlayer.height = 16;
+	cellLeft.width = 16;
+	cellLeft.height = 16;
+	cellRight.width = 16;
+	cellRight.height = 16;
+	cellUp.width = 16;
+	cellUp.height = 16;
+	cellDown.width = 16;
+	cellDown.height = 16;
+
+	dir = 3; // down
 }
 
 void player::init(){init(0,0);}
@@ -38,13 +53,19 @@ void player::events(sf::Event* evnt)
 {
 	// update movement varibles
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		keyUp = true; else keyUp = false;
+		{keyUp = true; dir = 1;} else keyUp = false;
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		keyDown = true; else keyDown = false;
+		{keyDown = true; dir = 3;} else keyDown = false;
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-		keyLeft = true; else keyLeft = false;
+		{keyLeft = true; dir = 4;} else keyLeft = false;
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		keyRight = true; else keyRight = false;
+		{keyRight = true; dir = 2;} else keyRight = false;
+
+	// Update cell removal varible
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		rmCell = true;
+	else
+		rmCell = false;
 }
 
 
@@ -54,7 +75,7 @@ void player::events(sf::Event* evnt)
 ///
 void player::step()
 {
-	// update speeds
+	// Update speeds
 	xspeed = 0;
 	yspeed = 0;
 	if(keyUp)
@@ -66,9 +87,70 @@ void player::step()
 	if(keyRight)
 		xspeed += C_PLAYER_SPEED;
 
-	// move player
+	// Move player
 	x += xspeed;
 	y += yspeed;
+
+
+	// Update rects
+	cellPlayer.left = ut::round(x/16)*16;
+	cellPlayer.top = ut::round(y/16)*16;
+
+	cellLeft.left = cellPlayer.left-16;
+	cellLeft.top = cellPlayer.top;
+
+	cellRight.left = cellPlayer.left+16;
+	cellRight.top = cellPlayer.top;
+
+	cellUp.left = cellPlayer.left;
+	cellUp.top = cellPlayer.top-16;
+
+	cellDown.left = cellPlayer.left;
+	cellDown.top = cellPlayer.top+16;
+
+
+	// Remove cell if needed
+	if(rmCell)
+	{
+		switch(dir)
+		{
+			case 1:
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].active != false)
+				{
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].active = false;
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].type = 0;
+					//recalculate light here
+				}
+			break;
+
+			case 2:
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].active != false)
+				{
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].active = false;
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].type = 0;
+					//recalculate light here
+				}
+			break;
+
+			case 3:
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].active != false)
+				{
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].active = false;
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].type = 0;
+					//recalculate light here
+				}
+			break;
+
+			case 4:
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].active != false)
+				{
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].active = false;
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].type = 0;
+					//recalculate light here
+				}
+			break;
+		}
+	}
 }
 
 
@@ -86,4 +168,56 @@ void player::draw()
 	rct.setFillColor(sf::Color(0,255,0));
 
 	global::rwpWindow->draw(rct);
+
+
+	// Draw rects
+	sf::RectangleShape rct1;
+	rct1.setPosition(cellPlayer.left,cellPlayer.top);
+	rct1.setSize(sf::Vector2f(16,16));
+	rct1.setOutlineColor(sf::Color(255,255,255));
+	rct1.setOutlineThickness(1);
+	rct1.setFillColor(sf::Color::Transparent);
+	global::rwpWindow->draw(rct1);
+
+
+	sf::RectangleShape rct2;
+	rct2.setPosition(cellLeft.left,cellLeft.top);
+	rct2.setSize(sf::Vector2f(16,16));
+	if(dir==4)
+		rct2.setOutlineColor(sf::Color(0,0,255));
+	else
+		rct2.setOutlineColor(sf::Color(128,128,128));
+	rct2.setOutlineThickness(1);
+	rct2.setFillColor(sf::Color::Transparent);
+	global::rwpWindow->draw(rct2);
+
+	rct2.setPosition(cellRight.left,cellRight.top);
+	rct2.setSize(sf::Vector2f(16,16));
+	if(dir==2)
+		rct2.setOutlineColor(sf::Color(0,0,255));
+	else
+		rct2.setOutlineColor(sf::Color(128,128,128));
+	rct2.setOutlineThickness(1);
+	rct2.setFillColor(sf::Color::Transparent);
+	global::rwpWindow->draw(rct2);
+
+	rct2.setPosition(cellUp.left,cellUp.top);
+	rct2.setSize(sf::Vector2f(16,16));
+	if(dir==1)
+		rct2.setOutlineColor(sf::Color(0,0,255));
+	else
+		rct2.setOutlineColor(sf::Color(128,128,128));
+	rct2.setOutlineThickness(1);
+	rct2.setFillColor(sf::Color::Transparent);
+	global::rwpWindow->draw(rct2);
+
+	rct2.setPosition(cellDown.left,cellDown.top);
+	rct2.setSize(sf::Vector2f(16,16));
+	if(dir==3)
+		rct2.setOutlineColor(sf::Color(0,0,255));
+	else
+		rct2.setOutlineColor(sf::Color(128,128,128));
+	rct2.setOutlineThickness(1);
+	rct2.setFillColor(sf::Color::Transparent);
+	global::rwpWindow->draw(rct2);
 }

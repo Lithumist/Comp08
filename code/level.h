@@ -10,6 +10,7 @@
 
 #include "global.h"
 #include "ut.h"
+#include "light.h"
 #include <iostream>
 #include <vector>
 
@@ -17,6 +18,12 @@ const int C_MAP_WIDTH_IN_TILES = 40;
 const int C_MAP_HEIGHT_IN_TILES = 30;
 
 const int C_MAP_TOTAL_SIZE = C_MAP_WIDTH_IN_TILES * C_MAP_HEIGHT_IN_TILES;
+
+/*
+
+Actual definition inside light.h
+This is to make a quick hack so that the light function can return a vector of mapCells
+Yes there are other ways to do this but idgaf.
 
 struct mapCell
 {
@@ -30,6 +37,7 @@ struct mapCell
 	// 01  wall
 	int type;
 };
+*/
 
 class level
 {
@@ -79,7 +87,7 @@ class level
 
 
 		// All the map cell data
-		mapCell cell_data[C_MAP_WIDTH_IN_TILES * C_MAP_HEIGHT_IN_TILES]; // 30*40
+		mapCell cell_data[C_MAP_WIDTH_IN_TILES * C_MAP_HEIGHT_IN_TILES];
 
 		// If the map is ready to be updated and rendered
 		bool map_is_ready;

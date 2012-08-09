@@ -34,6 +34,12 @@ namespace ut
 	void frameEnd();
 
 
+
+
+	// Rounds a float accurately to an integer
+	int round(float number);
+
+
 } // End namespace
 
 #endif

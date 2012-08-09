@@ -100,6 +100,10 @@ int main_loop()
 			if(ev.type == sf::Event::Closed)
 				global::bLoopRunning = false;
 
+			// Reset game
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+				game.newGame();
+
 			game.events(&ev);
 
 		}

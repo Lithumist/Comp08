@@ -46,4 +46,15 @@ namespace ut
 	}
 
 
+
+
+
+
+	// Rounds a float accurately to an integer
+	int round(float number)
+	{
+		return (int)(floor(number+0.5));
+	}
+
+
 } // End namespace

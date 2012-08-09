@@ -22,6 +22,7 @@
     <ClInclude Include="..\code\game_manager.h" />
     <ClInclude Include="..\code\global.h" />
     <ClInclude Include="..\code\level.h" />
+    <ClInclude Include="..\code\light.h" />
     <ClInclude Include="..\code\player.h" />
     <ClInclude Include="..\code\ut.h" />
   </ItemGroup>

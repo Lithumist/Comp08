@@ -82,6 +82,10 @@ void level::generate()
 	map_is_ready = false;
 
 
+	// Clear edge list
+	edgeList.clear();
+
+
 	// fill map with walls
 	for(int ypos=0; ypos<C_MAP_HEIGHT_IN_TILES; ypos++)
 	{
@@ -95,11 +99,22 @@ void level::generate()
 	}
 
 	// determine where the player will start and set it
-	p_start_x = (float)ut::random(1,C_MAP_WIDTH_IN_TILES-2);	// -2 because function is inclusive
-	p_start_y = (float)ut::random(1,C_MAP_HEIGHT_IN_TILES-2);	/////
+	p_start_x = (float)ut::random(1,C_MAP_WIDTH_IN_TILES-3);	// -3 because function is inclusive
+	p_start_y = (float)ut::random(1,C_MAP_HEIGHT_IN_TILES-3);	/////
 
 	cell_data[getCellIndex(p_start_x,p_start_y)].active = false;
 	cell_data[getCellIndex(p_start_x,p_start_y)].type = 0;
+
+
+	// Remove some random walls
+	for(int t=0; t<10; t++)
+	{
+		int tx = ut::random(1,C_MAP_WIDTH_IN_TILES-3);	// -3 because function is inclusive
+		int ty = ut::random(1,C_MAP_HEIGHT_IN_TILES-3);	/////
+		cell_data[getCellIndex(tx,ty)].active = false;
+		cell_data[getCellIndex(tx,ty)].type = 0;
+	}
+
 
 	recalculateEdgeList();
 

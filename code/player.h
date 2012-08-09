@@ -9,6 +9,8 @@
 #define PLAYER_H
 
 #include "global.h"
+#include "ut.h"
+#include "level.h"
 
 #include <SFML/Graphics.hpp>
 
@@ -70,6 +72,15 @@ class player
 
 		bool keyUp, keyDown, keyLeft, keyRight;
 
+		bool rmCell;
+
+		sf::IntRect cellPlayer, cellLeft, cellRight, cellUp, cellDown;
+
+		int dir;
+		// 1 up
+		// 2 right
+		// 3 down
+		// 4 left
 
 };
 

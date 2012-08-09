@@ -39,6 +39,9 @@
     <Filter Include="Source Files\level">
       <UniqueIdentifier>{0885f29d-8fbc-46c9-adfc-bc6d328a2b10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\light">
+      <UniqueIdentifier>{ff1a578e-07f8-40fd-8c5b-29a59175af1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\code\main.cpp">
@@ -75,6 +78,9 @@
     </ClInclude>
     <ClInclude Include="..\code\level.h">
       <Filter>Header Files\level</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\light.h">
+      <Filter>Header Files\light</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
