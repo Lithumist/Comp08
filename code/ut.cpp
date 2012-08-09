@@ -57,4 +57,12 @@ namespace ut
 	}
 
 
+
+
+
+	// Set of functions to convert numbers to strings
+	std::string toString(int num){std::stringstream ss; ss << num; return ss.str();}
+	std::string toString(float num){std::stringstream ss; ss << num; return ss.str();}
+
+
 } // End namespace

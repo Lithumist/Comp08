@@ -72,7 +72,7 @@ class player
 
 		bool keyUp, keyDown, keyLeft, keyRight;
 
-		bool rmCell;
+		bool rmCell, placeCell;
 
 		sf::IntRect cellPlayer, cellLeft, cellRight, cellUp, cellDown;
 
@@ -81,6 +81,8 @@ class player
 		// 2 right
 		// 3 down
 		// 4 left
+
+		int numberBlocks;
 
 };
 

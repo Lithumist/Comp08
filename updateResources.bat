@@ -2,8 +2,8 @@
 
 rmdir /s /q "Release/resources"
 rmdir /s /q "Debug/resources"
-rmdir /s /q "Nomnom/resources"
+rmdir /s /q "Comp08/resources"
 
-xcopy "Repo/Nomnom/RES" "Release" /s /e /v
-xcopy "Repo/Nomnom/RES" "Debug" /s /e /v
-xcopy "Repo/Nomnom/RES" "Nomnom" /s /e /v
+xcopy "RESOURCES_MASTER" "Release" /s /e /v
+xcopy "RESOURCES_MASTER" "Debug" /s /e /v
+xcopy "RESOURCES_MASTER" "Comp08" /s /e /v

@@ -40,6 +40,9 @@ int main()
 	ut::seed();
 	std::cout << "seed: " << ut::current_seed << std::endl;
 
+	// Load the main font
+	global::fntMain.loadFromFile("resources/pixelette.ttf");
+
 	// Start a new game
 	game.newGame();
 

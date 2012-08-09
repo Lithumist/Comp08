@@ -13,6 +13,8 @@
 
 #include <stdlib.h>
 #include <time.h>
+#include <string>
+#include <sstream>
 
 namespace ut
 {
@@ -38,6 +40,13 @@ namespace ut
 
 	// Rounds a float accurately to an integer
 	int round(float number);
+
+
+
+
+	// Set of functions to convert numbers to strings
+	std::string toString(int num);
+	std::string toString(float num);
 
 
 } // End namespace

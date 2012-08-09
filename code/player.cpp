@@ -27,6 +27,7 @@ void player::init(float xpos, float ypos)
 	keyRight = false;
 
 	rmCell = false;
+	placeCell = false;
 
 	cellPlayer.width = 16;
 	cellPlayer.height = 16;
@@ -40,6 +41,9 @@ void player::init(float xpos, float ypos)
 	cellDown.height = 16;
 
 	dir = 3; // down
+
+	numberBlocks = 0;
+	global::intPlayerBlocks = &numberBlocks;
 }
 
 void player::init(){init(0,0);}
@@ -62,10 +66,16 @@ void player::events(sf::Event* evnt)
 		{keyRight = true; dir = 2;} else keyRight = false;
 
 	// Update cell removal varible
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::X))
 		rmCell = true;
 	else
 		rmCell = false;
+
+	// Update cell placing varibles
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+		placeCell = true;
+	else
+		placeCell = false;
 }
 
 
@@ -117,6 +127,7 @@ void player::step()
 			case 1:
 				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].active != false)
 				{
+					numberBlocks ++;
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].active = false;
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].type = 0;
 					//recalculate light here
@@ -126,6 +137,7 @@ void player::step()
 			case 2:
 				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].active != false)
 				{
+					numberBlocks ++;
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].active = false;
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].type = 0;
 					//recalculate light here
@@ -135,6 +147,7 @@ void player::step()
 			case 3:
 				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].active != false)
 				{
+					numberBlocks ++;
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].active = false;
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].type = 0;
 					//recalculate light here
@@ -144,8 +157,60 @@ void player::step()
 			case 4:
 				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].active != false)
 				{
+					numberBlocks ++;
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].active = false;
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].type = 0;
+					//recalculate light here
+				}
+			break;
+		}
+	}
+
+
+
+
+
+	// Place cell if needed
+	if(placeCell)
+	{
+		switch(dir)
+		{
+			case 1:
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].active == false && numberBlocks > 0)
+				{
+					numberBlocks --;
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].active = true;
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].type = 1;
+					//recalculate light here
+				}
+			break;
+
+			case 2:
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].active == false && numberBlocks > 0)
+				{
+					numberBlocks --;
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].active = true;
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].type = 1;
+					//recalculate light here
+				}
+			break;
+
+			case 3:
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].active == false && numberBlocks > 0)
+				{
+					numberBlocks --;
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].active = true;
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].type = 1;
+					//recalculate light here
+				}
+			break;
+
+			case 4:
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].active == false && numberBlocks > 0)
+				{
+					numberBlocks --;
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].active = true;
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].type = 1;
 					//recalculate light here
 				}
 			break;
@@ -220,4 +285,11 @@ void player::draw()
 	rct2.setOutlineThickness(1);
 	rct2.setFillColor(sf::Color::Transparent);
 	global::rwpWindow->draw(rct2);
+
+
+	// Draw block number text
+	sf::Text blktxt("blocks: " + ut::toString(numberBlocks));
+	blktxt.setFont(global::fntMain);
+	blktxt.setCharacterSize(12);
+	global::rwpWindow->draw(blktxt);
 }

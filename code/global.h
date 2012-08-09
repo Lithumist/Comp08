@@ -28,6 +28,12 @@ namespace global
 	// A pointer to the current level object that is contained inside the gameManager
 	extern level* lvlLevel;
 
+	// A pointer to the number of blocks the player has
+	extern int* intPlayerBlocks;
+
+	// The main font used in the game
+	extern sf::Font fntMain;
+
 
 } // End namespace
 
