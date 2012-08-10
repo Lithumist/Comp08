@@ -40,6 +40,9 @@ void gameManager::events(sf::Event* evnt)
 ///
 void gameManager::step()
 {
+	// Do level logic
+	global::lvlLevel->step();
+
 	// Do player logic
 	global::plPlayer->step();
 }

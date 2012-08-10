@@ -27,16 +27,9 @@ Yes there are other ways to do this but idgaf.
 
 struct mapCell
 {
-	// If the cell is a normal walkable tile or not
-	bool active;
 
-	// The position of the cell IN TILE COORDINATES
-	int x, y;
-
-	// The type of cell
-	// 01  wall
-	int type;
 };
+
 */
 
 class level
@@ -54,6 +47,12 @@ class level
 
 		// Generates a new level
 		void generate();
+
+		// Re-lights the level by updating the drawList
+		void doLight();
+
+		// Updates the level
+		void step();
 
 		// Draws the level
 		void draw();
@@ -113,6 +112,20 @@ class level
 
 		// A vector of pointers to cells from "cell_data" that are edge walls
 		std::vector<mapCell*> edgeList;
+
+		// A vector of pointers to all the tiles that need to br drawn
+		std::vector<mapCell*> drawList;
+
+
+
+
+
+
+		///
+		/// Private methods
+		///
+
+		void handleLine(int xx0, int yy0, int xx1, int yy1);
 
 
 };

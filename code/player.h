@@ -11,6 +11,7 @@
 #include "global.h"
 #include "ut.h"
 #include "level.h"
+#include <vector>
 
 #include <SFML/Graphics.hpp>
 
@@ -83,6 +84,19 @@ class player
 		// 4 left
 
 		int numberBlocks;
+
+		std::vector<sf::Vector2f> collisionTestList;
+
+
+
+
+
+
+		///
+		/// Private methods
+		///
+
+		void updateCollisionTestList();
 
 };
 

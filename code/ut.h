@@ -11,10 +11,12 @@
 
 #include "global.h"
 
+#include <SFML/Graphics.hpp>
 #include <stdlib.h>
 #include <time.h>
 #include <string>
 #include <sstream>
+#include <vector>
 
 namespace ut
 {
@@ -47,6 +49,13 @@ namespace ut
 	// Set of functions to convert numbers to strings
 	std::string toString(int num);
 	std::string toString(float num);
+
+
+
+
+	// Returns a vector of coordinates that make up a line between 2 points
+	// USES TILE COORDINATES!
+	std::vector<sf::Vector2i> calculateLine(int x0, int y0, int x1, int y1);
 
 
 } // End namespace

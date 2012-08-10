@@ -18,6 +18,9 @@ namespace global
 
 	// A pointer to the current player object that is contained inside the gameManager
 	player* plPlayer = NULL;
+	// Pointers to the player positions
+	float* flPlayerX = NULL;
+	float* flPlayerY = NULL;
 
 	// A pointer to the current level object that is contained inside the gameManager
 	level* lvlLevel = NULL;

@@ -15,6 +15,9 @@
 // The game manager
 gameManager game;
 
+// Clock to calculate fps
+sf::Clock fpsClock;
+
 
 
 
@@ -129,6 +132,16 @@ int main_loop()
 		*/
 		ut::frameStart();
 		game.draw();
+
+		float fps;
+		fps = 1.f/fpsClock.getElapsedTime().asSeconds();
+		fpsClock.restart();
+		sf::Text blktxt("fps: " + ut::toString(fps));
+		blktxt.setFont(global::fntMain);
+		blktxt.setCharacterSize(12);
+		blktxt.setPosition(535,0);
+		global::rwpWindow->draw(blktxt);
+
 		ut::frameEnd();
 
 	}
