@@ -266,6 +266,7 @@ void level::doLight()
 	handleLine(player_tile_x,player_tile_y,player_tile_x+9,player_tile_y-C_PLAYER_LIGHT_DISTANCE);
 	handleLine(player_tile_x,player_tile_y,player_tile_x+10,player_tile_y-C_PLAYER_LIGHT_DISTANCE);
 	handleLine(player_tile_x,player_tile_y,player_tile_x+11,player_tile_y-C_PLAYER_LIGHT_DISTANCE);
+	handleLine(player_tile_x,player_tile_y,player_tile_x+12,player_tile_y-C_PLAYER_LIGHT_DISTANCE);
 
 	// Handle lines in the up+left direction
 	handleLine(player_tile_x,player_tile_y,player_tile_x-1,player_tile_y-C_PLAYER_LIGHT_DISTANCE);
@@ -279,6 +280,7 @@ void level::doLight()
 	handleLine(player_tile_x,player_tile_y,player_tile_x-9,player_tile_y-C_PLAYER_LIGHT_DISTANCE);
 	handleLine(player_tile_x,player_tile_y,player_tile_x-10,player_tile_y-C_PLAYER_LIGHT_DISTANCE);
 	handleLine(player_tile_x,player_tile_y,player_tile_x-11,player_tile_y-C_PLAYER_LIGHT_DISTANCE);
+	handleLine(player_tile_x,player_tile_y,player_tile_x-12,player_tile_y-C_PLAYER_LIGHT_DISTANCE);
 
 
 
@@ -296,6 +298,7 @@ void level::doLight()
 	handleLine(player_tile_x,player_tile_y,player_tile_x-9,player_tile_y+C_PLAYER_LIGHT_DISTANCE);
 	handleLine(player_tile_x,player_tile_y,player_tile_x-10,player_tile_y+C_PLAYER_LIGHT_DISTANCE);
 	handleLine(player_tile_x,player_tile_y,player_tile_x-11,player_tile_y+C_PLAYER_LIGHT_DISTANCE);
+	handleLine(player_tile_x,player_tile_y,player_tile_x-12,player_tile_y+C_PLAYER_LIGHT_DISTANCE);
 
 	// Handle lines in the down+right direction
 	handleLine(player_tile_x,player_tile_y,player_tile_x+1,player_tile_y+C_PLAYER_LIGHT_DISTANCE);
@@ -309,6 +312,7 @@ void level::doLight()
 	handleLine(player_tile_x,player_tile_y,player_tile_x+9,player_tile_y+C_PLAYER_LIGHT_DISTANCE);
 	handleLine(player_tile_x,player_tile_y,player_tile_x+10,player_tile_y+C_PLAYER_LIGHT_DISTANCE);
 	handleLine(player_tile_x,player_tile_y,player_tile_x+11,player_tile_y+C_PLAYER_LIGHT_DISTANCE);
+	handleLine(player_tile_x,player_tile_y,player_tile_x+12,player_tile_y+C_PLAYER_LIGHT_DISTANCE);
 
 
 

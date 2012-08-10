@@ -219,7 +219,7 @@ void player::step()
 
 
 	// Detect and handle collisions
-	collisionTestList.clear();
+	updateCollisionTestList();
 
 
 
@@ -331,4 +331,46 @@ void player::draw()
 
 void player::updateCollisionTestList()
 {
+
+	collisionTestList.clear();
+
+	int upType, downType, leftType, rightType;
+
+	upType = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].type;
+	downType = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].type;
+	leftType = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].type;
+	rightType = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].type;
+
+	if(upType == 1 || upType == 2)
+	{
+		sf::Vector2f pos;
+		pos.x = cellUp.left;
+		pos.y = cellUp.top;
+		collisionTestList.push_back(pos);
+	}
+
+	if(downType == 1 || downType == 2)
+	{
+		sf::Vector2f pos;
+		pos.x = cellDown.left;
+		pos.y = cellDown.top;
+		collisionTestList.push_back(pos);
+	}
+
+	if(leftType == 1 || leftType == 2)
+	{
+		sf::Vector2f pos;
+		pos.x = cellLeft.left;
+		pos.y = cellLeft.top;
+		collisionTestList.push_back(pos);
+	}
+
+	if(rightType == 1 || rightType == 2)
+	{
+		sf::Vector2f pos;
+		pos.x = cellDown.left;
+		pos.y = cellDown.top;
+		collisionTestList.push_back(pos);
+	}
+
 }
