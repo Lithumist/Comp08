@@ -39,6 +39,14 @@ void player::init(float xpos, float ypos)
 	cellUp.height = 16;
 	cellDown.width = 16;
 	cellDown.height = 16;
+	cellTopLeft.width = 16;
+	cellTopLeft.height = 16;
+	cellTopRight.width = 16;
+	cellTopRight.height = 16;
+	cellBottomLeft.width = 16;
+	cellBottomLeft.height = 16;
+	cellBottomRight.width = 16;
+	cellBottomRight.height = 16;
 
 	dir = 3; // down
 
@@ -47,6 +55,9 @@ void player::init(float xpos, float ypos)
 
 	global::flPlayerX = &x;
 	global::flPlayerY = &y;
+
+	liveRectPlayer.width = 16;
+	liveRectPlayer.height = 16;
 }
 
 void player::init(){init(0,0);}
@@ -105,6 +116,11 @@ void player::step()
 	y += yspeed;
 
 
+	// Update live player rect
+	liveRectPlayer.left = x;
+	liveRectPlayer.top = y;
+
+
 	// Update rects
 	cellPlayer.left = ut::round(x/16)*16;
 	cellPlayer.top = ut::round(y/16)*16;
@@ -120,6 +136,18 @@ void player::step()
 
 	cellDown.left = cellPlayer.left;
 	cellDown.top = cellPlayer.top+16;
+
+	cellTopLeft.left = cellPlayer.left-16;
+	cellTopLeft.top = cellPlayer.top-16;
+
+	cellTopRight.left = cellPlayer.left+16;
+	cellTopRight.top = cellPlayer.top-16;
+
+	cellBottomLeft.left = cellPlayer.left-16;
+	cellBottomLeft.top = cellPlayer.top+16;
+
+	cellBottomRight.left = cellPlayer.left+16;
+	cellBottomRight.top = cellPlayer.top+16;
 
 
 	// Remove cell if needed
@@ -219,7 +247,7 @@ void player::step()
 
 
 	// Detect and handle collisions
-	updateCollisionTestList();
+	handleCollisions();
 
 
 
@@ -303,6 +331,20 @@ void player::draw()
 	blktxt.setFont(global::fntMain);
 	blktxt.setCharacterSize(12);
 	global::rwpWindow->draw(blktxt);
+
+
+	// Draw the collision points
+	/*
+	for(int t=0; t<collisionTestList.size(); t++)
+	{
+		sf::RectangleShape tmp;
+		tmp.setPosition(collisionTestList[t].x, collisionTestList[t].y);
+		tmp.setFillColor(sf::Color(255,255,255));
+		tmp.setSize(sf::Vector2f(1,1));
+
+		global::rwpWindow->draw(tmp);
+	}
+	*/
 }
 
 
@@ -329,48 +371,113 @@ void player::draw()
 
 
 
-void player::updateCollisionTestList()
+void player::handleCollisions()
 {
 
-	collisionTestList.clear();
+	//collisionTestList.clear();
 
-	int upType, downType, leftType, rightType;
+	int upType, downType, leftType, rightType, topLeftType, topRightType, bottomLeftType, bottomRightType;
 
 	upType = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].type;
 	downType = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].type;
 	leftType = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].type;
 	rightType = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].type;
+	topLeftType = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellTopLeft.left/16,cellTopLeft.top/16)].type;
+	topRightType = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellTopRight.left/16,cellTopRight.top/16)].type;
+	bottomLeftType = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellBottomLeft.left/16,cellBottomLeft.top/16)].type;
+	bottomRightType = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellBottomRight.left/16,cellBottomRight.top/16)].type;
 
 	if(upType == 1 || upType == 2)
 	{
-		sf::Vector2f pos;
-		pos.x = cellUp.left;
-		pos.y = cellUp.top;
-		collisionTestList.push_back(pos);
+		if(liveRectPlayer.intersects(cellUp))
+		{
+			// y = cellPlayer.top;
+			// x = cellPlayer.left;
+			x -= xspeed; xspeed = 0;
+			//y -= yspeed; yspeed = 0;
+			y = cellPlayer.top; yspeed = 0;
+		}
 	}
 
 	if(downType == 1 || downType == 2)
 	{
-		sf::Vector2f pos;
-		pos.x = cellDown.left;
-		pos.y = cellDown.top;
-		collisionTestList.push_back(pos);
+		if(liveRectPlayer.intersects(cellDown))
+		{
+			//y = cellPlayer.top;
+			//x = cellPlayer.left;
+			x -= xspeed; xspeed = 0;
+			//y -= yspeed; yspeed = 0;
+			y = cellPlayer.top; yspeed = 0;
+		}
 	}
 
 	if(leftType == 1 || leftType == 2)
 	{
-		sf::Vector2f pos;
-		pos.x = cellLeft.left;
-		pos.y = cellLeft.top;
-		collisionTestList.push_back(pos);
+		if(liveRectPlayer.intersects(cellLeft))
+		{
+			//y = cellPlayer.top;
+			//x = cellPlayer.left;
+			//x -= xspeed; xspeed = 0;
+			y -= yspeed; yspeed = 0;
+			x = cellPlayer.left; xspeed = 0;
+		}
 	}
 
 	if(rightType == 1 || rightType == 2)
 	{
-		sf::Vector2f pos;
-		pos.x = cellDown.left;
-		pos.y = cellDown.top;
-		collisionTestList.push_back(pos);
+		if(liveRectPlayer.intersects(cellRight))
+		{
+			//y = cellPlayer.top;
+			//x = cellPlayer.left;
+			//x -= xspeed; xspeed = 0;
+			y -= yspeed; yspeed = 0;
+			x = cellPlayer.left; xspeed = 0;
+		}
 	}
+
+	if(topLeftType == 1 || topLeftType == 2)
+	{
+		if(liveRectPlayer.intersects(cellTopLeft))
+		{
+			//y = cellPlayer.top;
+			//x = cellPlayer.left;
+			x -= xspeed; xspeed = 0;
+			y -= yspeed; yspeed = 0;
+		}
+	}
+
+	if(topRightType == 1 || topRightType == 2)
+	{
+		if(liveRectPlayer.intersects(cellTopRight))
+		{
+			//y = cellPlayer.top;
+			//x = cellPlayer.left;
+			x -= xspeed; xspeed = 0;
+			y -= yspeed; yspeed = 0;
+		}
+	}
+
+	if(bottomLeftType == 1 || bottomLeftType == 2)
+	{
+		if(liveRectPlayer.intersects(cellBottomLeft))
+		{
+			//y = cellPlayer.top;
+			//x = cellPlayer.left;
+			x -= xspeed; xspeed = 0;
+			y -= yspeed; yspeed = 0;
+		}
+	}
+
+	if(bottomRightType == 1 || bottomRightType == 2)
+	{
+		if(liveRectPlayer.intersects(cellBottomRight))
+		{
+			//y = cellPlayer.top;
+			//x = cellPlayer.left;
+			x -= xspeed; xspeed = 0;
+			y -= yspeed; yspeed = 0;
+		}
+	}
+
 
 }

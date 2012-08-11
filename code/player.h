@@ -75,7 +75,7 @@ class player
 
 		bool rmCell, placeCell;
 
-		sf::IntRect cellPlayer, cellLeft, cellRight, cellUp, cellDown;
+		sf::IntRect cellPlayer, cellLeft, cellRight, cellUp, cellDown, cellTopLeft, cellTopRight, cellBottomLeft, cellBottomRight, liveRectPlayer;
 
 		int dir;
 		// 1 up
@@ -96,7 +96,7 @@ class player
 		/// Private methods
 		///
 
-		void updateCollisionTestList();
+		void handleCollisions();
 
 };
 
