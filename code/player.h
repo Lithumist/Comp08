@@ -75,6 +75,9 @@ class player
 
 		bool rmCell, placeCell;
 
+		bool hasReset;
+		sf::Clock cellTime;
+
 		sf::IntRect cellPlayer, cellLeft, cellRight, cellUp, cellDown, cellTopLeft, cellTopRight, cellBottomLeft, cellBottomRight, liveRectPlayer;
 
 		int dir;

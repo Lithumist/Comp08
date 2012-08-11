@@ -58,6 +58,8 @@ void player::init(float xpos, float ypos)
 
 	liveRectPlayer.width = 16;
 	liveRectPlayer.height = 16;
+
+	hasReset = false;
 }
 
 void player::init(){init(0,0);}
@@ -150,9 +152,25 @@ void player::step()
 	cellBottomRight.top = cellPlayer.top+16;
 
 
-	// Remove cell if needed
-	if(rmCell)
+
+	// Update cellTime and stuff to do with it
+	if(rmCell && !hasReset)
 	{
+		hasReset = true;
+		cellTime.restart();
+	}
+
+	// Abort?
+	if(!rmCell && hasReset)
+	{
+		hasReset = false;
+	}
+
+
+	// Remove cell if needed
+	if(hasReset && cellTime.getElapsedTime().asSeconds() >= 1 && rmCell)
+	{
+		hasReset = false;
 		switch(dir)
 		{
 			case 1:
