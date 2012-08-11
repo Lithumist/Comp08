@@ -32,4 +32,8 @@ namespace global
 	sf::Font fntMain;
 
 
+	// All sound data used
+	sf::SoundBuffer SNDBUF_mine;
+
+
 } // End namespace

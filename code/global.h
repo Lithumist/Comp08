@@ -9,6 +9,7 @@
 #define GLOBAL_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 class player;
 class level;
@@ -36,6 +37,10 @@ namespace global
 
 	// The main font used in the game
 	extern sf::Font fntMain;
+
+
+	// All sound data used
+	extern sf::SoundBuffer SNDBUF_mine;
 
 
 } // End namespace

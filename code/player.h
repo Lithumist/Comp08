@@ -14,6 +14,7 @@
 #include <vector>
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 const float C_PLAYER_SPEED = 1.5;
 
@@ -89,6 +90,8 @@ class player
 		int numberBlocks;
 
 		std::vector<sf::Vector2f> collisionTestList;
+
+		sf::Sound SND_mine;
 
 
 

@@ -60,6 +60,8 @@ void player::init(float xpos, float ypos)
 	liveRectPlayer.height = 16;
 
 	hasReset = false;
+
+	SND_mine.setBuffer(global::SNDBUF_mine); SND_mine.setLoop(false);
 }
 
 void player::init(){init(0,0);}
@@ -156,19 +158,57 @@ void player::step()
 	// Update cellTime and stuff to do with it
 	if(rmCell && !hasReset)
 	{
-		hasReset = true;
-		cellTime.restart();
+		switch(dir)
+		{
+			case 1:
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].type == 1)
+				{
+					hasReset = true;
+					cellTime.restart();
+					SND_mine.play();
+				}
+			break;
+
+			case 2:
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].type == 1)
+				{
+					hasReset = true;
+					cellTime.restart();
+					SND_mine.play();
+				}
+			break;
+
+			case 3:
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].type == 1)
+				{
+					hasReset = true;
+					cellTime.restart();
+					SND_mine.play();
+				}
+			break;
+
+			case 4:
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].type == 1)
+				{
+					hasReset = true;
+					cellTime.restart();
+					SND_mine.play();
+				}
+			break;
+		}
 	}
 
 	// Abort?
 	if(!rmCell && hasReset)
 	{
 		hasReset = false;
+		SND_mine.stop();
 	}
 
 
 	// Remove cell if needed
-	if(hasReset && cellTime.getElapsedTime().asSeconds() >= 1 && rmCell)
+	// OPTIMISE could possible remove the large switch statment because the previous code allready does it and checks
+	if(hasReset && cellTime.getElapsedTime().asSeconds() >= 0.8 && rmCell)
 	{
 		hasReset = false;
 		switch(dir)
@@ -178,7 +218,6 @@ void player::step()
 				{
 					numberBlocks ++;
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].type = 0;
-					//recalculate light here
 				}
 			break;
 
@@ -187,7 +226,6 @@ void player::step()
 				{
 					numberBlocks ++;
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].type = 0;
-					//recalculate light here
 				}
 			break;
 
@@ -196,7 +234,6 @@ void player::step()
 				{
 					numberBlocks ++;
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].type = 0;
-					//recalculate light here
 				}
 			break;
 
@@ -205,7 +242,6 @@ void player::step()
 				{
 					numberBlocks ++;
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].type = 0;
-					//recalculate light here
 				}
 			break;
 		}

@@ -44,7 +44,10 @@ int main()
 	std::cout << "seed: " << ut::current_seed << std::endl;
 
 	// Load the main font
-	global::fntMain.loadFromFile("resources/pixelette.ttf");
+	global::fntMain.loadFromFile("resources/font/pixelette.ttf");
+
+	// Load all the sounds
+	global::SNDBUF_mine.loadFromFile("resources/sound/mine.wav");
 
 	// Start a new game
 	game.newGame();
