@@ -58,5 +58,10 @@ namespace global
 	sf::Texture TXT_player_left;
 	sf::Texture TXT_player_right;
 
+	sf::Texture TXT_wall;
+	sf::Texture TXT_u_wall;
+	sf::Texture TXT_exit;
+	sf::Texture TXT_lantern;
+
 
 } // End namespace

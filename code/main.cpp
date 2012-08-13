@@ -66,6 +66,11 @@ int main()
 	global::TXT_player_left.loadFromFile("resources/texture/player_left.png");
 	global::TXT_player_right.loadFromFile("resources/texture/player_right.png");
 
+	global::TXT_wall.loadFromFile("resources/texture/wall.png");
+	global::TXT_u_wall.loadFromFile("resources/texture/unbreakable_wall.png");
+	global::TXT_exit.loadFromFile("resources/texture/exit.png");
+	global::TXT_lantern.loadFromFile("resources/texture/lantern.png");
+
 
 
 

@@ -130,6 +130,9 @@ class level
 		std::vector<mapCell*> drawList;
 
 
+		sf::Sprite SPR_wall, SPR_u_wall, SPR_exit, SPR_lantern;
+
+
 
 
 

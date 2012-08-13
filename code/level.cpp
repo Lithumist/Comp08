@@ -117,6 +117,12 @@ void level::generate()
 	map_is_ready = false;
 
 
+	SPR_wall.setTexture(global::TXT_wall);
+	SPR_u_wall.setTexture(global::TXT_u_wall);
+	SPR_exit.setTexture(global::TXT_exit);
+	SPR_lantern.setTexture(global::TXT_lantern);
+
+
 	// Clear edge list
 	edgeList.clear();
 
@@ -208,6 +214,8 @@ void level::draw()
 		return;
 
 
+
+
 	// Draw cells
 	for(int t=0; t<drawList.size(); t++)
 	{
@@ -217,12 +225,9 @@ void level::draw()
 			xpos = drawList[t]->x*16;
 			ypos = drawList[t]->y*16;
 
-			sf::RectangleShape rct;
-			rct.setPosition(xpos,ypos);
-			rct.setSize(sf::Vector2f(16,16));
-			rct.setFillColor(sf::Color(100,100,100));
+			SPR_wall.setPosition(xpos,ypos);
 
-			global::rwpWindow->draw(rct);
+			global::rwpWindow->draw(SPR_wall);
 		}
 
 		else if(drawList[t]->type == 0) // walkable
@@ -234,7 +239,7 @@ void level::draw()
 			sf::RectangleShape rct;
 			rct.setPosition(xpos,ypos);
 			rct.setSize(sf::Vector2f(16,16));
-			rct.setFillColor(sf::Color(200,200,200));
+			rct.setFillColor(sf::Color(135,124,90));
 
 			global::rwpWindow->draw(rct);
 		}
@@ -245,12 +250,9 @@ void level::draw()
 			xpos = drawList[t]->x*16;
 			ypos = drawList[t]->y*16;
 
-			sf::RectangleShape rct;
-			rct.setPosition(xpos,ypos);
-			rct.setSize(sf::Vector2f(16,16));
-			rct.setFillColor(sf::Color(0,0,150));
+			SPR_u_wall.setPosition(xpos,ypos);
 
-			global::rwpWindow->draw(rct);
+			global::rwpWindow->draw(SPR_u_wall);
 		}
 
 		else if(drawList[t]->type == 3) //lantern
@@ -259,12 +261,9 @@ void level::draw()
 			xpos = drawList[t]->x*16;
 			ypos = drawList[t]->y*16;
 
-			sf::RectangleShape rct;
-			rct.setPosition(xpos,ypos);
-			rct.setSize(sf::Vector2f(16,16));
-			rct.setFillColor(sf::Color(255,255,0));
+			SPR_lantern.setPosition(xpos,ypos);
 
-			global::rwpWindow->draw(rct);
+			global::rwpWindow->draw(SPR_lantern);
 		}
 
 		else if(drawList[t]->type == 5) // exit
@@ -273,12 +272,9 @@ void level::draw()
 			xpos = drawList[t]->x*16;
 			ypos = drawList[t]->y*16;
 
-			sf::RectangleShape rct;
-			rct.setPosition(xpos,ypos);
-			rct.setSize(sf::Vector2f(16,16));
-			rct.setFillColor(sf::Color(0,255,255));
+			SPR_exit.setPosition(xpos,ypos);
 
-			global::rwpWindow->draw(rct);
+			global::rwpWindow->draw(SPR_exit);
 		}
 	}
 
