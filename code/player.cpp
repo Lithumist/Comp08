@@ -54,6 +54,10 @@ void player::init(float xpos, float ypos)
 
 	numberBlocks = 0;
 	global::intPlayerBlocks = &numberBlocks;
+	numberLanterns = 5;
+	global::intPlayerLanterns = &numberLanterns;
+	numberTreasure = 0;
+	global::intPlayerTreasure = &numberTreasure;
 
 	global::flPlayerX = &x;
 	global::flPlayerY = &y;

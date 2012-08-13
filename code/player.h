@@ -99,7 +99,7 @@ class player
 		// 3 down
 		// 4 left
 
-		int numberBlocks;
+		int numberBlocks, numberLanterns, numberTreasure;
 
 		std::vector<sf::Vector2f> collisionTestList;
 

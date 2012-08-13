@@ -28,8 +28,10 @@ namespace global
 	// A pointer to the current level object that is contained inside the gameManager
 	level* lvlLevel = NULL;
 
-	// A pointer to the number of blocks the player has
+	// Pointers to the number of blocks, lanterns and treasure the player has
 	int* intPlayerBlocks = NULL;
+	int* intPlayerLanterns = NULL;
+	int* intPlayerTreasure = NULL;
 
 	// The main font used in the game
 	sf::Font fntMain;

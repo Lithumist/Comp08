@@ -44,7 +44,7 @@ int main()
 {
 
 	// Initialize the screen
-	sf::RenderWindow rw(sf::VideoMode(640,480),"Comp08");
+	sf::RenderWindow rw(sf::VideoMode(640,496),"Comp08");
 	global::rwpWindow = &rw;
 
 	// Set the fps limit to 60
@@ -216,6 +216,11 @@ int main_loop()
 		*/
 		ut::frameStart();
 		sf::Text debugtxt;
+		sf::Text statusTxt;
+		sf::RectangleShape statusBar;
+
+		statusTxt.setFont(global::fntMain);
+		statusTxt.setCharacterSize(12);
 
 		switch(global::gsGameState)
 		{
@@ -231,6 +236,29 @@ int main_loop()
 			case S_PLAY:
 				//////////////////////////////
 				game.draw();
+
+				statusBar.setPosition(0,480);
+				statusBar.setSize(sf::Vector2f(640,16));
+				statusBar.setFillColor(sf::Color(1,11,99));
+				global::rwpWindow->draw(statusBar);
+
+				statusTxt.setPosition(10,480);
+				statusTxt.setString("blocks: " + ut::toString(*global::intPlayerBlocks));
+				global::rwpWindow->draw(statusTxt);
+
+				statusTxt.setPosition(180,480);
+				statusTxt.setString("lanterns: " + ut::toString(*global::intPlayerLanterns));
+				global::rwpWindow->draw(statusTxt);
+
+				statusTxt.setPosition(370,480);
+				statusTxt.setString("treasure: " + ut::toString(*global::intPlayerTreasure));
+				global::rwpWindow->draw(statusTxt);
+
+				statusTxt.setPosition(560,480);
+				statusTxt.setString("level: " + ut::toString(game.currentLevel));
+				global::rwpWindow->draw(statusTxt); // make player set treasure and lanters?
+				
+				
 				//////////////////////////////
 			break;
 
