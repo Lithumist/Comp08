@@ -13,6 +13,10 @@
 ///
 void gameManager::newGame()
 {
+	// Set some varibles
+	currentLevel = 1;
+	doPause = false;
+
 	// Generate a new level and set global pointer
 	gameLevel.generate();
 	global::lvlLevel = &gameLevel;
@@ -20,9 +24,25 @@ void gameManager::newGame()
 	// Reset the player and set the global pointer
 	gamePlayer.init(gameLevel.getPlayerStartX()*16,gameLevel.getPlayerStartY()*16);
 	global::plPlayer = &gamePlayer;
+}
+
+
+///
+// Resets the game, but going to the next level
+///
+void gameManager::nextLevel()
+{
+	// Increment the level counter
+	currentLevel ++;
 
 	// Set some varibles
 	doPause = false;
+
+	// Generate a new level
+	gameLevel.generate();
+
+	// Reset the player
+	gamePlayer.initNextLevel(gameLevel.getPlayerStartX()*16,gameLevel.getPlayerStartY()*16);
 }
 
 
@@ -37,6 +57,20 @@ void gameManager::events(sf::Event* evnt)
 		doPause = true;
 	else
 		doPause = false;
+
+
+	// Debug
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad1))
+		gamePlayer.hurt(10);
+
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad2))
+		gamePlayer.heal(10);
+
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad3))
+		gamePlayer.kill();
+
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad4))
+		nextLevel();
 
 	// Do player events
 	global::plPlayer->events(evnt);
@@ -58,6 +92,13 @@ void gameManager::step()
 	}
 	else
 	{
+
+	// Check for end level
+	if(global::blEndLevelTrigger)
+	{
+		global::blEndLevelTrigger = false;
+		nextLevel();
+	}
 
 	// Do level logic
 	global::lvlLevel->step();

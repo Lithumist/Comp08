@@ -26,6 +26,9 @@ bool menuStart = false;
 // Pause return trigger
 bool pauseReturn = false;
 
+// Dead return trigger
+bool deadReturn = false;
+
 
 
 
@@ -147,6 +150,10 @@ int main_loop()
 
 				case S_DEAD:
 					//////////////////////////////
+					if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+						deadReturn = true;
+					else
+						deadReturn = false;
 					//////////////////////////////
 				break;
 		}
@@ -192,6 +199,11 @@ int main_loop()
 
 			case S_DEAD:
 				//////////////////////////////
+				if(deadReturn)
+				{
+					deadReturn = false;
+					global::gsGameState = S_MENU;
+				}
 				//////////////////////////////
 			break;
 		}
@@ -203,11 +215,16 @@ int main_loop()
 			#####
 		*/
 		ut::frameStart();
+		sf::Text debugtxt;
 
 		switch(global::gsGameState)
 		{
 			case S_MENU:
 				//////////////////////////////
+				debugtxt.setString("menu");
+				debugtxt.setFont(global::fntMain);
+				debugtxt.setCharacterSize(12);
+				global::rwpWindow->draw(debugtxt);
 				//////////////////////////////
 			break;
 
@@ -219,11 +236,19 @@ int main_loop()
 
 			case S_PAUSE:
 				//////////////////////////////
+				debugtxt.setString("pause");
+				debugtxt.setFont(global::fntMain);
+				debugtxt.setCharacterSize(12);
+				global::rwpWindow->draw(debugtxt);
 				//////////////////////////////
 			break;
 
 			case S_DEAD:
 				//////////////////////////////
+				debugtxt.setString("dead");
+				debugtxt.setFont(global::fntMain);
+				debugtxt.setCharacterSize(12);
+				global::rwpWindow->draw(debugtxt);
 				//////////////////////////////
 			break;
 		}

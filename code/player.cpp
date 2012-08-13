@@ -28,6 +28,8 @@ void player::init(float xpos, float ypos)
 
 	rmCell = false;
 	placeCell = false;
+	rmLantern = false;
+	placeLantern = false;
 
 	cellPlayer.width = 16;
 	cellPlayer.height = 16;
@@ -61,10 +63,34 @@ void player::init(float xpos, float ypos)
 
 	hasReset = false;
 
+	hp = 100;
+
 	SND_mine.setBuffer(global::SNDBUF_mine); SND_mine.setLoop(false);
 }
 
 void player::init(){init(0,0);}
+
+void player::initNextLevel(float xpos, float ypos)
+{
+	x = xpos;
+	y = ypos;
+	xspeed = 0;
+	yspeed = 0;
+	
+	keyUp = false;
+	keyDown = false;
+	keyLeft = false;
+	keyRight = false;
+
+	rmCell = false;
+	placeCell = false;
+	rmLantern = false;
+	placeLantern = false;
+
+	dir = 3; // down
+
+	hasReset = false;
+}
 
 
 
@@ -94,6 +120,19 @@ void player::events(sf::Event* evnt)
 		placeCell = true;
 	else
 		placeCell = false;
+
+
+	// Update lantern removal varible
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::X))
+		rmLantern = true;
+	else
+		rmLantern = false;
+
+	// Update lantern placing varibles
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::C))
+		placeLantern = true;
+	else
+		placeLantern = false;
 }
 
 
@@ -152,6 +191,87 @@ void player::step()
 
 	cellBottomRight.left = cellPlayer.left+16;
 	cellBottomRight.top = cellPlayer.top+16;
+
+
+	// Handle lantern removal
+	if(rmLantern)
+	{
+		rmLantern = false;
+		switch(dir)
+		{
+			case 1:
+
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].type == 3)
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].type = 0;
+
+			break;
+
+			case 2:
+
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].type == 3)
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].type = 0;
+
+			break;
+
+			case 3:
+
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].type == 3)
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].type = 0;
+
+			break;
+
+			case 4:
+
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].type == 3)
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].type = 0;
+
+			break;
+		}
+	}
+
+
+
+	// Handle lantern placing
+	if(placeLantern)
+	{
+		placeLantern = false;
+		switch(dir)
+		{
+			case 1:
+
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].type == 0)
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].type = 3;
+
+			break;
+
+			case 2:
+
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].type == 0)
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].type = 3;
+
+			break;
+
+			case 3:
+
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].type == 0)
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].type = 3;
+
+			break;
+
+			case 4:
+
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].type == 0)
+					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].type = 3;
+
+			break;
+		}
+	}
+
+
+
+
+
+
 
 
 
@@ -402,6 +522,35 @@ void player::draw()
 }
 
 
+///
+// Kills the player instantly
+///
+void player::kill()
+{
+	hp = 0;
+	global::gsGameState = S_DEAD;
+}
+
+
+// Hurts the player
+void player::hurt(int damage)
+{
+	hp -= damage;
+
+	if(hp <= 0)
+		kill();
+}
+
+// Heals the player
+void player::heal(int ammount)
+{
+	hp += ammount;
+}
+
+// Returns the current HP
+int player::getHp(){return hp;}
+
+
 
 
 
@@ -428,7 +577,7 @@ void player::draw()
 void player::handleCollisions()
 {
 
-	//collisionTestList.clear();
+	// Handle collisions to walls
 
 	int upType, downType, leftType, rightType, topLeftType, topRightType, bottomLeftType, bottomRightType;
 
@@ -532,6 +681,30 @@ void player::handleCollisions()
 			y -= yspeed; yspeed = 0;
 		}
 	}
+
+
+
+
+	// Update live player rect
+	liveRectPlayer.left = x;
+	liveRectPlayer.top = y;
+
+
+
+
+	// Handle collision to exitCell
+	sf::IntRect exitRect;
+	exitRect.left = global::flExitCellX;
+	exitRect.top = global::flExitCellY;
+	exitRect.width = 16;
+	exitRect.height = 16;
+
+	if(liveRectPlayer.intersects(exitRect))
+	{
+		// The level must now end
+		global::blEndLevelTrigger = true;
+	}
+
 
 
 }

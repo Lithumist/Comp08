@@ -31,6 +31,7 @@ class player
 		// Reset's the player
 		void init(); // position 0,0
 		void init(float xpos, float ypos);
+		void initNextLevel(float xpos, float ypos);
 
 		// Handles the events
 		void events(sf::Event* evnt);
@@ -40,6 +41,17 @@ class player
 
 		// Render's the player
 		void draw();
+
+		// Kills the player instantly
+		void kill();
+
+
+		// Hurts the player
+		void hurt(int damage);
+		// Heals the player
+		void heal(int ammount);
+		// Returns the current HP
+		int getHp();
 
 
 
@@ -54,7 +66,7 @@ class player
 		// The player's position
 		float x, y;
 
-		// the player's speeds
+		// the Player's speeds
 		float xspeed, yspeed;
 
 
@@ -74,7 +86,7 @@ class player
 
 		bool keyUp, keyDown, keyLeft, keyRight;
 
-		bool rmCell, placeCell;
+		bool rmCell, placeCell, rmLantern, placeLantern;
 
 		bool hasReset;
 		sf::Clock cellTime;
@@ -92,6 +104,9 @@ class player
 		std::vector<sf::Vector2f> collisionTestList;
 
 		sf::Sound SND_mine;
+
+		// The player's HP (out of 100)
+		int hp;
 
 
 

@@ -35,6 +35,7 @@ struct mapCell
 	// 02  unbreakable wall
 	// 03  lantern
 	// 04  chest
+	// 05  exit
 	int type;
 
 

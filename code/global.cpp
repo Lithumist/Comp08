@@ -37,6 +37,13 @@ namespace global
 	// The pause game trigger and indicator
 	bool bGamePause = false;
 
+	// The position of the exit cell (pixel coordinates)
+	float flExitCellX;
+	float flExitCellY;
+
+	// The trigger to end the level and go to the next one
+	bool blEndLevelTrigger = false;
+
 
 	// All sound data used
 	sf::SoundBuffer SNDBUF_mine;

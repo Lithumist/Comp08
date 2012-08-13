@@ -19,6 +19,7 @@ level::level()
 	map_is_ready = false;
 	p_start_x = 0;
 	p_start_y = 0;
+	exitCell = NULL;
 }
 
 ///
@@ -69,6 +70,40 @@ void level::recalculateEdgeList()
 				edgeList.push_back(&cell_data[getCellIndex(xpos,ypos)]);
 
 		}}
+	}
+}
+
+///
+// Completely recalculate the wallList (goes through whole map!)
+///
+void level::recalculateWallList()
+{
+	for(int ypos=1; ypos<C_MAP_HEIGHT_IN_TILES-1; ypos++)
+	{
+		for(int xpos=1; xpos<C_MAP_WIDTH_IN_TILES-1; xpos++)
+		{
+
+			if(cell_data[getCellIndex(xpos,ypos)].type == 1)
+				wallList.push_back(&cell_data[getCellIndex(xpos,ypos)]);
+
+		}
+	}
+}
+
+///
+// Completely recalculate the walkableList (goes through whole map!)
+///
+void level::recalculateWalkableList()
+{
+	for(int ypos=1; ypos<C_MAP_HEIGHT_IN_TILES-1; ypos++)
+	{
+		for(int xpos=1; xpos<C_MAP_WIDTH_IN_TILES-1; xpos++)
+		{
+
+			if(cell_data[getCellIndex(xpos,ypos)].type == 0)
+				walkableList.push_back(&cell_data[getCellIndex(xpos,ypos)]);
+
+		}
 	}
 }
 
@@ -140,6 +175,23 @@ void level::generate()
 
 
 
+	// At this point, the main level has been generated
+	// All that needs to be done is to populate it with stuff
+
+	// Add the exit
+	recalculateWalkableList();
+
+	exitCell = walkableList[ut::random(0,walkableList.size())];
+	exitCell->type = 5;
+
+	global::flExitCellX = (float)(exitCell->x*16);
+	global::flExitCellY = (float)(exitCell->y*16);
+
+	// debug
+	std::cout << "Exit cell at " << exitCell->x << "," << exitCell->y << std::endl; 
+
+
+
 	map_is_ready = true;
 }
 
@@ -197,6 +249,34 @@ void level::draw()
 			rct.setPosition(xpos,ypos);
 			rct.setSize(sf::Vector2f(16,16));
 			rct.setFillColor(sf::Color(0,0,150));
+
+			global::rwpWindow->draw(rct);
+		}
+
+		else if(drawList[t]->type == 3) //lantern
+		{
+			float xpos, ypos;
+			xpos = drawList[t]->x*16;
+			ypos = drawList[t]->y*16;
+
+			sf::RectangleShape rct;
+			rct.setPosition(xpos,ypos);
+			rct.setSize(sf::Vector2f(16,16));
+			rct.setFillColor(sf::Color(255,255,0));
+
+			global::rwpWindow->draw(rct);
+		}
+
+		else if(drawList[t]->type == 5) // exit
+		{
+			float xpos, ypos;
+			xpos = drawList[t]->x*16;
+			ypos = drawList[t]->y*16;
+
+			sf::RectangleShape rct;
+			rct.setPosition(xpos,ypos);
+			rct.setSize(sf::Vector2f(16,16));
+			rct.setFillColor(sf::Color(0,255,255));
 
 			global::rwpWindow->draw(rct);
 		}

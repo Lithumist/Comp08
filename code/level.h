@@ -72,8 +72,14 @@ class level
 		// Returns -1 if map isn't ready
 		float getPlayerStartY();
 
+
+
 		// Completely recalculate the edgeList (goes through whole map!)
 		void recalculateEdgeList();
+		// Completely recalculate the walllList (goes through whole map!)
+		void recalculateWallList();
+		// Completely recalculate the walkableList (goes through whole map!)
+		void recalculateWalkableList();
 
 
 
@@ -90,6 +96,9 @@ class level
 
 		// If the map is ready to be updated and rendered
 		bool map_is_ready;
+
+		// A pointer to the exit cell
+		mapCell* exitCell;
 
 
 
@@ -112,6 +121,10 @@ class level
 
 		// A vector of pointers to cells from "cell_data" that are edge walls
 		std::vector<mapCell*> edgeList;
+		// A vector of pointers to cells from "cell_data" that are walls
+		std::vector<mapCell*> wallList;
+		// A vector of pointers to cells from "cell_data" that are walkable
+		std::vector<mapCell*> walkableList;
 
 		// A vector of pointers to all the tiles that need to br drawn
 		std::vector<mapCell*> drawList;

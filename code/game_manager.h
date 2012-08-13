@@ -45,6 +45,10 @@ class gameManager
 		void draw();
 
 
+		// Resets the game, but going to the next level
+		void nextLevel();
+
+
 
 
 
@@ -55,6 +59,8 @@ class gameManager
 
 		player gamePlayer;
 		level gameLevel;
+
+		int currentLevel;
 
 
 };
