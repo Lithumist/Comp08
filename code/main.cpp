@@ -60,6 +60,12 @@ int main()
 	// Load all the sounds
 	global::SNDBUF_mine.loadFromFile("resources/sound/mine.wav");
 
+	// Load all the textures
+	global::TXT_player_down.loadFromFile("resources/texture/player_down.png");
+	global::TXT_player_up.loadFromFile("resources/texture/player_up.png");
+	global::TXT_player_left.loadFromFile("resources/texture/player_left.png");
+	global::TXT_player_right.loadFromFile("resources/texture/player_right.png");
+
 
 
 

@@ -51,4 +51,12 @@ namespace global
 	sf::SoundBuffer SNDBUF_mine;
 
 
+
+	// All texture data used
+	sf::Texture TXT_player_down;
+	sf::Texture TXT_player_up;
+	sf::Texture TXT_player_left;
+	sf::Texture TXT_player_right;
+
+
 } // End namespace

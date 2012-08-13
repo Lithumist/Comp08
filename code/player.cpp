@@ -70,6 +70,11 @@ void player::init(float xpos, float ypos)
 	hp = 100;
 
 	SND_mine.setBuffer(global::SNDBUF_mine); SND_mine.setLoop(false);
+
+	SPR_up.setTexture(global::TXT_player_up);
+	SPR_down.setTexture(global::TXT_player_down);
+	SPR_left.setTexture(global::TXT_player_left);
+	SPR_right.setTexture(global::TXT_player_right);
 }
 
 void player::init(){init(0,0);}
@@ -440,13 +445,43 @@ void player::step()
 ///
 void player::draw()
 {
+
+	// Draw player
+
+	switch(dir)
+	{
+		case 1: // up
+			SPR_up.setPosition(x,y);
+			global::rwpWindow->draw(SPR_up);
+		break;
+
+		case 2: // right
+			SPR_right.setPosition(x,y);
+			global::rwpWindow->draw(SPR_right);
+		break;
+
+		case 3: // down
+			SPR_down.setPosition(x,y);
+			global::rwpWindow->draw(SPR_down);
+		break;
+
+		case 4: // left
+			SPR_left.setPosition(x,y);
+			global::rwpWindow->draw(SPR_left);
+		break;
+	}
+
+
+
 	// draw the player as a green square
+	/*
 	sf::RectangleShape rct;
 	rct.setPosition(x,y);
 	rct.setSize(sf::Vector2f(16,16));
 	rct.setFillColor(sf::Color(0,255,0));
 
 	global::rwpWindow->draw(rct);
+	*/
 
 
 	// Draw rects

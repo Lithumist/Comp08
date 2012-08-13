@@ -105,6 +105,8 @@ class player
 
 		sf::Sound SND_mine;
 
+		sf::Sprite SPR_up, SPR_down, SPR_left, SPR_right;
+
 		// The player's HP (out of 100)
 		int hp;
 
