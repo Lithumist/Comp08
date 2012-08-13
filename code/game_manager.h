@@ -21,6 +21,9 @@ class gameManager
 		/// Private properties
 		///
 
+		// Pasue trigger
+		bool doPause;
+
 	public:
 
 

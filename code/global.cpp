@@ -16,6 +16,9 @@ namespace global
 	// If this is true, the main loop is running
 	bool bLoopRunning = true;
 
+	// The state of the game
+	GAME_STATE gsGameState = S_MENU;
+
 	// A pointer to the current player object that is contained inside the gameManager
 	player* plPlayer = NULL;
 	// Pointers to the player positions
@@ -30,6 +33,9 @@ namespace global
 
 	// The main font used in the game
 	sf::Font fntMain;
+
+	// The pause game trigger and indicator
+	bool bGamePause = false;
 
 
 	// All sound data used

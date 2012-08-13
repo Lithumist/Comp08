@@ -20,6 +20,14 @@ sf::Clock fpsClock;
 
 
 
+// Menu start game trigger
+bool menuStart = false;
+
+// Pause return trigger
+bool pauseReturn = false;
+
+
+
 
 // The main loop function that get's called from the 'main' function
 int main_loop();
@@ -48,9 +56,6 @@ int main()
 
 	// Load all the sounds
 	global::SNDBUF_mine.loadFromFile("resources/sound/mine.wav");
-
-	// Start a new game
-	game.newGame();
 
 
 
@@ -113,7 +118,38 @@ int main_loop()
 			if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
 				game.newGame();
 
-			game.events(&ev);
+
+			switch(global::gsGameState)
+			{
+				case S_MENU:
+					//////////////////////////////
+					if(sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+						menuStart = true;
+					else
+						menuStart = false;
+					//////////////////////////////
+				break;
+
+				case S_PLAY:
+					//////////////////////////////
+					game.events(&ev);
+					//////////////////////////////
+				break;
+
+				case S_PAUSE:
+					//////////////////////////////
+					if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+						pauseReturn = true;
+					else
+						pauseReturn = false;
+					//////////////////////////////
+				break;
+
+				case S_DEAD:
+					//////////////////////////////
+					//////////////////////////////
+				break;
+		}
 
 		}
 
@@ -124,8 +160,41 @@ int main_loop()
 			## Logic
 			#####
 		*/
+		switch(global::gsGameState)
+		{
+			case S_MENU:
+				//////////////////////////////
+				if(menuStart)
+				{
+					menuStart = false;
+					global::gsGameState = S_PLAY;
+					game.newGame();
+				}
+				//////////////////////////////
+			break;
 
-		game.step();
+			case S_PLAY:
+				//////////////////////////////
+				game.step();
+				//////////////////////////////
+			break;
+
+			case S_PAUSE:
+				//////////////////////////////
+				if(pauseReturn)
+				{
+					global::bGamePause = false;
+					pauseReturn = false;
+					global::gsGameState = S_PLAY;
+				}
+				//////////////////////////////
+			break;
+
+			case S_DEAD:
+				//////////////////////////////
+				//////////////////////////////
+			break;
+		}
 
 
 		/*
@@ -134,7 +203,30 @@ int main_loop()
 			#####
 		*/
 		ut::frameStart();
-		game.draw();
+
+		switch(global::gsGameState)
+		{
+			case S_MENU:
+				//////////////////////////////
+				//////////////////////////////
+			break;
+
+			case S_PLAY:
+				//////////////////////////////
+				game.draw();
+				//////////////////////////////
+			break;
+
+			case S_PAUSE:
+				//////////////////////////////
+				//////////////////////////////
+			break;
+
+			case S_DEAD:
+				//////////////////////////////
+				//////////////////////////////
+			break;
+		}
 
 		float fps;
 		fps = 1.f/fpsClock.getElapsedTime().asSeconds();

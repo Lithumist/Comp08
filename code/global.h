@@ -14,6 +14,8 @@
 class player;
 class level;
 
+enum GAME_STATE {S_MENU, S_PLAY, S_DEAD, S_PAUSE};
+
 namespace global
 {
 
@@ -22,6 +24,9 @@ namespace global
 
 	// If this is true, the main loop is running
 	extern bool bLoopRunning;
+
+	// The state of the game
+	extern GAME_STATE gsGameState;
 
 	// A pointer to the current player object that is contained inside the gameManager
 	extern player* plPlayer;
@@ -37,6 +42,9 @@ namespace global
 
 	// The main font used in the game
 	extern sf::Font fntMain;
+
+	// The pause game trigger and indicator
+	extern bool bGamePause;
 
 
 	// All sound data used
