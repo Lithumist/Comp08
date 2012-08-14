@@ -62,6 +62,12 @@ namespace global
 	sf::Texture TXT_u_wall;
 	sf::Texture TXT_exit;
 	sf::Texture TXT_lantern;
+	sf::Texture TXT_chest_closed;
+	sf::Texture TXT_chest_open;
+
+	sf::Texture TXT_menu;
+	sf::Texture TXT_dead;
+	sf::Texture TXT_pause;
 
 
 } // End namespace

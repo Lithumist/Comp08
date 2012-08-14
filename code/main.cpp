@@ -33,6 +33,11 @@ bool deadReturn = false;
 
 
 
+// Sprites
+sf::Sprite SPR_menu, SPR_dead, SPR_pause;
+
+
+
 
 // The main loop function that get's called from the 'main' function
 int main_loop();
@@ -75,6 +80,20 @@ int main()
 	global::TXT_u_wall.loadFromFile("resources/texture/unbreakable_wall.png");
 	global::TXT_exit.loadFromFile("resources/texture/exit.png");
 	global::TXT_lantern.loadFromFile("resources/texture/lantern.png");
+	global::TXT_chest_closed.loadFromFile("resources/texture/chest_closed.png");
+	global::TXT_chest_open.loadFromFile("resources/texture/chest_open.png");
+
+	global::TXT_menu.loadFromFile("resources/texture/menu.png");
+	global::TXT_dead.loadFromFile("resources/texture/dead.png");
+	global::TXT_pause.loadFromFile("resources/texture/paused.png");
+
+
+
+
+	// Set sprites
+	SPR_menu.setTexture(global::TXT_menu); SPR_menu.setPosition(0,0);
+	SPR_dead.setTexture(global::TXT_dead); SPR_dead.setPosition(0,0);
+	SPR_pause.setTexture(global::TXT_pause); SPR_pause.setPosition(0,0);
 
 
 
@@ -247,10 +266,7 @@ int main_loop()
 		{
 			case S_MENU:
 				//////////////////////////////
-				debugtxt.setString("menu");
-				debugtxt.setFont(global::fntMain);
-				debugtxt.setCharacterSize(12);
-				global::rwpWindow->draw(debugtxt);
+				global::rwpWindow->draw(SPR_menu);
 				//////////////////////////////
 			break;
 
@@ -285,19 +301,13 @@ int main_loop()
 
 			case S_PAUSE:
 				//////////////////////////////
-				debugtxt.setString("pause");
-				debugtxt.setFont(global::fntMain);
-				debugtxt.setCharacterSize(12);
-				global::rwpWindow->draw(debugtxt);
+				global::rwpWindow->draw(SPR_pause);
 				//////////////////////////////
 			break;
 
 			case S_DEAD:
 				//////////////////////////////
-				debugtxt.setString("dead");
-				debugtxt.setFont(global::fntMain);
-				debugtxt.setCharacterSize(12);
-				global::rwpWindow->draw(debugtxt);
+				global::rwpWindow->draw(SPR_dead);
 				//////////////////////////////
 			break;
 		}

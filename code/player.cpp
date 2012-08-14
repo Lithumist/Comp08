@@ -538,12 +538,13 @@ void player::draw()
 
 	*/
 
-
+	/*
 	// Draw block number text
 	sf::Text blktxt("blocks: " + ut::toString(numberBlocks));
 	blktxt.setFont(global::fntMain);
 	blktxt.setCharacterSize(12);
 	global::rwpWindow->draw(blktxt);
+	*/
 
 
 	// Draw the collision points

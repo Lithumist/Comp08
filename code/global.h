@@ -72,6 +72,12 @@ namespace global
 	extern sf::Texture TXT_u_wall;
 	extern sf::Texture TXT_exit;
 	extern sf::Texture TXT_lantern;
+	extern sf::Texture TXT_chest_closed;
+	extern sf::Texture TXT_chest_open;
+
+	extern sf::Texture TXT_menu;
+	extern sf::Texture TXT_dead;
+	extern sf::Texture TXT_pause;
 
 
 } // End namespace
