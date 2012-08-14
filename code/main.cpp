@@ -3,6 +3,8 @@
 */
 
 
+#include "fpscalc.h"
+
 #include "global.h"
 #include "ut.h"
 #include "game_manager.h"
@@ -48,11 +50,14 @@ int main()
 	global::rwpWindow = &rw;
 
 	// Set the fps limit to 60
-	global::rwpWindow->setFramerateLimit(60);
+	//global::rwpWindow->setFramerateLimit(60);
 
 	// Seed the random number generator
 	ut::seed();
 	std::cout << "seed: " << ut::current_seed << std::endl;
+
+	// Set up fpscalc
+	FpsCalc::GetInstance()->Init(60);
 
 	// Load the main font
 	global::fntMain.loadFromFile("resources/font/pixelette.ttf");
@@ -85,6 +90,9 @@ int main()
 	// Close the screen
 	global::rwpWindow->close();
 
+	// Free all memmory used
+	FpsCalc::GetInstance()->FreeMemory();
+
 	return 0;
 }
 
@@ -114,6 +122,8 @@ int main_loop()
 
 	while(global::bLoopRunning)
 	{
+
+		FpsCalc::GetInstance()->SetSpeedFactor();
 
 		/*
 			#####
@@ -302,6 +312,10 @@ int main_loop()
 		global::rwpWindow->draw(blktxt);
 
 		ut::frameEnd();
+
+
+
+
 
 	}
 

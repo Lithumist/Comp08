@@ -16,6 +16,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+#include "fpscalc.h"
+
 const float C_PLAYER_SPEED = 1.5;
 
 class player

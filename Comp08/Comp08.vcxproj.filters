@@ -42,6 +42,12 @@
     <Filter Include="Header Files\light">
       <UniqueIdentifier>{ff1a578e-07f8-40fd-8c5b-29a59175af1e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\fps calc">
+      <UniqueIdentifier>{bd035c7a-d00b-418c-a7d9-5cc45c70dedb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\fps calc">
+      <UniqueIdentifier>{9ae2b39e-0309-4004-8300-0bfd5ed6788f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\code\main.cpp">
@@ -62,6 +68,9 @@
     <ClCompile Include="..\code\level.cpp">
       <Filter>Source Files\level</Filter>
     </ClCompile>
+    <ClCompile Include="..\code\fpscalc.cpp">
+      <Filter>Source Files\fps calc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\code\global.h">
@@ -81,6 +90,9 @@
     </ClInclude>
     <ClInclude Include="..\code\light.h">
       <Filter>Header Files\light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\fpscalc.h">
+      <Filter>Header Files\fps calc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

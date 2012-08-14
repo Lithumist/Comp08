@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\code\fpscalc.cpp" />
     <ClCompile Include="..\code\game_manager.cpp" />
     <ClCompile Include="..\code\global.cpp" />
     <ClCompile Include="..\code\level.cpp" />
@@ -19,6 +20,7 @@
     <ClCompile Include="..\code\ut.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\code\fpscalc.h" />
     <ClInclude Include="..\code\game_manager.h" />
     <ClInclude Include="..\code\global.h" />
     <ClInclude Include="..\code\level.h" />

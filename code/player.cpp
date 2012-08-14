@@ -164,8 +164,8 @@ void player::step()
 		xspeed += C_PLAYER_SPEED;
 
 	// Move player
-	x += xspeed;
-	y += yspeed;
+	x += xspeed * FpsCalc::GetInstance()->speedfactor;
+	y += yspeed * FpsCalc::GetInstance()->speedfactor;
 
 
 	// Update live player rect
