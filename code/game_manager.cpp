@@ -17,9 +17,15 @@ void gameManager::newGame()
 	currentLevel = 1;
 	doPause = false;
 
+	// Init
+	gameLevel.init();
+
 	// Generate a new level and set global pointer
 	gameLevel.generate();
 	global::lvlLevel = &gameLevel;
+
+	// Calculate lights = true
+	global::lvlLevel->lights = true;
 
 	// Reset the player and set the global pointer
 	gamePlayer.init(gameLevel.getPlayerStartX()*16,gameLevel.getPlayerStartY()*16);
@@ -71,6 +77,14 @@ void gameManager::events(sf::Event* evnt)
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad4))
 		nextLevel();
+
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad5))
+	{
+		if(global::lvlLevel->lights)
+			global::lvlLevel->lights = false;
+		else
+			global::lvlLevel->lights = true;
+	}
 
 	// Do player events
 	global::plPlayer->events(evnt);

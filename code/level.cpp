@@ -20,6 +20,10 @@ level::level()
 	p_start_x = 0;
 	p_start_y = 0;
 	exitCell = NULL;
+	whichHalf = false;
+	hf_1 = 0;
+	hf_2 = 0;
+	count = 0;
 }
 
 ///
@@ -108,6 +112,20 @@ void level::recalculateWalkableList()
 }
 
 
+///
+// Init
+///
+void level::init()
+{
+	SPR_chest_closed.setTexture(global::TXT_chest_closed);
+	SPR_chest_open.setTexture(global::TXT_chest_open);
+	SPR_wall.setTexture(global::TXT_wall);
+	SPR_u_wall.setTexture(global::TXT_u_wall);
+	SPR_exit.setTexture(global::TXT_exit);
+	SPR_lantern.setTexture(global::TXT_lantern);
+}
+
+
 
 ///
 // Generates a new level
@@ -117,14 +135,23 @@ void level::generate()
 	map_is_ready = false;
 
 
-	SPR_wall.setTexture(global::TXT_wall);
-	SPR_u_wall.setTexture(global::TXT_u_wall);
-	SPR_exit.setTexture(global::TXT_exit);
-	SPR_lantern.setTexture(global::TXT_lantern);
+	recalculateEdgeList();
+
+
+	const int NUMBER_OF_CHESTS = 2;
+
+	int rnd[NUMBER_OF_CHESTS];
+	rnd[0] = ut::random(0,edgeList.size());
+	rnd[1] = ut::random(0,edgeList.size());
+	//rnd[2] = ut::random(0,edgeList.size());
+	//rnd[3] = ut::random(0,edgeList.size());
 
 
 	// Clear edge list
 	edgeList.clear();
+
+	// Clear lantern list
+	lanternList.clear();
 
 
 	// fill map with walls
@@ -185,16 +212,30 @@ void level::generate()
 	// All that needs to be done is to populate it with stuff
 
 	// Add the exit
-	recalculateWalkableList();
+	recalculateEdgeList();
 
-	exitCell = walkableList[ut::random(0,walkableList.size())];
+	exitCell = edgeList[ut::random(0,edgeList.size())];
 	exitCell->type = 5;
 
 	global::flExitCellX = (float)(exitCell->x*16);
 	global::flExitCellY = (float)(exitCell->y*16);
 
 	// debug
-	std::cout << "Exit cell at " << exitCell->x << "," << exitCell->y << std::endl; 
+	//std::cout << "Exit cell at " << exitCell->x << "," << exitCell->y << std::endl; 
+
+
+
+	// Add the chests
+
+	for(int t=0; t<NUMBER_OF_CHESTS; t++)
+	{
+		recalculateEdgeList();
+
+		edgeList[rnd[t]]->type = 4;
+		edgeList[rnd[t]]->looted = false;
+
+		//std::cout << "Chest " << t << " at " << edgeList[t]->x << "," << edgeList[t]->y << std::endl; 
+	}
 
 
 
@@ -266,6 +307,24 @@ void level::draw()
 			global::rwpWindow->draw(SPR_lantern);
 		}
 
+		else if(drawList[t]->type == 4) // chest
+		{
+			float xpos, ypos;
+			xpos = drawList[t]->x*16;
+			ypos = drawList[t]->y*16;
+
+			if(drawList[t]->looted)
+			{
+				SPR_chest_open.setPosition(xpos,ypos);
+				global::rwpWindow->draw(SPR_chest_open);
+			}
+			else
+			{
+				SPR_chest_closed.setPosition(xpos,ypos);
+				global::rwpWindow->draw(SPR_chest_closed);
+			}
+		}
+
 		else if(drawList[t]->type == 5) // exit
 		{
 			float xpos, ypos;
@@ -307,12 +366,52 @@ void level::step()
 
 ///
 // Re-lights the level by updateing the drawList
-// No loops to lessen the complexity
+// No loops because I had no idea what I was doing when I wrote this...
 ///
 void level::doLight()
 {
+
+	if(!lights)
+	{
+
+		drawList.clear();
+
+		for(int ypos=0; ypos<C_MAP_HEIGHT_IN_TILES; ypos++)
+		{
+			for(int xpos=0; xpos<C_MAP_WIDTH_IN_TILES; xpos++)
+			{
+					drawList.push_back(&cell_data[getCellIndex(xpos,ypos)]);
+			}
+		}
+
+		return;
+
+	}
+
 	// clear the draw list
-	drawList.clear();
+	if(count >= 2)
+	{
+		drawList.clear();
+		drawList = drawBuf;
+		drawBuf.clear();
+		count = 0;
+	}
+
+	// Update lantern hack
+	int nmlt = lanternList.size();
+	if(nmlt != 0)
+	{
+		hf_1 = (int)(nmlt/2);
+		hf_2 = nmlt-hf_1;
+
+		hf_1 = 0;
+		hf_2 --;
+	}
+	else
+	{
+		hf_1 = 0;
+		hf_2 = 0;
+	}
 
 	
 	// Calculate player tile x and y
@@ -451,6 +550,148 @@ void level::doLight()
 	handleLine(player_tile_x,player_tile_y,player_tile_x-C_PLAYER_LIGHT_DISTANCE,player_tile_y-9);
 	handleLine(player_tile_x,player_tile_y,player_tile_x-C_PLAYER_LIGHT_DISTANCE,player_tile_y-10);
 	handleLine(player_tile_x,player_tile_y,player_tile_x-C_PLAYER_LIGHT_DISTANCE,player_tile_y-11);
+
+
+
+
+
+
+
+
+
+
+
+
+	////////
+	////////	Lanterns
+	////////
+
+
+	// Hack
+	int start, limit;
+	if(!whichHalf)
+	{
+		start = hf_1;
+		limit = hf_2;
+	}
+	else
+	{
+		start = hf_2;
+		limit = lanternList.size();
+	}
+	// </hack>
+
+	for(int t=start; t<limit; t++)
+	{
+		// for every lantern in the level
+
+		// Hack crash check
+		if(lanternList.size() == 0)
+			break;
+
+		// handle straight lines
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x, lanternList[t]->y+C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x, lanternList[t]->y-C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y);
+
+
+		// handle lines in an up+left direction
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-1, lanternList[t]->y-C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-2, lanternList[t]->y-C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-3, lanternList[t]->y-C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-4, lanternList[t]->y-C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-5, lanternList[t]->y-C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-6, lanternList[t]->y-C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-7, lanternList[t]->y-C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-8, lanternList[t]->y-C_LANTERN_LIGHT_DISTANCE);
+
+		// handle lines in an up+right direction
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+1, lanternList[t]->y-C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+2, lanternList[t]->y-C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+3, lanternList[t]->y-C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+4, lanternList[t]->y-C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+5, lanternList[t]->y-C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+6, lanternList[t]->y-C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+7, lanternList[t]->y-C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+8, lanternList[t]->y-C_LANTERN_LIGHT_DISTANCE);
+
+
+
+
+		// handle lines in an down+left direction
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-1, lanternList[t]->y+C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-2, lanternList[t]->y+C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-3, lanternList[t]->y+C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-4, lanternList[t]->y+C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-5, lanternList[t]->y+C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-6, lanternList[t]->y+C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-7, lanternList[t]->y+C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-8, lanternList[t]->y+C_LANTERN_LIGHT_DISTANCE);
+
+		// handle lines in an down+right direction
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+1, lanternList[t]->y+C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+2, lanternList[t]->y+C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+3, lanternList[t]->y+C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+4, lanternList[t]->y+C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+5, lanternList[t]->y+C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+6, lanternList[t]->y+C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+7, lanternList[t]->y+C_LANTERN_LIGHT_DISTANCE);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+8, lanternList[t]->y+C_LANTERN_LIGHT_DISTANCE);
+
+
+
+
+		// handle lines in an left+down direction
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y+1);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y+2);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y+3);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y+4);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y+5);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y+6);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y+7);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y+8);
+
+		// handle lines in an left+up direction
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y-1);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y-2);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y-3);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y-4);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y-5);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y-6);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y-7);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x-C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y-8);
+
+
+
+
+		// handle lines in an right+down direction
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y+1);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y+2);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y+3);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y+4);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y+5);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y+6);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y+7);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y+8);
+
+		// handle lines in an right+up direction
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y-1);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y-2);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y-3);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y-4);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y-5);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y-6);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y-7);
+		handleLineB(lanternList[t]->x, lanternList[t]->y, lanternList[t]->x+C_LANTERN_LIGHT_DISTANCE, lanternList[t]->y-8);
+	}
+
+
+	// Hack
+	whichHalf = !whichHalf;
+	count ++;
+
+
 }
 
 
@@ -476,6 +717,22 @@ void level::handleLine(int xx0, int yy0, int xx1, int yy1)
 		// Add it to the draw list and stop if it's a block
 
 		drawList.push_back(&cell_data[getCellIndex(tmp[t].x,tmp[t].y)]);
+
+		if(cell_data[getCellIndex(tmp[t].x,tmp[t].y)].type == 1 || cell_data[getCellIndex(tmp[t].x,tmp[t].y)].type == 2)
+			break;
+	}
+}
+
+
+void level::handleLineB(int xx0, int yy0, int xx1, int yy1)
+{
+	std::vector<sf::Vector2i> tmp = ut::calculateLine(xx0,yy0,xx1,yy1);
+	for(int t=0; t<tmp.size(); t++)
+	{
+		// For each cell in the line
+		// Add it to the draw list and stop if it's a block
+
+		drawBuf.push_back(&cell_data[getCellIndex(tmp[t].x,tmp[t].y)]);
 
 		if(cell_data[getCellIndex(tmp[t].x,tmp[t].y)].type == 1 || cell_data[getCellIndex(tmp[t].x,tmp[t].y)].type == 2)
 			break;

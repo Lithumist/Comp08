@@ -45,6 +45,9 @@ class level
 		// Constructor
 		level();
 
+		// Init
+		void init();
+
 		// Generates a new level
 		void generate();
 
@@ -101,6 +104,15 @@ class level
 		mapCell* exitCell;
 
 
+		// A vector of pointers to all the cells that are lanterns
+		std::vector<mapCell*> lanternList;
+
+
+
+		// If this is true, the proper lighting is calculated
+		bool lights;
+
+
 
 
 
@@ -126,11 +138,19 @@ class level
 		// A vector of pointers to cells from "cell_data" that are walkable
 		std::vector<mapCell*> walkableList;
 
-		// A vector of pointers to all the tiles that need to br drawn
+		// A vector of pointers to all the cells that need to be drawn
 		std::vector<mapCell*> drawList;
+		std::vector<mapCell*> drawBuf;
 
 
-		sf::Sprite SPR_wall, SPR_u_wall, SPR_exit, SPR_lantern;
+		sf::Sprite SPR_wall, SPR_u_wall, SPR_exit, SPR_lantern, SPR_chest_closed, SPR_chest_open;
+
+
+		// Lantern speed hack
+		bool whichHalf; // false 1      true 2
+		int hf_1, hf_2;
+		int count;
+
 
 
 
@@ -142,6 +162,7 @@ class level
 		///
 
 		void handleLine(int xx0, int yy0, int xx1, int yy1);
+		void handleLineB(int xx0, int yy0, int xx1, int yy1);
 
 
 };

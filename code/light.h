@@ -1,7 +1,7 @@
 /*
 	light.h
 
-	Declares a function that lights up the level
+	Does nothing useful
 */
 
 #ifndef LIGHT_H
@@ -18,9 +18,8 @@ const int C_LANTERN_LIGHT_DISTANCE = 8;
 
 
 
-/// Actual definition inside light.h
-/// This is to make a quick hack so that the light function can return a vector of mapCells
-/// Yes there are other ways to do this but idgaf.
+// Originaly, there was going to be a light.cpp and the light calculation function. But I put it in the level files
+// instead. This remains.
 
 struct mapCell
 {
@@ -37,6 +36,12 @@ struct mapCell
 	// 04  chest
 	// 05  exit
 	int type;
+
+
+	// This only applies if the cell is a chest
+	// 
+	// If the chest has been looted or not
+	bool looted;
 
 
 };

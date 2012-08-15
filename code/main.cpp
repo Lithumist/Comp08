@@ -54,9 +54,6 @@ int main()
 	sf::RenderWindow rw(sf::VideoMode(640,496),"Comp08");
 	global::rwpWindow = &rw;
 
-	// Set the fps limit to 60
-	//global::rwpWindow->setFramerateLimit(60);
-
 	// Seed the random number generator
 	ut::seed();
 	std::cout << "seed: " << ut::current_seed << std::endl;
@@ -283,17 +280,21 @@ int main_loop()
 				statusTxt.setString("blocks: " + ut::toString(*global::intPlayerBlocks));
 				global::rwpWindow->draw(statusTxt);
 
-				statusTxt.setPosition(180,480);
+				statusTxt.setPosition(130,480);
 				statusTxt.setString("lanterns: " + ut::toString(*global::intPlayerLanterns));
 				global::rwpWindow->draw(statusTxt);
 
-				statusTxt.setPosition(370,480);
+				statusTxt.setPosition(270,480);
 				statusTxt.setString("treasure: " + ut::toString(*global::intPlayerTreasure));
+				global::rwpWindow->draw(statusTxt);
+
+				statusTxt.setPosition(400,480);
+				statusTxt.setString("health: " + ut::toString(global::plPlayer->getHp()) + "/100");
 				global::rwpWindow->draw(statusTxt);
 
 				statusTxt.setPosition(560,480);
 				statusTxt.setString("level: " + ut::toString(game.currentLevel));
-				global::rwpWindow->draw(statusTxt); // make player set treasure and lanters?
+				global::rwpWindow->draw(statusTxt);
 				
 				
 				//////////////////////////////

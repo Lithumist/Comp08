@@ -54,7 +54,7 @@ void player::init(float xpos, float ypos)
 
 	numberBlocks = 0;
 	global::intPlayerBlocks = &numberBlocks;
-	numberLanterns = 5;
+	numberLanterns = 2;
 	global::intPlayerLanterns = &numberLanterns;
 	numberTreasure = 0;
 	global::intPlayerTreasure = &numberTreasure;
@@ -211,28 +211,72 @@ void player::step()
 			case 1:
 
 				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].type == 3)
+				{
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].type = 0;
+					numberLanterns ++;
+					for(int t=0; t<global::lvlLevel->lanternList.size(); t++)
+					{
+						if(global::lvlLevel->lanternList[t]->x == global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].x && global::lvlLevel->lanternList[t]->y == global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].y)
+						{
+							global::lvlLevel->lanternList.erase(global::lvlLevel->lanternList.begin()+t);
+							break;
+						}
+					}
+				}
 
 			break;
 
 			case 2:
 
 				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].type == 3)
+				{
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].type = 0;
+					numberLanterns ++;
+					for(int t=0; t<global::lvlLevel->lanternList.size(); t++)
+					{
+						if(global::lvlLevel->lanternList[t]->x == global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].x && global::lvlLevel->lanternList[t]->y == global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].y)
+						{
+							global::lvlLevel->lanternList.erase(global::lvlLevel->lanternList.begin()+t);
+							break;
+						}
+					}
+				}
 
 			break;
 
 			case 3:
 
 				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].type == 3)
+				{
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].type = 0;
+					numberLanterns ++;
+					for(int t=0; t<global::lvlLevel->lanternList.size(); t++)
+					{
+						if(global::lvlLevel->lanternList[t]->x == global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].x && global::lvlLevel->lanternList[t]->y == global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].y)
+						{
+							global::lvlLevel->lanternList.erase(global::lvlLevel->lanternList.begin()+t);
+							break;
+						}
+					}
+				}
 
 			break;
 
 			case 4:
 
 				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].type == 3)
+				{
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].type = 0;
+					numberLanterns ++;
+					for(int t=0; t<global::lvlLevel->lanternList.size(); t++)
+					{
+						if(global::lvlLevel->lanternList[t]->x == global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].x && global::lvlLevel->lanternList[t]->y == global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].y)
+						{
+							global::lvlLevel->lanternList.erase(global::lvlLevel->lanternList.begin()+t);
+							break;
+						}
+					}
+				}
 
 			break;
 		}
@@ -248,29 +292,45 @@ void player::step()
 		{
 			case 1:
 
-				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].type == 0)
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].type == 0 && numberLanterns > 0)
+				{
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].type = 3;
+					numberLanterns --;
+					global::lvlLevel->lanternList.push_back(&global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)]);
+				}
 
 			break;
 
 			case 2:
 
-				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].type == 0)
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].type == 0 && numberLanterns > 0)
+				{
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].type = 3;
+					numberLanterns --;
+					global::lvlLevel->lanternList.push_back(&global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)]);
+				}
 
 			break;
 
 			case 3:
 
-				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].type == 0)
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].type == 0 && numberLanterns > 0)
+				{
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].type = 3;
+					numberLanterns --;
+					global::lvlLevel->lanternList.push_back(&global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)]);
+				}
 
 			break;
 
 			case 4:
 
-				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].type == 0)
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].type == 0 && numberLanterns > 0)
+				{
 					global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].type = 3;
+					numberLanterns --;
+					global::lvlLevel->lanternList.push_back(&global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)]);
+				}
 
 			break;
 		}
@@ -636,7 +696,7 @@ void player::handleCollisions()
 		{
 			// y = cellPlayer.top;
 			// x = cellPlayer.left;
-			x -= xspeed; xspeed = 0;
+			x -= xspeed * FpsCalc::GetInstance()->speedfactor; xspeed = 0;
 			//y -= yspeed; yspeed = 0;
 			y = cellPlayer.top; yspeed = 0;
 		}
@@ -648,7 +708,7 @@ void player::handleCollisions()
 		{
 			//y = cellPlayer.top;
 			//x = cellPlayer.left;
-			x -= xspeed; xspeed = 0;
+			x -= xspeed * FpsCalc::GetInstance()->speedfactor; xspeed = 0;
 			//y -= yspeed; yspeed = 0;
 			y = cellPlayer.top; yspeed = 0;
 		}
@@ -661,7 +721,7 @@ void player::handleCollisions()
 			//y = cellPlayer.top;
 			//x = cellPlayer.left;
 			//x -= xspeed; xspeed = 0;
-			y -= yspeed; yspeed = 0;
+			y -= yspeed * FpsCalc::GetInstance()->speedfactor; yspeed = 0;
 			x = cellPlayer.left; xspeed = 0;
 		}
 	}
@@ -673,7 +733,7 @@ void player::handleCollisions()
 			//y = cellPlayer.top;
 			//x = cellPlayer.left;
 			//x -= xspeed; xspeed = 0;
-			y -= yspeed; yspeed = 0;
+			y -= yspeed * FpsCalc::GetInstance()->speedfactor; yspeed = 0;
 			x = cellPlayer.left; xspeed = 0;
 		}
 	}
