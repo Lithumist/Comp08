@@ -16,6 +16,7 @@ void gameManager::newGame()
 	// Set some varibles
 	currentLevel = 1;
 	doPause = false;
+	toggleLight = false;
 
 	// Init
 	gameLevel.init();
@@ -79,12 +80,9 @@ void gameManager::events(sf::Event* evnt)
 		nextLevel();
 
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad5))
-	{
-		if(global::lvlLevel->lights)
-			global::lvlLevel->lights = false;
-		else
-			global::lvlLevel->lights = true;
-	}
+		toggleLight = true;
+	else
+		toggleLight = false;
 
 	// Do player events
 	global::plPlayer->events(evnt);
@@ -97,6 +95,15 @@ void gameManager::events(sf::Event* evnt)
 ///
 void gameManager::step()
 {
+	// Do light toggling logic
+	if(toggleLight)
+	{
+		toggleLight = false;
+		global::lvlLevel->lights = !global::lvlLevel->lights;
+	}
+
+
+
 	// Do pause logic
 	if(doPause)
 	{

@@ -676,6 +676,18 @@ int player::getHp(){return hp;}
 
 void player::handleCollisions()
 {
+	bool doChest = false;
+	mapCell* ptrChest;
+
+	mapCell* ptrUp;
+	mapCell* ptrDown;
+	mapCell* ptrLeft;
+	mapCell* ptrRight;
+
+	ptrUp = &global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)];
+	ptrDown = &global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)];
+	ptrLeft = &global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)];
+	ptrRight = &global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)];
 
 	// Handle collisions to walls
 
@@ -690,7 +702,7 @@ void player::handleCollisions()
 	bottomLeftType = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellBottomLeft.left/16,cellBottomLeft.top/16)].type;
 	bottomRightType = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellBottomRight.left/16,cellBottomRight.top/16)].type;
 
-	if(upType == 1 || upType == 2)
+	if(upType == 1 || upType == 2 || upType == 4)
 	{
 		if(liveRectPlayer.intersects(cellUp))
 		{
@@ -699,10 +711,17 @@ void player::handleCollisions()
 			x -= xspeed * FpsCalc::GetInstance()->speedfactor; xspeed = 0;
 			//y -= yspeed; yspeed = 0;
 			y = cellPlayer.top; yspeed = 0;
+
+			if(upType == 4)
+			{
+				doChest = true;
+				ptrChest = ptrUp;
+			}
+
 		}
 	}
 
-	if(downType == 1 || downType == 2)
+	if(downType == 1 || downType == 2 || downType == 4)
 	{
 		if(liveRectPlayer.intersects(cellDown))
 		{
@@ -711,10 +730,17 @@ void player::handleCollisions()
 			x -= xspeed * FpsCalc::GetInstance()->speedfactor; xspeed = 0;
 			//y -= yspeed; yspeed = 0;
 			y = cellPlayer.top; yspeed = 0;
+
+			if(downType == 4)
+			{
+				doChest = true;
+				ptrChest = ptrDown;
+			}
+
 		}
 	}
 
-	if(leftType == 1 || leftType == 2)
+	if(leftType == 1 || leftType == 2 || leftType == 4)
 	{
 		if(liveRectPlayer.intersects(cellLeft))
 		{
@@ -723,10 +749,17 @@ void player::handleCollisions()
 			//x -= xspeed; xspeed = 0;
 			y -= yspeed * FpsCalc::GetInstance()->speedfactor; yspeed = 0;
 			x = cellPlayer.left; xspeed = 0;
+
+			if(leftType == 4)
+			{
+				doChest = true;
+				ptrChest = ptrLeft;
+			}
+
 		}
 	}
 
-	if(rightType == 1 || rightType == 2)
+	if(rightType == 1 || rightType == 2 || rightType == 4)
 	{
 		if(liveRectPlayer.intersects(cellRight))
 		{
@@ -735,6 +768,13 @@ void player::handleCollisions()
 			//x -= xspeed; xspeed = 0;
 			y -= yspeed * FpsCalc::GetInstance()->speedfactor; yspeed = 0;
 			x = cellPlayer.left; xspeed = 0;
+
+			if(rightType == 4)
+			{
+				doChest = true;
+				ptrChest = ptrRight;
+			}
+
 		}
 	}
 
@@ -744,8 +784,8 @@ void player::handleCollisions()
 		{
 			//y = cellPlayer.top;
 			//x = cellPlayer.left;
-			x -= xspeed; xspeed = 0;
-			y -= yspeed; yspeed = 0;
+			x -= xspeed * FpsCalc::GetInstance()->speedfactor; xspeed = 0;
+			y -= yspeed * FpsCalc::GetInstance()->speedfactor; yspeed = 0;
 		}
 	}
 
@@ -755,8 +795,8 @@ void player::handleCollisions()
 		{
 			//y = cellPlayer.top;
 			//x = cellPlayer.left;
-			x -= xspeed; xspeed = 0;
-			y -= yspeed; yspeed = 0;
+			x -= xspeed * FpsCalc::GetInstance()->speedfactor; xspeed = 0;
+			y -= yspeed * FpsCalc::GetInstance()->speedfactor; yspeed = 0;
 		}
 	}
 
@@ -766,8 +806,8 @@ void player::handleCollisions()
 		{
 			//y = cellPlayer.top;
 			//x = cellPlayer.left;
-			x -= xspeed; xspeed = 0;
-			y -= yspeed; yspeed = 0;
+			x -= xspeed * FpsCalc::GetInstance()->speedfactor; xspeed = 0;
+			y -= yspeed * FpsCalc::GetInstance()->speedfactor; yspeed = 0;
 		}
 	}
 
@@ -777,8 +817,8 @@ void player::handleCollisions()
 		{
 			//y = cellPlayer.top;
 			//x = cellPlayer.left;
-			x -= xspeed; xspeed = 0;
-			y -= yspeed; yspeed = 0;
+			x -= xspeed * FpsCalc::GetInstance()->speedfactor; xspeed = 0;
+			y -= yspeed * FpsCalc::GetInstance()->speedfactor; yspeed = 0;
 		}
 	}
 
@@ -803,6 +843,23 @@ void player::handleCollisions()
 	{
 		// The level must now end
 		global::blEndLevelTrigger = true;
+	}
+
+
+
+
+	// Handle collision to chests
+	if(doChest)
+	{
+
+		doChest = false;
+		if(!ptrChest->looted)
+		{
+			ptrChest->looted = true;
+			numberTreasure += ptrChest->treasure;
+			numberLanterns += ptrChest->lanterns;
+		}
+
 	}
 
 

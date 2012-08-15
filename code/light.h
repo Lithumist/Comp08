@@ -44,6 +44,20 @@ struct mapCell
 	bool looted;
 
 
+
+	// This only applies if the cell is a chest
+	// 
+	// How much treasure the player will gain from looting the chest
+	int treasure;
+
+
+
+	// This only applies if the cell is a chest
+	// 
+	// how many lanterns the player will get from looting the chest
+	int lanterns;
+
+
 };
 
 

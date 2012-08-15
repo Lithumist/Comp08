@@ -24,6 +24,7 @@ level::level()
 	hf_1 = 0;
 	hf_2 = 0;
 	count = 0;
+
 }
 
 ///
@@ -132,19 +133,15 @@ void level::init()
 ///
 void level::generate()
 {
+	SPR_chest_closed.setTexture(global::TXT_chest_closed);
+	SPR_chest_open.setTexture(global::TXT_chest_open);
+	SPR_wall.setTexture(global::TXT_wall);
+	SPR_u_wall.setTexture(global::TXT_u_wall);
+	SPR_exit.setTexture(global::TXT_exit);
+	SPR_lantern.setTexture(global::TXT_lantern);
+
 	map_is_ready = false;
 
-
-	recalculateEdgeList();
-
-
-	const int NUMBER_OF_CHESTS = 2;
-
-	int rnd[NUMBER_OF_CHESTS];
-	rnd[0] = ut::random(0,edgeList.size());
-	rnd[1] = ut::random(0,edgeList.size());
-	//rnd[2] = ut::random(0,edgeList.size());
-	//rnd[3] = ut::random(0,edgeList.size());
 
 
 	// Clear edge list
@@ -227,12 +224,41 @@ void level::generate()
 
 	// Add the chests
 
+	chestList.clear();
+
+	const int NUMBER_OF_CHESTS = 2;
+
+	int rnd[NUMBER_OF_CHESTS];
+	rnd[0] = ut::random(0,edgeList.size()-1);
+	rnd[1] = ut::random(0,edgeList.size()-1);
+	
+	chestList.push_back(edgeList[rnd[0]]);
+	chestList.push_back(edgeList[rnd[1]]);
+
+
+
+
+
 	for(int t=0; t<NUMBER_OF_CHESTS; t++)
 	{
 		recalculateEdgeList();
 
 		edgeList[rnd[t]]->type = 4;
 		edgeList[rnd[t]]->looted = false;
+		edgeList[rnd[t]]->treasure = ut::random(1,6);
+		int firstRnd = ut::random(1,4);
+		if(firstRnd == 1)
+		{
+			// 25% chance of ending up here
+			// when here there is also a 25% chance of getting no lanterns
+			// This all means that there is a 87.5% chance of getting no lanterns from this chest
+			edgeList[rnd[t]]->lanterns = ut::random(0,3);
+		}
+		else
+		{
+			// 75% chance of ending up here
+			edgeList[rnd[t]]->lanterns = 0;
+		}
 
 		//std::cout << "Chest " << t << " at " << edgeList[t]->x << "," << edgeList[t]->y << std::endl; 
 	}

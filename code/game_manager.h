@@ -24,6 +24,9 @@ class gameManager
 		// Pasue trigger
 		bool doPause;
 
+		// Light trigger
+		bool toggleLight;
+
 	public:
 
 

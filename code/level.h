@@ -107,6 +107,9 @@ class level
 		// A vector of pointers to all the cells that are lanterns
 		std::vector<mapCell*> lanternList;
 
+		// A vector of pointers to all the cells that are chests
+		std::vector<mapCell*> chestList;
+
 
 
 		// If this is true, the proper lighting is calculated
