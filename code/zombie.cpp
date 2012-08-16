@@ -81,8 +81,22 @@ void zombie::step()
 	// Update the speed vector if needed
 	if(gotoTarget)
 	{
-		vecSpeed.x = (vecToTargetNorm.x) * C_ZOMBIE_STEP_SIZE;
-		vecSpeed.y = (vecToTargetNorm.y) * C_ZOMBIE_STEP_SIZE;
+		float spdX, spdY;
+		spdX = vecToTargetNorm.x;
+		spdY = vecToTargetNorm.y;
+
+		if(spdX > 0 && spdY == 0)
+			spdX += 0.5;
+		else if (spdX < 0 && spdY == 0)
+			spdX -= 0.5;
+
+		if(spdY > 0 && spdX == 0)
+			spdY += 0.5;
+		else if (spdY < 0 && spdX == 0)
+			spdY -= 0.5;
+
+		vecSpeed.x = spdX * C_ZOMBIE_STEP_SIZE;
+		vecSpeed.y = spdY * C_ZOMBIE_STEP_SIZE;
 	}
 	else
 	{
@@ -102,7 +116,7 @@ void zombie::step()
 	dist = ut::distanceBetween(x+8,y+8,*global::flPlayerX+8,*global::flPlayerY+8);
 	if(gotoTarget)
 	{
-		if(dist <= 16 && attackTimer.getElapsedTime().asSeconds() >= 1)
+		if(dist <= 22 && attackTimer.getElapsedTime().asSeconds() >= 1)
 		{
 			// hit
 			attackTimer.restart();

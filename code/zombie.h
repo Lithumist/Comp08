@@ -24,7 +24,7 @@
 #include "fpscalc.h"
 
 
-const float C_ZOMBIE_STEP_SIZE = 0.75;
+const float C_ZOMBIE_STEP_SIZE = 0.5;
 
 
 
