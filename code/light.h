@@ -1,7 +1,7 @@
 /*
 	light.h
 
-	Does nothing useful
+	Does nothing useful apart from make the mapCell struct usable by many other files without having to include level.h
 */
 
 #ifndef LIGHT_H
