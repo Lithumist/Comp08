@@ -48,6 +48,18 @@
     <Filter Include="Source Files\fps calc">
       <UniqueIdentifier>{9ae2b39e-0309-4004-8300-0bfd5ed6788f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\enemy">
+      <UniqueIdentifier>{a0ffdcad-d46d-4ca9-ba3f-70146886e285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\enemy">
+      <UniqueIdentifier>{88add97e-6bba-4794-b644-1a48604aa642}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\enemy\zombie">
+      <UniqueIdentifier>{f58b1a43-902d-4c6b-b9b3-daa1768edebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\enemy\zombie">
+      <UniqueIdentifier>{08124d1f-9730-4c15-ac47-e2c98a51f152}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\code\main.cpp">
@@ -71,6 +83,9 @@
     <ClCompile Include="..\code\fpscalc.cpp">
       <Filter>Source Files\fps calc</Filter>
     </ClCompile>
+    <ClCompile Include="..\code\zombie.cpp">
+      <Filter>Source Files\enemy\zombie</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\code\global.h">
@@ -93,6 +108,9 @@
     </ClInclude>
     <ClInclude Include="..\code\fpscalc.h">
       <Filter>Header Files\fps calc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\code\zombie.h">
+      <Filter>Header Files\enemy\zombie</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

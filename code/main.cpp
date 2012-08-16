@@ -22,6 +22,11 @@ sf::Clock fpsClock;
 
 
 
+// Zombie test
+zombie testZombie;
+
+
+
 // Menu start game trigger
 bool menuStart = false;
 
@@ -57,6 +62,9 @@ int main()
 	// Seed the random number generator
 	ut::seed();
 	std::cout << "seed: " << ut::current_seed << std::endl;
+
+	// Set up the test zombie
+	testZombie.reset(100,100,10,5);
 
 	// Set up fpscalc
 	FpsCalc::GetInstance()->Init(60);
@@ -220,6 +228,7 @@ int main_loop()
 			case S_PLAY:
 				//////////////////////////////
 				game.step();
+				testZombie.step();
 				//////////////////////////////
 			break;
 
@@ -251,7 +260,11 @@ int main_loop()
 			## Rendering
 			#####
 		*/
-		ut::frameStart();
+
+		if(global::gsGameState != S_PAUSE)
+			ut::frameStart();
+
+
 		sf::Text debugtxt;
 		sf::Text statusTxt;
 		sf::RectangleShape statusBar;
@@ -270,6 +283,8 @@ int main_loop()
 			case S_PLAY:
 				//////////////////////////////
 				game.draw();
+
+				testZombie.draw();
 
 				statusBar.setPosition(0,480);
 				statusBar.setSize(sf::Vector2f(640,16));

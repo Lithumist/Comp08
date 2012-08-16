@@ -33,6 +33,12 @@ namespace global
 	int* intPlayerLanterns = NULL;
 	int* intPlayerTreasure = NULL;
 
+	// Player self harm flag and co
+	bool zombieHitPlayerFlag = false;
+	float zombieX = 0;
+	float zombieY = 0;
+	int zombieDmg = 0;
+
 	// The main font used in the game
 	sf::Font fntMain;
 

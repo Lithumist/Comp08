@@ -94,4 +94,14 @@ namespace ut
 	}
 
 
+
+	// Returns the distance between 2 points
+	float distanceBetween(float x1, float y1, float x2, float y2)
+	{
+		float d1 = x1 - x2;
+		float d2 = y1 - y2;
+		return sqrt(d1*d1 + d2*d2);
+	}
+
+
 } // End namespace

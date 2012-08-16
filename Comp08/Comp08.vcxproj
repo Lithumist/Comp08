@@ -18,6 +18,7 @@
     <ClCompile Include="..\code\main.cpp" />
     <ClCompile Include="..\code\player.cpp" />
     <ClCompile Include="..\code\ut.cpp" />
+    <ClCompile Include="..\code\zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\code\fpscalc.h" />
@@ -27,6 +28,7 @@
     <ClInclude Include="..\code\light.h" />
     <ClInclude Include="..\code\player.h" />
     <ClInclude Include="..\code\ut.h" />
+    <ClInclude Include="..\code\zombie.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{107008F6-395B-46F2-B1F5-D5822D810B07}</ProjectGuid>

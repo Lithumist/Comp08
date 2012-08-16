@@ -42,6 +42,12 @@ namespace global
 	extern int* intPlayerLanterns;
 	extern int* intPlayerTreasure;
 
+	// Player self harm flag and co
+	extern bool zombieHitPlayerFlag;
+	extern float zombieX;
+	extern float zombieY;
+	extern int zombieDmg;
+
 	// The main font used in the game
 	extern sf::Font fntMain;
 

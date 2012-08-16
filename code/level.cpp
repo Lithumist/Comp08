@@ -1,5 +1,5 @@
 /*
-	level.h
+	level.cpp
 
 	Defines a class and structure that handles
 	the levels in the game.

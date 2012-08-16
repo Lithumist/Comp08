@@ -11,6 +11,7 @@
 #include "global.h"
 #include "ut.h"
 #include "light.h"
+#include "zombie.h"
 #include <iostream>
 #include <vector>
 

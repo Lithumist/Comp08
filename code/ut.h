@@ -58,6 +58,12 @@ namespace ut
 	std::vector<sf::Vector2i> calculateLine(int x0, int y0, int x1, int y1);
 
 
+
+
+	// Returns the distance between 2 points
+	float distanceBetween(float x1, float y1, float x2, float y2);
+
+
 } // End namespace
 
 #endif

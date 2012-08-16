@@ -163,6 +163,20 @@ void player::step()
 	else if(keyRight)
 		xspeed += C_PLAYER_SPEED;
 
+	// Get hit by zombies if needed
+	if(global::zombieHitPlayerFlag)
+	{
+		global::zombieHitPlayerFlag = false;
+		hurt(global::zombieDmg);
+		float revX, revY;
+		// ADDING - MIGHT NOT FLIP SIGN
+		revX = global::zombieX;
+		revY = global::zombieY;
+
+		xspeed += revX;
+		yspeed += revY;
+	}
+
 	// Move player
 	x += xspeed * FpsCalc::GetInstance()->speedfactor;
 	y += yspeed * FpsCalc::GetInstance()->speedfactor;
