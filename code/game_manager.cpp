@@ -15,6 +15,7 @@ void gameManager::newGame()
 {
 	// Set some varibles
 	currentLevel = 1;
+	global::ptrCurLevel = &currentLevel;
 	doPause = false;
 	toggleLight = false;
 

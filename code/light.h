@@ -9,6 +9,9 @@
 
 #include <vector>
 
+// to be able to declare pointer
+class zombie;
+
 
 
 // DO NOT CHANGE THESE!!!!!!!!!!!!!!!!!
@@ -38,25 +41,30 @@ struct mapCell
 	int type;
 
 
-	// This only applies if the cell is a chest
-	// 
+	// THIS ONLY APPLIES IF THE CELL IS A CHEST
 	// If the chest has been looted or not
 	bool looted;
 
 
 
-	// This only applies if the cell is a chest
-	// 
+	// THIS ONLY APPLIES IF THE CELL IS A CHEST
 	// How much treasure the player will gain from looting the chest
 	int treasure;
 
 
 
-	// This only applies if the cell is a chest
-	// 
+	// THIS ONLY APPLIES IF THE CELL IS A CHEST
 	// how many lanterns the player will get from looting the chest
 	int lanterns;
 
+
+	// If there is a zombie in this cell
+	bool isZombie;
+
+
+
+	// If there is a zombie in this cell, this is a pointer to it
+	zombie* ptrZombie;
 
 };
 

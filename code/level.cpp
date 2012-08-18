@@ -24,6 +24,7 @@ level::level()
 	hf_1 = 0;
 	hf_2 = 0;
 	count = 0;
+	zombieCount = 0;
 
 }
 
@@ -61,6 +62,7 @@ float level::getPlayerStartY(){ if(map_is_ready) return p_start_y; else return -
 ///
 void level::recalculateEdgeList()
 {
+	edgeList.clear();
 	for(int ypos=1; ypos<C_MAP_HEIGHT_IN_TILES-1; ypos++)
 	{
 		for(int xpos=1; xpos<C_MAP_WIDTH_IN_TILES-1; xpos++)
@@ -100,9 +102,10 @@ void level::recalculateWallList()
 ///
 void level::recalculateWalkableList()
 {
-	for(int ypos=1; ypos<C_MAP_HEIGHT_IN_TILES-1; ypos++)
+	walkableList.clear();
+	for(int ypos=0; ypos<C_MAP_HEIGHT_IN_TILES; ypos++)
 	{
-		for(int xpos=1; xpos<C_MAP_WIDTH_IN_TILES-1; xpos++)
+		for(int xpos=0; xpos<C_MAP_WIDTH_IN_TILES; xpos++)
 		{
 
 			if(cell_data[getCellIndex(xpos,ypos)].type == 0)
@@ -124,6 +127,10 @@ void level::init()
 	SPR_u_wall.setTexture(global::TXT_u_wall);
 	SPR_exit.setTexture(global::TXT_exit);
 	SPR_lantern.setTexture(global::TXT_lantern);
+
+
+	maxZombies = 4;
+	zombieList.clear();
 }
 
 
@@ -133,12 +140,6 @@ void level::init()
 ///
 void level::generate()
 {
-	SPR_chest_closed.setTexture(global::TXT_chest_closed);
-	SPR_chest_open.setTexture(global::TXT_chest_open);
-	SPR_wall.setTexture(global::TXT_wall);
-	SPR_u_wall.setTexture(global::TXT_u_wall);
-	SPR_exit.setTexture(global::TXT_exit);
-	SPR_lantern.setTexture(global::TXT_lantern);
 
 	map_is_ready = false;
 
@@ -149,6 +150,13 @@ void level::generate()
 
 	// Clear lantern list
 	lanternList.clear();
+
+	// Clear zombie list
+	zombieList.clear();
+	zombieCount = 0;
+
+	// Reset spawn clock
+	spawnClock.restart();
 
 
 	// fill map with walls
@@ -182,7 +190,7 @@ void level::generate()
 
 
 	// Remove some random walls
-	for(int t=0; t<10; t++)
+	for(int t=0; t<5; t++)
 	{
 		int tx = ut::random(1,C_MAP_WIDTH_IN_TILES-3);	// -3 because function is inclusive
 		int ty = ut::random(1,C_MAP_HEIGHT_IN_TILES-3);	/////
@@ -197,10 +205,13 @@ void level::generate()
 
 
 	// remove some walls from edge list
-	for(int t=0; t<500; t++)
+	if(edgeList.size() != 0)
 	{
-		edgeList[ut::random(0,edgeList.size()-1)]->type = 0;
-		recalculateEdgeList();
+		for(int t=0; t<150; t++)
+		{
+			edgeList[ut::random(0,edgeList.size()-1)]->type = 0;
+			recalculateEdgeList();
+		}
 	}
 
 
@@ -209,7 +220,7 @@ void level::generate()
 	// All that needs to be done is to populate it with stuff
 
 	// Add the exit
-	recalculateEdgeList();
+	//recalculateEdgeList();
 
 	exitCell = edgeList[ut::random(0,edgeList.size())];
 	exitCell->type = 5;
@@ -284,7 +295,7 @@ void level::draw()
 
 
 	// Draw cells
-	for(int t=0; t<drawList.size(); t++)
+	for(int t=0; t<(int)drawList.size(); t++)
 	{
 		if(drawList[t]->type == 1) // wall
 		{
@@ -365,6 +376,13 @@ void level::draw()
 
 
 
+	// Draw zombies
+	for(int zo=0; zo<zombieCount; zo++)
+	{
+		zombieList[zo].draw();
+	}
+
+
 }
 
 
@@ -380,6 +398,48 @@ void level::step()
 
 	// Calculate light
 	doLight();
+
+
+
+	// Update zombies
+	for(int z=0; z<zombieCount; z++)
+	{
+		zombieList[z].step();
+	}
+
+
+
+	// Spawn enemys every 30 seconds if needed
+	/*
+	if(spawnClock.getElapsedTime().asSeconds() >= C_SPAWN_CLOCK && (int)zombieList.size() < maxZombies)
+	{
+
+		zombieCount ++;
+
+		std::cout << "Spawning zombie at ";
+
+		zombie new_zombie;
+		
+		// Select random location
+		recalculateEdgeList();
+		int rndCell = ut::random(0,edgeList.size()-1);
+
+		float xp,yp;
+		xp = edgeList[rndCell]->x*16;
+		yp = edgeList[rndCell]->y*16;
+
+		std::cout << xp << "," << yp << std::endl;
+
+
+		// Init new zombie
+		new_zombie.reset(xp,yp,10,2);
+
+		// Add zombie to list
+		zombieList.push_back(new_zombie);
+
+		spawnClock.restart();
+	}
+	*/
 
 }
 

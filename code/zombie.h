@@ -19,6 +19,7 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "light.h"
 #include "global.h"
 #include "ut.h"
 #include "fpscalc.h"
@@ -82,6 +83,9 @@ class zombie
 
 		// If the zombie is close enough to persue a target
 		bool gotoTarget;
+
+		// Pointers to the cells around the zombie
+		mapCell* cellUp, cellDown, cellLeft, cellRight;
 
 
 

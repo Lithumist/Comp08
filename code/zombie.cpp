@@ -107,8 +107,8 @@ void zombie::step()
 
 
 	// Move the zombie
-	x += vecSpeed.x * FpsCalc::GetInstance()->speedfactor;
-	y += vecSpeed.y * FpsCalc::GetInstance()->speedfactor;
+	//x += vecSpeed.x * FpsCalc::GetInstance()->speedfactor;
+	//y += vecSpeed.y * FpsCalc::GetInstance()->speedfactor;
 
 
 
@@ -120,8 +120,8 @@ void zombie::step()
 		{
 			// hit
 			attackTimer.restart();
-			global::zombieX = vecToTarget.x;
-			global::zombieY = vecToTarget.y;
+			global::zombieX = vecToTargetNorm.x;
+			global::zombieY = vecToTargetNorm.y;
 			global::zombieDmg = dmgVal;
 			global::zombieHitPlayerFlag = true;
 		}

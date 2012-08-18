@@ -20,6 +20,8 @@ const int C_MAP_HEIGHT_IN_TILES = 30;
 
 const int C_MAP_TOTAL_SIZE = C_MAP_WIDTH_IN_TILES * C_MAP_HEIGHT_IN_TILES;
 
+const float C_SPAWN_CLOCK = 10; // seconds
+
 /*
 
 Actual definition inside light.h
@@ -154,6 +156,13 @@ class level
 		bool whichHalf; // false 1      true 2
 		int hf_1, hf_2;
 		int count;
+
+
+		// Enemy spawning
+		sf::Clock spawnClock;
+
+		int maxZombies, zombieCount;
+		std::vector<zombie> zombieList;
 
 
 

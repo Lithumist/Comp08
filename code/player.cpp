@@ -169,9 +169,8 @@ void player::step()
 		global::zombieHitPlayerFlag = false;
 		hurt(global::zombieDmg);
 		float revX, revY;
-		// ADDING - MIGHT NOT FLIP SIGN
-		revX = global::zombieX;
-		revY = global::zombieY;
+		revX = global::zombieX*4;
+		revY = global::zombieY*4;
 
 		xspeed += revX;
 		yspeed += revY;

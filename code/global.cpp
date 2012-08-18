@@ -16,6 +16,9 @@ namespace global
 	// If this is true, the main loop is running
 	bool bLoopRunning = true;
 
+	// A pointer to the current level number stored in gameManager
+	int* ptrCurLevel = NULL;
+
 	// The state of the game
 	GAME_STATE gsGameState = S_MENU;
 

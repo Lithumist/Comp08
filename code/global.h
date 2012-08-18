@@ -25,6 +25,9 @@ namespace global
 	// If this is true, the main loop is running
 	extern bool bLoopRunning;
 
+	// A pointer to the current level number stored in gameManager
+	extern int* ptrCurLevel;
+
 	// The state of the game
 	extern GAME_STATE gsGameState;
 
