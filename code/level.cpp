@@ -117,6 +117,24 @@ void level::recalculateWalkableList()
 
 
 ///
+// Completely recalculate the spawnList (goes through whole of walkableList)
+///
+void level::recalculateSpawnList()
+{
+	recalculateWalkableList();
+	spawnList.clear();
+
+	// Add all walkable cells
+	for(int t=0; t<walkableList.size(); t++)
+	{
+		if(!walkableList[t]->lit)
+			spawnList.push_back(walkableList[t]);
+	}
+
+}
+
+
+///
 // Init
 ///
 void level::init()
@@ -293,7 +311,6 @@ void level::draw()
 
 
 
-
 	// Draw cells
 	for(int t=0; t<(int)drawList.size(); t++)
 	{
@@ -320,6 +337,12 @@ void level::draw()
 			rct.setFillColor(sf::Color(135,124,90));
 
 			global::rwpWindow->draw(rct);
+
+			// Zombie if needed
+			if(drawList[t]->isZombie)
+			{
+				drawList[t]->ptrZombie->draw();
+			}
 		}
 
 		else if(drawList[t]->type == 2) // unbreakable wall
@@ -377,10 +400,10 @@ void level::draw()
 
 
 	// Draw zombies
-	for(int zo=0; zo<zombieCount; zo++)
-	{
-		zombieList[zo].draw();
-	}
+	//for(int zo=0; zo<zombieCount; zo++)
+	//{
+		//zombieList[zo].draw();
+	//}
 
 
 }
@@ -401,16 +424,7 @@ void level::step()
 
 
 
-	// Update zombies
-	for(int z=0; z<zombieCount; z++)
-	{
-		zombieList[z].step();
-	}
-
-
-
-	// Spawn enemys every 30 seconds if needed
-	/*
+	// Spawn zombies every 30 seconds if needed
 	if(spawnClock.getElapsedTime().asSeconds() >= C_SPAWN_CLOCK && (int)zombieList.size() < maxZombies)
 	{
 
@@ -421,14 +435,14 @@ void level::step()
 		zombie new_zombie;
 		
 		// Select random location
-		recalculateEdgeList();
-		int rndCell = ut::random(0,edgeList.size()-1);
+		recalculateSpawnList();
+		int rndCell = ut::random(0,(int)spawnList.size()-1);
 
 		float xp,yp;
-		xp = edgeList[rndCell]->x*16;
-		yp = edgeList[rndCell]->y*16;
+		xp = spawnList[rndCell]->x*16;
+		yp = spawnList[rndCell]->y*16;
 
-		std::cout << xp << "," << yp << std::endl;
+		std::cout << xp/16 << "," << yp/16 << std::endl;
 
 
 		// Init new zombie
@@ -439,7 +453,32 @@ void level::step()
 
 		spawnClock.restart();
 	}
-	*/
+
+
+
+	// Update zombies
+	for(int z=0; z<zombieCount; z++)
+	{
+		// Unmark old cell
+		if(zombieList[z].cellZombie != NULL)
+		{
+			zombieList[z].cellZombie->isZombie = false;
+			zombieList[z].cellZombie->ptrZombie = NULL;
+		}
+
+		// Set currnet cell
+		int tilex, tiley;
+		tilex = ut::round(zombieList[z].x/16);
+		tiley = ut::round(zombieList[z].y/16);
+		//std::cout << "lol " << tilex << " " << tiley << std::endl;
+		zombieList[z].cellZombie = &cell_data[getCellIndex(tilex,tiley)];
+		zombieList[z].cellZombie->isZombie = true;
+		zombieList[z].cellZombie->ptrZombie = &zombieList[z];
+
+		// Individual logic
+		zombieList[z].step();
+	}
+	
 
 }
 
@@ -497,6 +536,13 @@ void level::doLight()
 	{
 		hf_1 = 0;
 		hf_2 = 0;
+	}
+
+
+	// Mark all cells as unlit
+	for(int t=0; t<C_MAP_TOTAL_SIZE; t++)
+	{
+		cell_data[t].lit = false;
 	}
 
 	
@@ -800,8 +846,10 @@ void level::handleLine(int xx0, int yy0, int xx1, int yy1)
 	for(int t=0; t<tmp.size(); t++)
 	{
 		// For each cell in the line
+		// Mark it as lit
 		// Add it to the draw list and stop if it's a block
 
+		//cell_data[getCellIndex(tmp[t].x,tmp[t].y)].lit = true;
 		drawList.push_back(&cell_data[getCellIndex(tmp[t].x,tmp[t].y)]);
 
 		if(cell_data[getCellIndex(tmp[t].x,tmp[t].y)].type == 1 || cell_data[getCellIndex(tmp[t].x,tmp[t].y)].type == 2)
@@ -816,8 +864,10 @@ void level::handleLineB(int xx0, int yy0, int xx1, int yy1)
 	for(int t=0; t<tmp.size(); t++)
 	{
 		// For each cell in the line
+		// Mark it as lit
 		// Add it to the draw list and stop if it's a block
 
+		//cell_data[getCellIndex(tmp[t].x,tmp[t].y)].lit = true;
 		drawBuf.push_back(&cell_data[getCellIndex(tmp[t].x,tmp[t].y)]);
 
 		if(cell_data[getCellIndex(tmp[t].x,tmp[t].y)].type == 1 || cell_data[getCellIndex(tmp[t].x,tmp[t].y)].type == 2)

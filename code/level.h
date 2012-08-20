@@ -86,6 +86,8 @@ class level
 		void recalculateWallList();
 		// Completely recalculate the walkableList (goes through whole map!)
 		void recalculateWalkableList();
+		// Completely recalculate the spawnList (goes through whole of walkableList)
+		void recalculateSpawnList();
 
 
 
@@ -143,6 +145,8 @@ class level
 		std::vector<mapCell*> wallList;
 		// A vector of pointers to cells from "cell_data" that are walkable
 		std::vector<mapCell*> walkableList;
+		// A vector of pointers to cells from "cell_data" that enemies can spawn on
+		std::vector<mapCell*> spawnList;
 
 		// A vector of pointers to all the cells that need to be drawn
 		std::vector<mapCell*> drawList;

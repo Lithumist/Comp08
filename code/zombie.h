@@ -85,7 +85,7 @@ class zombie
 		bool gotoTarget;
 
 		// Pointers to the cells around the zombie
-		mapCell* cellUp, cellDown, cellLeft, cellRight;
+		mapCell* cellZombie, cellUp, cellDown, cellLeft, cellRight;
 
 
 

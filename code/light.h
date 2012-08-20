@@ -40,28 +40,23 @@ struct mapCell
 	// 05  exit
 	int type;
 
+	// If the cell is lit and can be seen by the player
+	bool lit;
 
 	// THIS ONLY APPLIES IF THE CELL IS A CHEST
 	// If the chest has been looted or not
 	bool looted;
 
-
-
 	// THIS ONLY APPLIES IF THE CELL IS A CHEST
 	// How much treasure the player will gain from looting the chest
 	int treasure;
-
-
 
 	// THIS ONLY APPLIES IF THE CELL IS A CHEST
 	// how many lanterns the player will get from looting the chest
 	int lanterns;
 
-
 	// If there is a zombie in this cell
 	bool isZombie;
-
-
 
 	// If there is a zombie in this cell, this is a pointer to it
 	zombie* ptrZombie;

@@ -14,7 +14,7 @@
 void zombie::reset(float xpos, float ypos, int MaxHp, int dmgStrength)
 {
 	x = xpos;
-	y = xpos;
+	y = ypos;
 	maxHp = MaxHp;
 	dmgVal = dmgStrength;
 	gotoTarget = false;
@@ -24,6 +24,8 @@ void zombie::reset(float xpos, float ypos, int MaxHp, int dmgStrength)
 	attackTimer.restart();
 
 	distanceThreshold = 300;
+
+	cellZombie = NULL;
 }
 
 
@@ -34,6 +36,7 @@ void zombie::reset(float xpos, float ypos, int MaxHp, int dmgStrength)
 ///
 void zombie::step()
 {
+
 
 	// Calculate the current distance to target
 	float dist = ut::distanceBetween(x+8,y+8,*global::flPlayerX+8,*global::flPlayerY+8);
