@@ -8,7 +8,7 @@
 #include "player.h"
 
 
-
+float PLAYER_MINE_TIME = 0.8;
 
 
 ///
@@ -30,6 +30,8 @@ void player::init(float xpos, float ypos)
 	placeCell = false;
 	rmLantern = false;
 	placeLantern = false;
+
+	fastMine = false;
 
 	cellPlayer.width = 16;
 	cellPlayer.height = 16;
@@ -68,6 +70,8 @@ void player::init(float xpos, float ypos)
 	hasReset = false;
 
 	hp = 100;
+
+	attack = false;
 
 	SND_mine.setBuffer(global::SNDBUF_mine); SND_mine.setLoop(false);
 
@@ -142,6 +146,22 @@ void player::events(sf::Event* evnt)
 		placeLantern = true;
 	else
 		placeLantern = false;
+
+
+	// Update attack varible
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		attack = true;
+	else
+		attack = false;
+
+
+
+
+	// Update fast mine
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num6) && !fastMine)
+		fastMine = true;
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num6) && fastMine)
+		fastMine = false;
 }
 
 
@@ -151,6 +171,17 @@ void player::events(sf::Event* evnt)
 ///
 void player::step()
 {
+	// Update fast mine
+	if(fastMine)
+	{
+		fastMine = false;
+		if(PLAYER_MINE_TIME == 0.8)
+			PLAYER_MINE_TIME = 0.1;
+		else
+			PLAYER_MINE_TIME = 0.8;
+	}
+
+
 	// Update speeds
 	xspeed = 0;
 	yspeed = 0;
@@ -213,6 +244,94 @@ void player::step()
 
 	cellBottomRight.left = cellPlayer.left+16;
 	cellBottomRight.top = cellPlayer.top+16;
+
+
+	// Handle attacking
+	if(attack && attackTime.getElapsedTime().asSeconds() > C_ATTACK_TIME_DELAY)
+	{
+
+		switch(dir)
+		{
+			case 1:
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].isZombie)
+				{
+					// hit
+					zombie* zptr = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].ptrZombie;
+
+					sf::Vector2f vtz;
+					vtz.x = zptr->x - x;
+					vtz.y = zptr->y - y;
+
+					zptr->damage(vtz,C_PLAYER_DAMAGE);
+				}
+				else
+				{
+					// miss
+					std::cout << "miss\n";
+				}
+			break;
+
+			case 2:
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].isZombie)
+				{
+					// hit
+					zombie* zptr = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellRight.left/16,cellRight.top/16)].ptrZombie;
+
+					sf::Vector2f vtz;
+					vtz.x = zptr->x - x;
+					vtz.y = zptr->y - y;
+
+					zptr->damage(vtz,C_PLAYER_DAMAGE);
+				}
+				else
+				{
+					// miss
+					std::cout << "miss\n";
+				}
+			break;
+
+			case 3:
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].isZombie)
+				{
+					// hit
+					zombie* zptr = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellDown.left/16,cellDown.top/16)].ptrZombie;
+
+					sf::Vector2f vtz;
+					vtz.x = zptr->x - x;
+					vtz.y = zptr->y - y;
+
+					zptr->damage(vtz,C_PLAYER_DAMAGE);
+				}
+				else
+				{
+					// miss
+					std::cout << "miss\n";
+				}
+			break;
+
+			case 4:
+				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].isZombie)
+				{
+					// hit
+					zombie* zptr = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].ptrZombie;
+
+					sf::Vector2f vtz;
+					vtz.x = zptr->x - x;
+					vtz.y = zptr->y - y;
+
+					zptr->damage(vtz,C_PLAYER_DAMAGE);
+				}
+				else
+				{
+					// miss
+					std::cout << "miss\n";
+				}
+			break;
+		}
+
+		attack = false;
+		attackTime.restart();
+	}
 
 
 	// Handle lantern removal
@@ -410,7 +529,7 @@ void player::step()
 
 	// Remove cell if needed
 	// OPTIMISE could possible remove the large switch statment because the previous code allready does it and checks
-	if(hasReset && cellTime.getElapsedTime().asSeconds() >= 0.8 && rmCell)
+	if(hasReset && cellTime.getElapsedTime().asSeconds() >= PLAYER_MINE_TIME && rmCell)
 	{
 		hasReset = false;
 		switch(dir)

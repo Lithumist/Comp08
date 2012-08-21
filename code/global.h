@@ -51,12 +51,6 @@ namespace global
 	extern float zombieY;
 	extern int zombieDmg;
 
-	// Zombie self harm flag and co
-	extern bool playerHitZombieFlag;
-
-	// The main font used in the game
-	extern sf::Font fntMain;
-
 	// The pause game trigger and indicator
 	extern bool bGamePause;
 
@@ -67,6 +61,16 @@ namespace global
 
 	// The trigger to end the level and go to the next one
 	extern bool blEndLevelTrigger;
+
+
+
+
+
+
+	// All the fonts used in the game
+	extern sf::Font fntMain;
+	extern sf::Font fntDeath;
+
 
 
 	// All sound data used

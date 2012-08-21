@@ -19,6 +19,9 @@
 #include "fpscalc.h"
 
 const float C_PLAYER_SPEED = 1.5;
+const int C_PLAYER_DAMAGE = 1;
+const float C_ATTACK_TIME_DELAY = 1; // seconds
+extern float PLAYER_MINE_TIME;
 
 class player
 {
@@ -89,9 +92,13 @@ class player
 		bool keyUp, keyDown, keyLeft, keyRight;
 
 		bool rmCell, placeCell, rmLantern, placeLantern;
+		bool fastMine;
 
 		bool hasReset;
 		sf::Clock cellTime;
+
+		bool attack;
+		sf::Clock attackTime;
 
 		sf::IntRect cellPlayer, cellLeft, cellRight, cellUp, cellDown, cellTopLeft, cellTopRight, cellBottomLeft, cellBottomRight, liveRectPlayer;
 

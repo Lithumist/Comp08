@@ -147,7 +147,7 @@ void level::init()
 	SPR_lantern.setTexture(global::TXT_lantern);
 
 
-	maxZombies = 1;
+	maxZombies = 4;
 	zombieList.clear();
 }
 
@@ -309,6 +309,9 @@ void level::draw()
 	if(!map_is_ready)
 		return;
 
+	int cur_it = 0;
+	sf::RectangleShape rct;
+
 
 
 	// Draw cells
@@ -327,22 +330,27 @@ void level::draw()
 
 		else if(drawList[t]->type == 0) // walkable
 		{
+			cur_it = t;
 			float xpos, ypos;
 			xpos = drawList[t]->x*16;
 			ypos = drawList[t]->y*16;
 
-			sf::RectangleShape rct;
 			rct.setPosition(xpos,ypos);
 			rct.setSize(sf::Vector2f(16,16));
 			rct.setFillColor(sf::Color(135,124,90));
 
 			global::rwpWindow->draw(rct);
 
-			// Zombie if needed
+			// Draw zombie if needed
 			if(drawList[t]->isZombie)
 			{
-				drawList[t]->ptrZombie->draw();
+				goto draw_zomb;
 			}
+done_draw_zomb:
+
+			cur_it = cur_it; // this line means and does nothing important
+					   // it is just here so that the label doesnt trigger a compiler error
+
 		}
 
 		else if(drawList[t]->type == 2) // unbreakable wall
@@ -399,11 +407,21 @@ void level::draw()
 
 
 
+
+
+		return;
+
+
+
+
+	
+	//////////////////////////////////
 	// Draw zombies
-	//for(int zo=0; zo<zombieCount; zo++)
-	//{
-		//zombieList[zo].draw();
-	//}
+draw_zomb:
+
+	drawList[cur_it]->ptrZombie->draw();
+
+	goto done_draw_zomb;
 
 
 }
@@ -425,12 +443,13 @@ void level::step()
 
 
 	// Spawn zombies every 30 seconds if needed
-	if(spawnClock.getElapsedTime().asSeconds() >= C_SPAWN_CLOCK && (int)zombieList.size() < maxZombies)
+	if(spawnClock.getElapsedTime().asSeconds() >= C_SPAWN_CLOCK)
 	{
+		if(zombieCount < maxZombies){
 
 		zombieCount ++;
 
-		//std::cout << "Spawning zombie at ";
+		std::cout << "Spawning zombie at ";
 
 		zombie new_zombie;
 		
@@ -444,41 +463,51 @@ void level::step()
 		xp = spawnList[rndCell]->x*16;
 		yp = spawnList[rndCell]->y*16;
 
-		//std::cout << xp/16 << "," << yp/16 << std::endl;
+		std::cout << xp/16 << "," << yp/16 << std::endl;
 
 
 		// Init new zombie
-		new_zombie.reset(xp,yp,10,2);
+		new_zombie.reset(xp,yp,4,2);
 
 		// Add zombie to list
 		zombieList.push_back(new_zombie);
-
-		spawnClock.restart();
-	}
+		}spawnClock.restart();}
 
 
 
 	// Update zombies
-	for(int z=0; z<zombieCount; z++)
+
+	for(int z=0; z<(int)zombieList.size(); z++)
 	{
-		// Unmark old cell
-		if(zombieList[z].cellZombie != NULL)
+		if(!zombieList[z].dead)
 		{
+			// Unmark old cell
+			if(zombieList[z].cellZombie != NULL)
+			{
+				zombieList[z].cellZombie->isZombie = false;
+				zombieList[z].cellZombie->ptrZombie = NULL;
+			}
+
+			// Set currnet cell
+			int tilex, tiley;
+			tilex = ut::round(zombieList[z].x/16);
+			tiley = ut::round(zombieList[z].y/16);
+			zombieList[z].cellZombie = &cell_data[getCellIndex(tilex,tiley)];
+			zombieList[z].cellZombie->isZombie = true;
+			zombieList[z].cellZombie->ptrZombie = &zombieList[z];
+
+			// Individual logic
+			zombieList[z].step();
+		}
+		else if(zombieList[z].dead == true && zombieList[z].proc == false)
+		{
+			std::cout << "ed\n";
+			zombieList[z].proc = true;
+			zombieCount --;
+
 			zombieList[z].cellZombie->isZombie = false;
 			zombieList[z].cellZombie->ptrZombie = NULL;
 		}
-
-		// Set currnet cell
-		int tilex, tiley;
-		tilex = ut::round(zombieList[z].x/16);
-		tiley = ut::round(zombieList[z].y/16);
-		//std::cout << "lol " << tilex << " " << tiley << std::endl;
-		zombieList[z].cellZombie = &cell_data[getCellIndex(tilex,tiley)];
-		zombieList[z].cellZombie->isZombie = true;
-		zombieList[z].cellZombie->ptrZombie = &zombieList[z];
-
-		// Individual logic
-		zombieList[z].step();
 	}
 	
 

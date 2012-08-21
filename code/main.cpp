@@ -62,8 +62,9 @@ int main()
 	// Set up fpscalc
 	FpsCalc::GetInstance()->Init(60);
 
-	// Load the main font
+	// Load all the fonts
 	global::fntMain.loadFromFile("resources/font/pixelette.ttf");
+	global::fntDeath.loadFromFile("resources/font/trebucbd.ttf");
 
 	// Load all the sounds
 	global::SNDBUF_mine.loadFromFile("resources/sound/mine.wav");
@@ -319,6 +320,20 @@ int main_loop()
 			case S_DEAD:
 				//////////////////////////////
 				global::rwpWindow->draw(SPR_dead);
+
+				sf::Text tTxt(ut::toString(*global::intPlayerTreasure));
+				tTxt.setFont(global::fntDeath);
+				tTxt.setCharacterSize(20);
+				tTxt.setPosition(372,265);
+				tTxt.setColor(sf::Color(255,255,0));
+				global::rwpWindow->draw(tTxt);
+
+				sf::Text lTxt(ut::toString(*global::ptrCurLevel));
+				lTxt.setFont(global::fntDeath);
+				lTxt.setCharacterSize(20);
+				lTxt.setPosition(234,265);
+				lTxt.setColor(sf::Color(255,255,0));
+				global::rwpWindow->draw(lTxt);
 				//////////////////////////////
 			break;
 		}

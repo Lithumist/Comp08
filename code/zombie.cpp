@@ -16,6 +16,7 @@ void zombie::reset(float xpos, float ypos, int MaxHp, int dmgStrength)
 	x = xpos;
 	y = ypos;
 	maxHp = MaxHp;
+	curHp = maxHp;
 	dmgVal = dmgStrength;
 	gotoTarget = false;
 	tx = 0;
@@ -42,6 +43,9 @@ void zombie::reset(float xpos, float ypos, int MaxHp, int dmgStrength)
 
 
 	playerLeft = false;
+
+	dead = false;
+	proc = false;
 }
 
 
@@ -52,6 +56,8 @@ void zombie::reset(float xpos, float ypos, int MaxHp, int dmgStrength)
 ///
 void zombie::step()
 {
+	if(dead)
+		return;
 
 	// Update sound position
 	SND_zombie.setPosition(x,y,0);
@@ -101,7 +107,7 @@ void zombie::step()
 		vecToTargetNorm.x = vecToTarget.x;
 		vecToTargetNorm.y = vecToTarget.y;
 
-		float mg = sqrt(x*x + y*y);
+		float mg = sqrt(x*x + y*y); // this line looks like its wrong...
 		vecToTargetNorm.x /= mg;
 		vecToTargetNorm.y /= mg;
 
@@ -156,7 +162,7 @@ void zombie::step()
 	dist = ut::distanceBetween(x+8,y+8,*global::flPlayerX+8,*global::flPlayerY+8);
 	if(gotoTarget)
 	{
-		if(dist <= 22 && attackTimer.getElapsedTime().asSeconds() >= 1)
+		if(dist <= 18 && attackTimer.getElapsedTime().asSeconds() >= 1)
 		{
 			// hit
 			attackTimer.restart();
@@ -193,6 +199,8 @@ void zombie::step()
 ///
 void zombie::draw()
 {
+	if(dead)
+		return;
 
 	if(playerLeft)
 	{
@@ -204,15 +212,6 @@ void zombie::draw()
 		SPR_right.setPosition(x,y);
 		global::rwpWindow->draw(SPR_right);
 	}
-
-	/*
-	sf::RectangleShape rty;
-	rty.setPosition(x,y);
-	rty.setSize(sf::Vector2f(16,16));
-	rty.setFillColor(sf::Color(100,255,100));
-
-	global::rwpWindow->draw(rty);
-	*/
 }
 
 
@@ -222,4 +221,36 @@ void zombie::draw()
 ///
 void zombie::damage(sf::Vector2f vecToZombie, int dmgAmmount)
 {
+	std::cout << "zombie hit\n";
+
+	// do damage
+	curHp -= dmgAmmount;
+	if(curHp <= 0)
+	{
+		dead = true;
+	}
+
+
+	sf::Vector2f vecNorm;
+	// move back
+	vecNorm.x = vecToZombie.x;
+	vecNorm.y = vecToZombie.y;
+
+	float mg = sqrt(vecNorm.x*vecNorm.x + vecNorm.y*vecNorm.y);
+	vecNorm.x /= mg;
+	vecNorm.y /= mg;
+
+	if(vecNorm.x < 1 && vecNorm.x > 0)
+		vecNorm.x = 1;
+	if(vecNorm.x < 0 && vecNorm.x > -1)
+		vecNorm.x = -1;
+
+	if(vecNorm.y < 1 && vecNorm.y > 0)
+		vecNorm.y = 1;
+	if(vecNorm.y < 0 && vecNorm.y > -1)
+		vecNorm.y = -1;
+
+
+	x += vecNorm.x*4;
+	y += vecNorm.y*4;
 }

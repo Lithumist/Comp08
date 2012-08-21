@@ -42,9 +42,6 @@ namespace global
 	float zombieY = 0;
 	int zombieDmg = 0;
 
-	// The main font used in the game
-	sf::Font fntMain;
-
 	// The pause game trigger and indicator
 	bool bGamePause = false;
 
@@ -54,6 +51,16 @@ namespace global
 
 	// The trigger to end the level and go to the next one
 	bool blEndLevelTrigger = false;
+
+
+
+
+
+
+	// All the fonts used in the game
+	sf::Font fntMain;
+	sf::Font fntDeath;
+
 
 
 	// All sound data used

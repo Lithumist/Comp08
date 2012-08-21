@@ -99,6 +99,11 @@ class zombie
 		bool playerLeft;
 
 
+		// If the zombie is dead
+		bool dead;
+		bool proc;
+
+
 
 
 
