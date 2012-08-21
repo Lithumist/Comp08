@@ -26,6 +26,15 @@ void zombie::reset(float xpos, float ypos, int MaxHp, int dmgStrength)
 	distanceThreshold = 300;
 
 	cellZombie = NULL;
+
+	SND_zombie.setBuffer(global::SNDBUF_zombie);
+	SND_zombie.setLoop(false);
+	SND_zombie.setMinDistance(96);
+	SND_zombie.setAttenuation(5);
+
+
+
+	currentSoundTimerMax = ut::random(2,3);// random between 5 and 30 seconds
 }
 
 
@@ -36,6 +45,20 @@ void zombie::reset(float xpos, float ypos, int MaxHp, int dmgStrength)
 ///
 void zombie::step()
 {
+
+	// Update sound position
+	SND_zombie.setPosition(x,y,0);
+
+
+	// Play sound if needed
+	if(soundTimer.getElapsedTime().asSeconds() >= currentSoundTimerMax)
+	{
+		std::cout << "zomb\n";
+		SND_zombie.play();
+		currentSoundTimerMax = ut::random(2,3);// random between 5 and 30 seconds
+		soundTimer.restart();
+	}
+
 
 
 	// Calculate the current distance to target

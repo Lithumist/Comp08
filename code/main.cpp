@@ -67,6 +67,7 @@ int main()
 
 	// Load all the sounds
 	global::SNDBUF_mine.loadFromFile("resources/sound/mine.wav");
+	global::SNDBUF_zombie.loadFromFile("resources/sound/zombie.wav");
 
 	// Load all the textures
 	global::TXT_player_down.loadFromFile("resources/texture/player_down.png");

@@ -506,6 +506,12 @@ void player::step()
 	handleCollisions();
 
 
+	// Update sf::Listener position and mining sound
+
+	sf::Listener::setPosition(x,y,0);
+	SND_mine.setPosition(x,y,0);
+
+
 
 
 }

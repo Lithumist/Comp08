@@ -68,6 +68,7 @@ namespace global
 
 	// All sound data used
 	extern sf::SoundBuffer SNDBUF_mine;
+	extern sf::SoundBuffer SNDBUF_zombie;
 
 
 

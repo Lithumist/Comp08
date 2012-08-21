@@ -18,6 +18,7 @@
 #include <iostream>
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #include "light.h"
 #include "global.h"
@@ -87,6 +88,9 @@ class zombie
 		// Pointers to the cells around the zombie
 		mapCell* cellZombie, cellUp, cellDown, cellLeft, cellRight;
 
+		// Zombie sound
+		sf::Sound SND_zombie;
+
 
 
 
@@ -99,6 +103,8 @@ class zombie
 
 
 		sf::Clock attackTimer;
+		sf::Clock soundTimer;
+		float currentSoundTimerMax;
 
 		float distanceThreshold;
 

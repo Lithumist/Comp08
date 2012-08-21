@@ -147,7 +147,7 @@ void level::init()
 	SPR_lantern.setTexture(global::TXT_lantern);
 
 
-	maxZombies = 4;
+	maxZombies = 1;
 	zombieList.clear();
 }
 
