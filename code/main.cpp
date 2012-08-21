@@ -86,6 +86,9 @@ int main()
 	global::TXT_dead.loadFromFile("resources/texture/dead.png");
 	global::TXT_pause.loadFromFile("resources/texture/paused.png");
 
+	global::TXT_zombie_left.loadFromFile("resources/texture/zombie_left.png");
+	global::TXT_zombie_right.loadFromFile("resources/texture/zombie_right.png");
+
 
 
 

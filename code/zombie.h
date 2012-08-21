@@ -91,6 +91,13 @@ class zombie
 		// Zombie sound
 		sf::Sound SND_zombie;
 
+		// Zombie sprites
+		sf::Sprite SPR_left, SPR_right;
+
+
+		// If the player is to the left of the zombie
+		bool playerLeft;
+
 
 
 

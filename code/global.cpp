@@ -79,5 +79,8 @@ namespace global
 	sf::Texture TXT_dead;
 	sf::Texture TXT_pause;
 
+	sf::Texture TXT_zombie_left;
+	sf::Texture TXT_zombie_right;
+
 
 } // End namespace

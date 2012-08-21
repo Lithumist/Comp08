@@ -33,8 +33,15 @@ void zombie::reset(float xpos, float ypos, int MaxHp, int dmgStrength)
 	SND_zombie.setAttenuation(5);
 
 
+	SPR_left.setTexture(global::TXT_zombie_left);
+	SPR_right.setTexture(global::TXT_zombie_right);
 
-	currentSoundTimerMax = ut::random(2,3);// random between 5 and 30 seconds
+
+
+	currentSoundTimerMax = ut::random(5,30);// random between 5 and 30 seconds
+
+
+	playerLeft = false;
 }
 
 
@@ -53,11 +60,18 @@ void zombie::step()
 	// Play sound if needed
 	if(soundTimer.getElapsedTime().asSeconds() >= currentSoundTimerMax)
 	{
-		std::cout << "zomb\n";
 		SND_zombie.play();
-		currentSoundTimerMax = ut::random(2,3);// random between 5 and 30 seconds
+		currentSoundTimerMax = ut::random(5,30);// random between 5 and 30 seconds
 		soundTimer.restart();
 	}
+
+
+
+	// Update playerLeft
+	if(*global::flPlayerX+8 < x+8)
+		playerLeft = true;
+	else
+		playerLeft = false;
 
 
 
@@ -179,12 +193,26 @@ void zombie::step()
 ///
 void zombie::draw()
 {
+
+	if(playerLeft)
+	{
+		SPR_left.setPosition(x,y);
+		global::rwpWindow->draw(SPR_left);
+	}
+	else
+	{
+		SPR_right.setPosition(x,y);
+		global::rwpWindow->draw(SPR_right);
+	}
+
+	/*
 	sf::RectangleShape rty;
 	rty.setPosition(x,y);
 	rty.setSize(sf::Vector2f(16,16));
 	rty.setFillColor(sf::Color(100,255,100));
 
 	global::rwpWindow->draw(rty);
+	*/
 }
 
 

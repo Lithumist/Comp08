@@ -51,6 +51,9 @@ namespace global
 	extern float zombieY;
 	extern int zombieDmg;
 
+	// Zombie self harm flag and co
+	extern bool playerHitZombieFlag;
+
 	// The main font used in the game
 	extern sf::Font fntMain;
 
@@ -88,6 +91,9 @@ namespace global
 	extern sf::Texture TXT_menu;
 	extern sf::Texture TXT_dead;
 	extern sf::Texture TXT_pause;
+
+	extern sf::Texture TXT_zombie_left;
+	extern sf::Texture TXT_zombie_right;
 
 
 } // End namespace

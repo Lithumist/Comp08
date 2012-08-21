@@ -430,7 +430,7 @@ void level::step()
 
 		zombieCount ++;
 
-		std::cout << "Spawning zombie at ";
+		//std::cout << "Spawning zombie at ";
 
 		zombie new_zombie;
 		
@@ -438,11 +438,13 @@ void level::step()
 		recalculateSpawnList();
 		int rndCell = ut::random(0,(int)spawnList.size()-1);
 
+
+
 		float xp,yp;
 		xp = spawnList[rndCell]->x*16;
 		yp = spawnList[rndCell]->y*16;
 
-		std::cout << xp/16 << "," << yp/16 << std::endl;
+		//std::cout << xp/16 << "," << yp/16 << std::endl;
 
 
 		// Init new zombie
