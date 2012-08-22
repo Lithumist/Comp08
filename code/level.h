@@ -121,6 +121,9 @@ class level
 		// If this is true, the proper lighting is calculated
 		bool lights;
 
+		int zombie_hp;
+		int zombie_damage;
+
 
 
 
