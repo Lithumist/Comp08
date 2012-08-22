@@ -20,7 +20,7 @@
 
 const float C_PLAYER_SPEED = 1.5;
 const int C_PLAYER_DAMAGE = 1;
-const float C_ATTACK_TIME_DELAY = 1; // seconds
+const float C_ATTACK_TIME_DELAY = 0.5; // seconds
 extern float PLAYER_MINE_TIME;
 
 class player

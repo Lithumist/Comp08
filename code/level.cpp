@@ -140,6 +140,7 @@ void level::recalculateSpawnList()
 void level::init()
 {
 	SPR_chest_closed.setTexture(global::TXT_chest_closed);
+	//SPR_chest_closed.setColor(sf::Color(255,255,255,255));
 	SPR_chest_open.setTexture(global::TXT_chest_open);
 	SPR_wall.setTexture(global::TXT_wall);
 	SPR_u_wall.setTexture(global::TXT_u_wall);
@@ -205,7 +206,7 @@ void level::generate()
 
 	cell_data[getCellIndex(p_start_x,p_start_y)].type = 0;
 
-	std::cout << "player at " << p_start_x << "," << p_start_y << std::endl;
+	//std::cout << "player at " << p_start_x << "," << p_start_y << std::endl;
 
 
 
@@ -302,7 +303,7 @@ void level::generate()
 
 	for(int t=0; t<NUMBER_OF_CHESTS; t++)
 	{
-		std::cout << "adding chest " << t << std::endl;
+		//std::cout << "adding chest " << t << std::endl;
 		addedChest = false;
 		chestCount = 0;
 
@@ -315,7 +316,7 @@ void level::generate()
 
 			if((edgeList[id]->x >= p_start_x+10 || edgeList[id]->x <= p_start_x-10) && (edgeList[id]->y >= p_start_y+10 || edgeList[id]->y <= p_start_y-10))
 			{
-				std::cout << "success\n";
+				//std::cout << "success\n";
 				addedChest = true;
 				chestList.push_back(edgeList[id]);///
 				isEdge[t] = true;
@@ -325,7 +326,7 @@ void level::generate()
 			{
 				if(chestCount > 100)
 				{
-					std::cout << "fallback\n";
+					//std::cout << "fallback\n";
 					addedChest2 = false;
 					float cx,cy;
 					mapCell* chestCell = NULL;
@@ -340,7 +341,7 @@ void level::generate()
 							addedChest2 = true;
 							addedChest = true;
 							chestList.push_back(chestCell);///
-							std::cout << "yea\n";
+							//std::cout << "yea\n";
 							isEdge[t] = false;
 							rnd[t] = getCellIndex(cx,cy);
 						}
@@ -548,7 +549,7 @@ void level::step()
 
 		zombieCount ++;
 
-		std::cout << "Spawning zombie at ";
+		//std::cout << "Spawning zombie at ";
 
 		zombie new_zombie;
 		
@@ -562,7 +563,7 @@ void level::step()
 		xp = spawnList[rndCell]->x*16;
 		yp = spawnList[rndCell]->y*16;
 
-		std::cout << xp/16 << "," << yp/16 << std::endl;
+		//std::cout << xp/16 << "," << yp/16 << std::endl;
 
 
 		// Init new zombie

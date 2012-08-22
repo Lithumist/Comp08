@@ -34,6 +34,12 @@ bool deadReturn = false;
 
 
 
+// Screen mode varibles
+bool toggleScreen = false;
+bool isFull = false;
+
+
+
 // Sprites
 sf::Sprite SPR_menu, SPR_dead, SPR_pause;
 
@@ -52,7 +58,7 @@ int main()
 {
 
 	// Initialize the screen
-	sf::RenderWindow rw(sf::VideoMode(640,496),"Comp08");
+	sf::RenderWindow rw(sf::VideoMode(640,496),"Caverns");
 	global::rwpWindow = &rw;
 
 	// Seed the random number generator
@@ -164,8 +170,13 @@ int main_loop()
 				global::bLoopRunning = false;
 
 			// Reset game
-			if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-				game.newGame();
+			//if(sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+				//game.newGame();
+
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::K))
+				toggleScreen = true;
+			else
+				toggleScreen = false;
 
 
 			switch(global::gsGameState)
@@ -213,6 +224,41 @@ int main_loop()
 			## Logic
 			#####
 		*/
+
+
+		////////////////////////
+		// Screen
+
+		if(toggleScreen)
+		{
+			toggleScreen = false;
+			isFull = !isFull;
+
+			if(isFull)
+			{
+				global::rwpWindow->create(sf::VideoMode::getDesktopMode(),"Caverns",sf::Style::Fullscreen);
+
+				//const sf::View& defaultView = global::rwpWindow->getDefaultView();
+				//sf::VideoMode videoMode = sf::VideoMode::getDesktopMode();
+				//defaultView.SetFromRect(sf::FloatRect(0.f, 0.f, videoMode.Width, videoMode.Height));
+				//defaultView.setSize(640,496);
+				const sf::View dv(sf::FloatRect(0.f, 0.f, 640, 496));
+				global::rwpWindow->setView(dv);
+
+				global::rwpWindow->setMouseCursorVisible(false);
+			}
+			else
+			{
+				global::rwpWindow->create(sf::VideoMode(640,496),"Caverns");
+				global::rwpWindow->setMouseCursorVisible(true);
+			}
+		}
+
+
+
+		////////////////////////
+		// Real
+
 		switch(global::gsGameState)
 		{
 			case S_MENU:
