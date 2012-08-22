@@ -74,6 +74,9 @@ void player::init(float xpos, float ypos)
 	attack = false;
 
 	SND_mine.setBuffer(global::SNDBUF_mine); SND_mine.setLoop(false);
+	SND_hit.setBuffer(global::SNDBUF_player_hit); SND_hit.setLoop(false);
+	SND_miss.setBuffer(global::SNDBUF_player_miss); SND_miss.setLoop(false);
+	SND_hurt.setBuffer(global::SNDBUF_player_hurt); SND_hurt.setLoop(false);
 
 	SPR_up.setTexture(global::TXT_player_up);
 	SPR_down.setTexture(global::TXT_player_down);
@@ -172,6 +175,7 @@ void player::events(sf::Event* evnt)
 void player::step()
 {
 	// Update fast mine
+	/*
 	if(fastMine)
 	{
 		fastMine = false;
@@ -180,6 +184,7 @@ void player::step()
 		else
 			PLAYER_MINE_TIME = 0.8;
 	}
+	*/
 
 
 	// Update speeds
@@ -197,6 +202,8 @@ void player::step()
 	// Get hit by zombies if needed
 	if(global::zombieHitPlayerFlag)
 	{
+		SND_hurt.play();
+
 		global::zombieHitPlayerFlag = false;
 		hurt(global::zombieDmg);
 		float revX, revY;
@@ -262,12 +269,15 @@ void player::step()
 					vtz.x = zptr->x - x;
 					vtz.y = zptr->y - y;
 
+					SND_hit.play();
+
 					zptr->damage(vtz,C_PLAYER_DAMAGE);
 				}
 				else
 				{
 					// miss
-					std::cout << "miss\n";
+					//std::cout << "miss\n";
+					SND_miss.play();
 				}
 			break;
 
@@ -281,12 +291,15 @@ void player::step()
 					vtz.x = zptr->x - x;
 					vtz.y = zptr->y - y;
 
+					SND_hit.play();
+
 					zptr->damage(vtz,C_PLAYER_DAMAGE);
 				}
 				else
 				{
 					// miss
-					std::cout << "miss\n";
+					//std::cout << "miss\n";
+					SND_miss.play();
 				}
 			break;
 
@@ -300,12 +313,15 @@ void player::step()
 					vtz.x = zptr->x - x;
 					vtz.y = zptr->y - y;
 
+					SND_hit.play();
+
 					zptr->damage(vtz,C_PLAYER_DAMAGE);
 				}
 				else
 				{
 					// miss
-					std::cout << "miss\n";
+					//std::cout << "miss\n";
+					SND_miss.play();
 				}
 			break;
 
@@ -319,12 +335,15 @@ void player::step()
 					vtz.x = zptr->x - x;
 					vtz.y = zptr->y - y;
 
+					SND_hit.play();
+
 					zptr->damage(vtz,C_PLAYER_DAMAGE);
 				}
 				else
 				{
 					// miss
-					std::cout << "miss\n";
+					//std::cout << "miss\n";
+					SND_miss.play();
 				}
 			break;
 		}
@@ -625,10 +644,13 @@ void player::step()
 	handleCollisions();
 
 
-	// Update sf::Listener position and mining sound
+	// Update sf::Listener position and all other player-handled sounds
 
 	sf::Listener::setPosition(x,y,0);
 	SND_mine.setPosition(x,y,0);
+	SND_hit.setPosition(x,y,0);
+	SND_miss.setPosition(x,y,0);
+	SND_hurt.setPosition(x,y,0);
 
 
 

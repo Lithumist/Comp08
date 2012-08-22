@@ -113,6 +113,9 @@ class player
 		std::vector<sf::Vector2f> collisionTestList;
 
 		sf::Sound SND_mine;
+		sf::Sound SND_hit;
+		sf::Sound SND_miss;
+		sf::Sound SND_hurt;
 
 		sf::Sprite SPR_up, SPR_down, SPR_left, SPR_right;
 

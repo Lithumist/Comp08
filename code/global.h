@@ -76,6 +76,9 @@ namespace global
 	// All sound data used
 	extern sf::SoundBuffer SNDBUF_mine;
 	extern sf::SoundBuffer SNDBUF_zombie;
+	extern sf::SoundBuffer SNDBUF_player_hit;
+	extern sf::SoundBuffer SNDBUF_player_miss;
+	extern sf::SoundBuffer SNDBUF_player_hurt;
 
 
 
