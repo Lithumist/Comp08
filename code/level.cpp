@@ -620,6 +620,11 @@ void level::step()
 			zombieList[z].cellRight = &cell_data[getCellIndex(tilexx+1,tileyy)];
 			zombieList[z].cellLeft = &cell_data[getCellIndex(tilexx-1,tileyy)];
 
+			zombieList[z].cellUpLeft = &cell_data[getCellIndex(tilexx-1,tileyy-1)];
+			zombieList[z].cellUpRight = &cell_data[getCellIndex(tilexx+1,tileyy-1)];
+			zombieList[z].cellDownLeft = &cell_data[getCellIndex(tilexx-1,tileyy+1)];
+			zombieList[z].cellDownRight = &cell_data[getCellIndex(tilexx+1,tileyy+1)];
+
 			// Individual logic
 			zombieList[z].step();
 		}

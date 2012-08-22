@@ -251,6 +251,94 @@ void zombie::step()
 
 
 
+	if(cellUpLeft->type == 1 || cellUpLeft->type == 2 || cellUpLeft->type == 3 || cellUpLeft->type == 4)
+	{
+		sf::FloatRect rup;
+		rup.left = cellUpLeft->x*16;
+		rup.top = cellUpLeft->y*16;
+		rup.width = 16;
+		rup.height = 16;
+
+		sf::FloatRect zomb;
+		zomb.left = x;
+		zomb.top = y;
+		zomb.width = 16;
+		zomb.height = 16;
+
+		if(zomb.intersects(rup))
+		{
+			x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
+			y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
+		}
+	}
+
+	if(cellUpRight->type == 1 || cellUpRight->type == 2 || cellUpRight->type == 3 || cellUpRight->type == 4)
+	{
+		sf::FloatRect rup;
+		rup.left = cellUpRight->x*16;
+		rup.top = cellUpRight->y*16;
+		rup.width = 16;
+		rup.height = 16;
+
+		sf::FloatRect zomb;
+		zomb.left = x;
+		zomb.top = y;
+		zomb.width = 16;
+		zomb.height = 16;
+
+		if(zomb.intersects(rup))
+		{
+			x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
+			y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
+		}
+	}
+
+	if(cellDownLeft->type == 1 || cellDownLeft->type == 2 || cellDownLeft->type == 3 || cellDownLeft->type == 4)
+	{
+		sf::FloatRect rup;
+		rup.left = cellDownLeft->x*16;
+		rup.top = cellDownLeft->y*16;
+		rup.width = 16;
+		rup.height = 16;
+
+		sf::FloatRect zomb;
+		zomb.left = x;
+		zomb.top = y;
+		zomb.width = 16;
+		zomb.height = 16;
+
+		if(zomb.intersects(rup))
+		{
+			x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
+			y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
+		}
+	}
+
+	if(cellDownRight->type == 1 || cellDownRight->type == 2 || cellDownRight->type == 3 || cellDownRight->type == 4)
+	{
+		sf::FloatRect rup;
+		rup.left = cellDownRight->x*16;
+		rup.top = cellDownRight->y*16;
+		rup.width = 16;
+		rup.height = 16;
+
+		sf::FloatRect zomb;
+		zomb.left = x;
+		zomb.top = y;
+		zomb.width = 16;
+		zomb.height = 16;
+
+		if(zomb.intersects(rup))
+		{
+			x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
+			y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
+		}
+	}
+
+
+
+
+
 
 
 	// decide if the zombie should attack the target

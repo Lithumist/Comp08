@@ -92,6 +92,11 @@ class zombie
 		mapCell* cellLeft;
 		mapCell* cellRight;
 
+		mapCell* cellUpLeft;
+		mapCell* cellUpRight;
+		mapCell* cellDownLeft;
+		mapCell* cellDownRight;
+
 		// Zombie sound
 		sf::Sound SND_zombie;
 
