@@ -408,6 +408,11 @@ void zombie::draw()
 ///
 void zombie::damage(sf::Vector2f vecToZombie, int dmgAmmount)
 {
+	if(dead)
+		return;
+
+
+
 	std::cout << "zombie hit\n";
 
 	// do damage

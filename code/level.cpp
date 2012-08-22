@@ -1001,7 +1001,7 @@ void level::handleLine(int xx0, int yy0, int xx1, int yy1)
 		// Mark it as lit
 		// Add it to the draw list and stop if it's a block
 
-		//cell_data[getCellIndex(tmp[t].x,tmp[t].y)].lit = true;
+		cell_data[getCellIndex(tmp[t].x,tmp[t].y)].lit = true;
 		drawList.push_back(&cell_data[getCellIndex(tmp[t].x,tmp[t].y)]);
 
 		if(cell_data[getCellIndex(tmp[t].x,tmp[t].y)].type == 1 || cell_data[getCellIndex(tmp[t].x,tmp[t].y)].type == 2)
@@ -1019,7 +1019,7 @@ void level::handleLineB(int xx0, int yy0, int xx1, int yy1)
 		// Mark it as lit
 		// Add it to the draw list and stop if it's a block
 
-		//cell_data[getCellIndex(tmp[t].x,tmp[t].y)].lit = true;
+		cell_data[getCellIndex(tmp[t].x,tmp[t].y)].lit = true;
 		drawBuf.push_back(&cell_data[getCellIndex(tmp[t].x,tmp[t].y)]);
 
 		if(cell_data[getCellIndex(tmp[t].x,tmp[t].y)].type == 1 || cell_data[getCellIndex(tmp[t].x,tmp[t].y)].type == 2)
