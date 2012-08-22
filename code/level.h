@@ -14,6 +14,7 @@
 #include "zombie.h"
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 const int C_MAP_WIDTH_IN_TILES = 40;
 const int C_MAP_HEIGHT_IN_TILES = 30;

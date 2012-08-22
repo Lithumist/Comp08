@@ -205,6 +205,9 @@ void level::generate()
 
 	cell_data[getCellIndex(p_start_x,p_start_y)].type = 0;
 
+	std::cout << "player at " << p_start_x << "," << p_start_y << std::endl;
+
+
 
 
 	// Remove some random walls
@@ -238,9 +241,45 @@ void level::generate()
 	// All that needs to be done is to populate it with stuff
 
 	// Add the exit
-	//recalculateEdgeList();
+	bool addedExit = false;
+	int count = 0;
+	while(!addedExit)
+	{
 
-	exitCell = edgeList[ut::random(0,edgeList.size())];
+
+		count ++;
+		exitCell = edgeList[ut::random(0,edgeList.size()-2)];
+		if((exitCell->x >= p_start_x+13 || exitCell->x <= p_start_x-13) && (exitCell->y >= p_start_y+13 || exitCell->y <= p_start_y-13))
+			addedExit = true;
+		else
+		{
+			if(count > 100)
+			{
+				// If there have been over 100 failed attempts,
+				// there's a good chance that it's impossible to place the exit where we want to.
+				// We need to place the exit somewhere surrounded by walls
+				bool addedExit2 = false;
+				float e_start_x, e_start_y;
+				while(!addedExit2)
+				{
+
+					e_start_x = (float)ut::random(1,C_MAP_WIDTH_IN_TILES-3);
+					e_start_y = (float)ut::random(1,C_MAP_HEIGHT_IN_TILES-3);
+
+					exitCell = &cell_data[getCellIndex(e_start_x,e_start_y)];
+					if((exitCell->x >= p_start_x+13 || exitCell->x <= p_start_x-13) && (exitCell->y >= p_start_y+13 || exitCell->y <= p_start_y-13))
+					{
+						addedExit2 = true;
+						addedExit = true;
+					}
+				}
+
+			}
+		}
+
+
+	}
+
 	exitCell->type = 5;
 
 	global::flExitCellX = (float)(exitCell->x*16);
@@ -254,15 +293,72 @@ void level::generate()
 	// Add the chests
 
 	chestList.clear();
-
 	const int NUMBER_OF_CHESTS = 2;
-
 	int rnd[NUMBER_OF_CHESTS];
-	rnd[0] = ut::random(0,edgeList.size()-1);
-	rnd[1] = ut::random(0,edgeList.size()-1);
-	
-	chestList.push_back(edgeList[rnd[0]]);
-	chestList.push_back(edgeList[rnd[1]]);
+	bool addedChest, addedChest2;
+	int chestCount;
+	int id = 0;
+	bool isEdge[NUMBER_OF_CHESTS];
+
+	for(int t=0; t<NUMBER_OF_CHESTS; t++)
+	{
+		std::cout << "adding chest " << t << std::endl;
+		addedChest = false;
+		chestCount = 0;
+
+		while(!addedChest)
+		{
+			chestCount ++;
+			id = ut::random(0,edgeList.size()-2);
+			if(id >= (int)edgeList.size())
+				id --;
+
+			if((edgeList[id]->x >= p_start_x+10 || edgeList[id]->x <= p_start_x-10) && (edgeList[id]->y >= p_start_y+10 || edgeList[id]->y <= p_start_y-10))
+			{
+				std::cout << "success\n";
+				addedChest = true;
+				chestList.push_back(edgeList[id]);///
+				isEdge[t] = true;
+				rnd[t] = id;
+			}
+			else
+			{
+				if(chestCount > 100)
+				{
+					std::cout << "fallback\n";
+					addedChest2 = false;
+					float cx,cy;
+					mapCell* chestCell = NULL;
+					while(!addedChest2)
+					{
+						cx = (float)ut::random(1,C_MAP_WIDTH_IN_TILES-3);
+						cy = (float)ut::random(1,C_MAP_HEIGHT_IN_TILES-3);
+
+						chestCell = &cell_data[getCellIndex(cx,cy)];
+						if((exitCell->x >= p_start_x+10 || exitCell->x <= p_start_x-10) && (exitCell->y >= p_start_y+10 || exitCell->y <= p_start_y-10))
+						{
+							addedChest2 = true;
+							addedChest = true;
+							chestList.push_back(chestCell);///
+							std::cout << "yea\n";
+							isEdge[t] = false;
+							rnd[t] = getCellIndex(cx,cy);
+						}
+
+
+					}//while
+
+
+				}//if
+
+
+			}//else
+
+
+		}//while
+
+
+	}//for
 
 
 
@@ -272,21 +368,31 @@ void level::generate()
 	{
 		recalculateEdgeList();
 
-		edgeList[rnd[t]]->type = 4;
-		edgeList[rnd[t]]->looted = false;
-		edgeList[rnd[t]]->treasure = ut::random(1,6);
+		mapCell* working = NULL;
+		if(isEdge[t])
+		{
+			if(rnd[t] >= (int)edgeList.size())
+				rnd[t] -= 1;
+			working = edgeList[rnd[t]];
+		}
+		else
+			working = &cell_data[rnd[t]];
+
+		working->type = 4;
+		working->looted = false;
+		working->treasure = ut::random(1,6);
 		int firstRnd = ut::random(1,4);
 		if(firstRnd == 1)
 		{
 			// 25% chance of ending up here
 			// when here there is also a 25% chance of getting no lanterns
 			// This all means that there is a 87.5% chance of getting no lanterns from this chest
-			edgeList[rnd[t]]->lanterns = ut::random(0,3);
+			working->lanterns = ut::random(0,3);
 		}
 		else
 		{
 			// 75% chance of ending up here
-			edgeList[rnd[t]]->lanterns = 0;
+			working->lanterns = 0;
 		}
 
 		//std::cout << "Chest " << t << " at " << edgeList[t]->x << "," << edgeList[t]->y << std::endl; 
