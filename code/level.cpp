@@ -418,6 +418,8 @@ void level::draw()
 	int cur_it = 0;
 	sf::RectangleShape rct;
 
+	std::vector<zombie*> zombieDrawList;
+
 
 
 	// Draw cells
@@ -449,13 +451,8 @@ void level::draw()
 
 			// Draw zombie if needed
 			if(drawList[t]->isZombie)
-			{
-				goto draw_zomb;
-			}
-done_draw_zomb:
+				zombieDrawList.push_back(drawList[t]->ptrZombie);
 
-			cur_it = cur_it; // this line means and does nothing important
-					   // it is just here so that the label doesnt trigger a compiler error
 
 		}
 
@@ -515,19 +512,15 @@ done_draw_zomb:
 
 
 
-		return;
-
-
-
 
 	
 	//////////////////////////////////
 	// Draw zombies
-draw_zomb:
 
-	drawList[cur_it]->ptrZombie->draw();
-
-	goto done_draw_zomb;
+	for(int z=0; z<zombieDrawList.size(); z++)
+	{
+		zombieDrawList[z]->draw();
+	}
 
 
 }

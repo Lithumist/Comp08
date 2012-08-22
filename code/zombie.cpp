@@ -74,7 +74,7 @@ void zombie::step()
 
 
 	// Update playerLeft
-	if(*global::flPlayerX+8 < x+8)
+	if(*global::flPlayerX+7 < x+7)
 		playerLeft = true;
 	else
 		playerLeft = false;
@@ -82,7 +82,7 @@ void zombie::step()
 
 
 	// Calculate the current distance to target
-	float dist = ut::distanceBetween(x+8,y+8,*global::flPlayerX+8,*global::flPlayerY+8);
+	float dist = ut::distanceBetween(x+6,y+6,*global::flPlayerX+8,*global::flPlayerY+8);
 
 
 
@@ -107,7 +107,7 @@ void zombie::step()
 		vecToTargetNorm.x = vecToTarget.x;
 		vecToTargetNorm.y = vecToTarget.y;
 
-		float mg = sqrt(x*x + y*y); // this line looks like its wrong...
+		float mg = sqrt(vecToTarget.x*vecToTarget.x + vecToTarget.y*vecToTarget.y); // this line looks like its wrong...
 		vecToTargetNorm.x /= mg;
 		vecToTargetNorm.y /= mg;
 
@@ -174,12 +174,11 @@ void zombie::step()
 		sf::FloatRect zomb;
 		zomb.left = x;
 		zomb.top = y;
-		zomb.width = 16;
-		zomb.height = 16;
+		zomb.width = 14+1;
+		zomb.height = 14+1;
 
 		if(zomb.intersects(rup))
 		{
-			x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
 			y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
 		}
 	}
@@ -193,14 +192,13 @@ void zombie::step()
 		rup.height = 16;
 
 		sf::FloatRect zomb;
-		zomb.left = x;
-		zomb.top = y;
-		zomb.width = 16;
-		zomb.height = 16;
+		zomb.left = x+1;
+		zomb.top = y+1;
+		zomb.width = 14;
+		zomb.height = 14;
 
 		if(zomb.intersects(rup))
 		{
-			x -= vecSpeed.x * 1* FpsCalc::GetInstance()->speedfactor;
 			y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
 		}
 	}
@@ -214,15 +212,14 @@ void zombie::step()
 		rup.height = 16;
 
 		sf::FloatRect zomb;
-		zomb.left = x;
-		zomb.top = y;
-		zomb.width = 16;
-		zomb.height = 16;
+		zomb.left = x+1;
+		zomb.top = y+1;
+		zomb.width = 14;
+		zomb.height = 14;
 
 		if(zomb.intersects(rup))
 		{
 			x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
-			y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
 		}
 	}
 
@@ -235,20 +232,19 @@ void zombie::step()
 		rup.height = 16;
 
 		sf::FloatRect zomb;
-		zomb.left = x;
-		zomb.top = y;
-		zomb.width = 16;
-		zomb.height = 16;
+		zomb.left = x+1;
+		zomb.top = y+1;
+		zomb.width = 14;
+		zomb.height = 14;
 
 		if(zomb.intersects(rup))
 		{
 			x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
-			y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
 		}
 	}
 
 
-
+	
 
 
 	if(cellUpLeft->type == 1 || cellUpLeft->type == 2 || cellUpLeft->type == 3 || cellUpLeft->type == 4)
@@ -260,15 +256,17 @@ void zombie::step()
 		rup.height = 16;
 
 		sf::FloatRect zomb;
-		zomb.left = x;
-		zomb.top = y;
-		zomb.width = 16;
-		zomb.height = 16;
+		zomb.left = x+1;
+		zomb.top = y+1;
+		zomb.width = 14;
+		zomb.height = 14;
 
 		if(zomb.intersects(rup))
 		{
-			x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
-			y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
+			//if(vecSpeed.y != 0 || vecSpeed.y != 1 || vecSpeed.y != -1)
+				//x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
+			//if(vecSpeed.x != 0 || vecSpeed.x != 1 || vecSpeed.x != -1)
+				//y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
 		}
 	}
 
@@ -281,15 +279,17 @@ void zombie::step()
 		rup.height = 16;
 
 		sf::FloatRect zomb;
-		zomb.left = x;
-		zomb.top = y;
-		zomb.width = 16;
-		zomb.height = 16;
+		zomb.left = x+1;
+		zomb.top = y+1;
+		zomb.width = 14;
+		zomb.height = 14;
 
 		if(zomb.intersects(rup))
 		{
-			x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
-			y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
+			//if(vecSpeed.y != 0 || vecSpeed.y != 1 || vecSpeed.y != -1)
+				//x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
+			//if(vecSpeed.x != 0 || vecSpeed.x != 1 || vecSpeed.x != -1)
+				//y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
 		}
 	}
 
@@ -302,15 +302,17 @@ void zombie::step()
 		rup.height = 16;
 
 		sf::FloatRect zomb;
-		zomb.left = x;
-		zomb.top = y;
-		zomb.width = 16;
-		zomb.height = 16;
+		zomb.left = x+1;
+		zomb.top = y+1;
+		zomb.width = 14;
+		zomb.height = 14;
 
 		if(zomb.intersects(rup))
 		{
-			x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
-			y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
+			//if(vecSpeed.y != 0 || vecSpeed.y != 1 || vecSpeed.y != -1)
+				//x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
+			//if(vecSpeed.x != 0 || vecSpeed.x != 1 || vecSpeed.x != -1)
+				//y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
 		}
 	}
 
@@ -323,15 +325,17 @@ void zombie::step()
 		rup.height = 16;
 
 		sf::FloatRect zomb;
-		zomb.left = x;
-		zomb.top = y;
-		zomb.width = 16;
-		zomb.height = 16;
+		zomb.left = x+1;
+		zomb.top = y+1;
+		zomb.width = 14;
+		zomb.height = 14;
 
 		if(zomb.intersects(rup))
 		{
-			x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
-			y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
+			//if(vecSpeed.y != 0 || vecSpeed.y != 1 || vecSpeed.y != -1)
+				//x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
+			//if(vecSpeed.x != 0 || vecSpeed.x != 1 || vecSpeed.x != -1)
+				//y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
 		}
 	}
 
