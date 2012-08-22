@@ -157,7 +157,12 @@ class level
 		std::vector<mapCell*> drawBuf;
 
 
-		sf::Sprite SPR_wall, SPR_u_wall, SPR_exit, SPR_lantern, SPR_chest_closed, SPR_chest_open;
+		sf::Sprite SPR_wall;
+		sf::Sprite SPR_u_wall;
+		sf::Sprite SPR_exit;
+		sf::Sprite SPR_lantern;
+		sf::Sprite SPR_chest_closed;
+		sf::Sprite SPR_chest_open;
 
 
 		// Lantern speed hack

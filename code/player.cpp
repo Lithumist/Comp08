@@ -313,7 +313,7 @@ void player::step()
 				if(global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].isZombie)
 				{
 					// hit
-					zombie* zptr = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellUp.left/16,cellUp.top/16)].ptrZombie;
+					zombie* zptr = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellLeft.left/16,cellLeft.top/16)].ptrZombie;
 
 					sf::Vector2f vtz;
 					vtz.x = zptr->x - x;
@@ -840,7 +840,7 @@ void player::handleCollisions()
 	bottomLeftType = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellBottomLeft.left/16,cellBottomLeft.top/16)].type;
 	bottomRightType = global::lvlLevel->cell_data[global::lvlLevel->getCellIndex(cellBottomRight.left/16,cellBottomRight.top/16)].type;
 
-	if(upType == 1 || upType == 2 || upType == 4)
+	if(upType == 1 || upType == 2 || upType == 4 || upType == 3)
 	{
 		if(liveRectPlayer.intersects(cellUp))
 		{
@@ -859,7 +859,7 @@ void player::handleCollisions()
 		}
 	}
 
-	if(downType == 1 || downType == 2 || downType == 4)
+	if(downType == 1 || downType == 2 || downType == 4 || downType == 3)
 	{
 		if(liveRectPlayer.intersects(cellDown))
 		{
@@ -878,7 +878,7 @@ void player::handleCollisions()
 		}
 	}
 
-	if(leftType == 1 || leftType == 2 || leftType == 4)
+	if(leftType == 1 || leftType == 2 || leftType == 4 || leftType == 3)
 	{
 		if(liveRectPlayer.intersects(cellLeft))
 		{
@@ -897,7 +897,7 @@ void player::handleCollisions()
 		}
 	}
 
-	if(rightType == 1 || rightType == 2 || rightType == 4)
+	if(rightType == 1 || rightType == 2 || rightType == 4 || rightType == 3)
 	{
 		if(liveRectPlayer.intersects(cellRight))
 		{

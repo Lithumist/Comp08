@@ -153,8 +153,103 @@ void zombie::step()
 
 
 	// Move the zombie
-	//x += vecSpeed.x * FpsCalc::GetInstance()->speedfactor;
-	//y += vecSpeed.y * FpsCalc::GetInstance()->speedfactor;
+	x += vecSpeed.x * FpsCalc::GetInstance()->speedfactor;
+	y += vecSpeed.y * FpsCalc::GetInstance()->speedfactor;
+
+
+
+
+
+
+
+	// Check for collisions with walls
+	if(cellDown->type == 1 || cellDown->type == 2 || cellDown->type == 3 || cellDown->type == 4)
+	{
+		sf::FloatRect rup;
+		rup.left = cellDown->x*16;
+		rup.top = cellDown->y*16;
+		rup.width = 16;
+		rup.height = 16;
+
+		sf::FloatRect zomb;
+		zomb.left = x;
+		zomb.top = y;
+		zomb.width = 16;
+		zomb.height = 16;
+
+		if(zomb.intersects(rup))
+		{
+			x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
+			y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
+		}
+	}
+
+	if(cellUp->type == 1 || cellUp->type == 2 || cellUp->type == 3 || cellUp->type == 4)
+	{
+		sf::FloatRect rup;
+		rup.left = cellUp->x*16;
+		rup.top = cellUp->y*16;
+		rup.width = 16;
+		rup.height = 16;
+
+		sf::FloatRect zomb;
+		zomb.left = x;
+		zomb.top = y;
+		zomb.width = 16;
+		zomb.height = 16;
+
+		if(zomb.intersects(rup))
+		{
+			x -= vecSpeed.x * 1* FpsCalc::GetInstance()->speedfactor;
+			y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
+		}
+	}
+
+	if(cellLeft->type == 1 || cellLeft->type == 2 || cellLeft->type == 3 || cellLeft->type == 4)
+	{
+		sf::FloatRect rup;
+		rup.left = cellLeft->x*16;
+		rup.top = cellLeft->y*16;
+		rup.width = 16;
+		rup.height = 16;
+
+		sf::FloatRect zomb;
+		zomb.left = x;
+		zomb.top = y;
+		zomb.width = 16;
+		zomb.height = 16;
+
+		if(zomb.intersects(rup))
+		{
+			x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
+			y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
+		}
+	}
+
+	if(cellRight->type == 1 || cellRight->type == 2 || cellRight->type == 3 || cellRight->type == 4)
+	{
+		sf::FloatRect rup;
+		rup.left = cellRight->x*16;
+		rup.top = cellRight->y*16;
+		rup.width = 16;
+		rup.height = 16;
+
+		sf::FloatRect zomb;
+		zomb.left = x;
+		zomb.top = y;
+		zomb.width = 16;
+		zomb.height = 16;
+
+		if(zomb.intersects(rup))
+		{
+			x -= vecSpeed.x * 1 * FpsCalc::GetInstance()->speedfactor;
+			y -= vecSpeed.y * 1 * FpsCalc::GetInstance()->speedfactor;
+		}
+	}
+
+
+
+
 
 
 

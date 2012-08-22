@@ -86,7 +86,11 @@ class zombie
 		bool gotoTarget;
 
 		// Pointers to the cells around the zombie
-		mapCell* cellZombie, cellUp, cellDown, cellLeft, cellRight;
+		mapCell* cellZombie;
+		mapCell* cellUp;
+		mapCell* cellDown;
+		mapCell* cellLeft;
+		mapCell* cellRight;
 
 		// Zombie sound
 		sf::Sound SND_zombie;

@@ -610,6 +610,16 @@ void level::step()
 			zombieList[z].cellZombie->isZombie = true;
 			zombieList[z].cellZombie->ptrZombie = &zombieList[z];
 
+			// Update other cells
+			int tilexx, tileyy;
+			tilexx = zombieList[z].cellZombie->x;
+			tileyy = zombieList[z].cellZombie->y;
+
+			zombieList[z].cellDown = &cell_data[getCellIndex(tilexx,tileyy+1)];
+			zombieList[z].cellUp = &cell_data[getCellIndex(tilexx,tileyy-1)];
+			zombieList[z].cellRight = &cell_data[getCellIndex(tilexx+1,tileyy)];
+			zombieList[z].cellLeft = &cell_data[getCellIndex(tilexx-1,tileyy)];
+
 			// Individual logic
 			zombieList[z].step();
 		}
