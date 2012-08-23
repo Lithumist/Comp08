@@ -20,6 +20,7 @@
 
 const float C_PLAYER_SPEED = 1.5;
 const int C_PLAYER_DAMAGE = 1;
+const int C_PLAYER_SWORD_DAMAGE_BOOST = 3;
 const float C_ATTACK_TIME_DELAY = 0.5; // seconds
 extern float PLAYER_MINE_TIME;
 
@@ -71,8 +72,11 @@ class player
 		// The player's position
 		float x, y;
 
-		// the Player's speeds
+		// The Player's speeds
 		float xspeed, yspeed;
+
+		// If the player has a sword
+		bool hasSword;
 
 
 
@@ -116,8 +120,9 @@ class player
 		sf::Sound SND_hit;
 		sf::Sound SND_miss;
 		sf::Sound SND_hurt;
+		sf::Sound SND_sword;
 
-		sf::Sprite SPR_up, SPR_down, SPR_left, SPR_right;
+		sf::Sprite SPR_up, SPR_down, SPR_left, SPR_right, SPR_down_sword, SPR_right_sword;
 
 		// The player's HP (out of 100)
 		int hp;

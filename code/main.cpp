@@ -78,12 +78,15 @@ int main()
 	global::SNDBUF_player_hit.loadFromFile("resources/sound/player_hit.wav");
 	global::SNDBUF_player_miss.loadFromFile("resources/sound/player_miss.wav");
 	global::SNDBUF_player_hurt.loadFromFile("resources/sound/player_hurt.wav");
+	global::SNDBUF_get_sword.loadFromFile("resources/sound/get_sword.wav");
 
 	// Load all the textures
 	global::TXT_player_down.loadFromFile("resources/texture/player_down.png");
 	global::TXT_player_up.loadFromFile("resources/texture/player_up.png");
 	global::TXT_player_left.loadFromFile("resources/texture/player_left.png");
 	global::TXT_player_right.loadFromFile("resources/texture/player_right.png");
+	global::TXT_player_down_sword.loadFromFile("resources/texture/player_down_sword.png");
+	global::TXT_player_right_sword.loadFromFile("resources/texture/player_right_sword.png");
 
 	global::TXT_wall.loadFromFile("resources/texture/wall.png");
 	global::TXT_u_wall.loadFromFile("resources/texture/unbreakable_wall.png");

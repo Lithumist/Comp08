@@ -69,6 +69,7 @@ namespace global
 	sf::SoundBuffer SNDBUF_player_hit;
 	sf::SoundBuffer SNDBUF_player_miss;
 	sf::SoundBuffer SNDBUF_player_hurt;
+	sf::SoundBuffer SNDBUF_get_sword;
 
 
 
@@ -77,6 +78,8 @@ namespace global
 	sf::Texture TXT_player_up;
 	sf::Texture TXT_player_left;
 	sf::Texture TXT_player_right;
+	sf::Texture TXT_player_down_sword;
+	sf::Texture TXT_player_right_sword;
 
 	sf::Texture TXT_wall;
 	sf::Texture TXT_u_wall;

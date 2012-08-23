@@ -20,6 +20,8 @@ void player::init(float xpos, float ypos)
 	y = ypos;
 	xspeed = 0;
 	yspeed = 0;
+
+	hasSword = false;
 	
 	keyUp = false;
 	keyDown = false;
@@ -77,11 +79,14 @@ void player::init(float xpos, float ypos)
 	SND_hit.setBuffer(global::SNDBUF_player_hit); SND_hit.setLoop(false);
 	SND_miss.setBuffer(global::SNDBUF_player_miss); SND_miss.setLoop(false);
 	SND_hurt.setBuffer(global::SNDBUF_player_hurt); SND_hurt.setLoop(false);
+	SND_sword.setBuffer(global::SNDBUF_get_sword); SND_sword.setLoop(false);
 
 	SPR_up.setTexture(global::TXT_player_up);
 	SPR_down.setTexture(global::TXT_player_down);
 	SPR_left.setTexture(global::TXT_player_left);
 	SPR_right.setTexture(global::TXT_player_right);
+	SPR_down_sword.setTexture(global::TXT_player_down_sword);
+	SPR_right_sword.setTexture(global::TXT_player_right_sword);
 }
 
 void player::init(){init(0,0);}
@@ -189,6 +194,14 @@ void player::step()
 	*/
 
 
+	// Give sword
+	if(numberTreasure >= 100 && !hasSword)
+	{
+		hasSword = true;
+		SND_sword.play();
+	}
+
+
 	// Update speeds
 	xspeed = 0;
 	yspeed = 0;
@@ -204,6 +217,7 @@ void player::step()
 	// Get hit by zombies if needed
 	if(global::zombieHitPlayerFlag)
 	{
+		//numberTreasure += 100;///////////////////////////
 		SND_hurt.play();
 
 		global::zombieHitPlayerFlag = false;
@@ -273,7 +287,11 @@ void player::step()
 
 					SND_hit.play();
 
-					zptr->damage(vtz,C_PLAYER_DAMAGE);
+					int finalDmg = C_PLAYER_DAMAGE;
+					if(hasSword)
+						finalDmg += C_PLAYER_SWORD_DAMAGE_BOOST;
+
+					zptr->damage(vtz,finalDmg);
 				}
 				else
 				{
@@ -653,6 +671,7 @@ void player::step()
 	SND_hit.setPosition(x,y,0);
 	SND_miss.setPosition(x,y,0);
 	SND_hurt.setPosition(x,y,0);
+	SND_sword.setPosition(x,y,0);
 
 
 
@@ -678,13 +697,29 @@ void player::draw()
 		break;
 
 		case 2: // right
-			SPR_right.setPosition(x,y);
-			global::rwpWindow->draw(SPR_right);
+			if(hasSword)
+			{
+				SPR_right_sword.setPosition(x,y);
+				global::rwpWindow->draw(SPR_right_sword);
+			}
+			else
+			{
+				SPR_right.setPosition(x,y);
+				global::rwpWindow->draw(SPR_right);
+			}
 		break;
 
 		case 3: // down
-			SPR_down.setPosition(x,y);
-			global::rwpWindow->draw(SPR_down);
+			if(hasSword)
+			{
+				SPR_down_sword.setPosition(x,y);
+				global::rwpWindow->draw(SPR_down_sword);
+			}
+			else
+			{
+				SPR_down.setPosition(x,y);
+				global::rwpWindow->draw(SPR_down);
+			}
 		break;
 
 		case 4: // left
