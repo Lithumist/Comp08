@@ -27,6 +27,7 @@
 
 
 const float C_ZOMBIE_STEP_SIZE = 0.5;
+const float C_ZOMBIE_OMG_SPEED_BOOST = 1.0;
 
 
 
@@ -43,7 +44,7 @@ class zombie
 
 
 		// Resets the zombie, like new
-		void reset(float xpos, float ypos, int MaxHp, int dmgStrength);
+		void reset(float xpos, float ypos, int MaxHp, int dmgStrength, bool spec);
 
 		// Updates the zombie
 		void step();
@@ -63,6 +64,9 @@ class zombie
 		///
 		/// Properties
 		///
+
+		// Scary?
+		bool special;
 
 		// Position
 		float x, y;
@@ -98,10 +102,10 @@ class zombie
 		mapCell* cellDownRight;
 
 		// Zombie sound
-		sf::Sound SND_zombie;
+		sf::Sound SND_zombie, SND_omg;
 
 		// Zombie sprites
-		sf::Sprite SPR_left, SPR_right;
+		sf::Sprite SPR_left, SPR_right, SPR_left_omg, SPR_right_omg;
 
 
 		// If the player is to the left of the zombie

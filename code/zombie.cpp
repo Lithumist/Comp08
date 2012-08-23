@@ -11,8 +11,9 @@
 ///
 // Resets the zombie, like new
 ///
-void zombie::reset(float xpos, float ypos, int MaxHp, int dmgStrength)
+void zombie::reset(float xpos, float ypos, int MaxHp, int dmgStrength, bool spec)
 {
+	special = spec;
 	x = xpos;
 	y = ypos;
 	maxHp = MaxHp;
@@ -33,9 +34,26 @@ void zombie::reset(float xpos, float ypos, int MaxHp, int dmgStrength)
 	SND_zombie.setMinDistance(96);
 	SND_zombie.setAttenuation(5);
 
+	SND_zombie.setPosition(x,y,0);
+
+
+	SND_omg.setBuffer(global::SNDBUF_zombie_omg);
+	SND_omg.setLoop(false);
+	SND_omg.setMinDistance(96);
+	SND_omg.setAttenuation(5);
+
+	SND_omg.setPosition(x,y,0);
+
+	if(special)
+		SND_omg.play();
+	else
+		SND_zombie.play();
+
 
 	SPR_left.setTexture(global::TXT_zombie_left);
 	SPR_right.setTexture(global::TXT_zombie_right);
+	SPR_left_omg.setTexture(global::TXT_zombie_left_omg);
+	SPR_right_omg.setTexture(global::TXT_zombie_right_omg);
 
 
 
@@ -66,7 +84,11 @@ void zombie::step()
 	// Play sound if needed
 	if(soundTimer.getElapsedTime().asSeconds() >= currentSoundTimerMax)
 	{
-		SND_zombie.play();
+		if(special)
+			SND_omg.play();
+		else
+			SND_zombie.play();
+
 		currentSoundTimerMax = ut::random(5,30);// random between 5 and 30 seconds
 		soundTimer.restart();
 	}
@@ -141,8 +163,16 @@ void zombie::step()
 		else if (spdY < 0 && spdX == 0)
 			spdY -= 0.5;
 
-		vecSpeed.x = spdX * C_ZOMBIE_STEP_SIZE;
-		vecSpeed.y = spdY * C_ZOMBIE_STEP_SIZE;
+		if(special)
+		{
+			vecSpeed.x = spdX * (C_ZOMBIE_STEP_SIZE + C_ZOMBIE_OMG_SPEED_BOOST);
+			vecSpeed.y = spdY * (C_ZOMBIE_STEP_SIZE + C_ZOMBIE_OMG_SPEED_BOOST);
+		}
+		else
+		{
+			vecSpeed.x = spdX * C_ZOMBIE_STEP_SIZE;
+			vecSpeed.y = spdY * C_ZOMBIE_STEP_SIZE;
+		}
 	}
 	else
 	{
@@ -391,13 +421,29 @@ void zombie::draw()
 
 	if(playerLeft)
 	{
-		SPR_left.setPosition(x,y);
-		global::rwpWindow->draw(SPR_left);
+		if(special)
+		{
+			SPR_left_omg.setPosition(x,y);
+			global::rwpWindow->draw(SPR_left_omg);
+		}
+		else
+		{
+			SPR_left.setPosition(x,y);
+			global::rwpWindow->draw(SPR_left);
+		}
 	}
 	else
 	{
-		SPR_right.setPosition(x,y);
-		global::rwpWindow->draw(SPR_right);
+		if(special)
+		{
+			SPR_right_omg.setPosition(x,y);
+			global::rwpWindow->draw(SPR_right_omg);
+		}
+		else
+		{
+			SPR_right.setPosition(x,y);
+			global::rwpWindow->draw(SPR_right);
+		}
 	}
 }
 

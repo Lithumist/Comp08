@@ -199,6 +199,7 @@ void player::step()
 	{
 		hasSword = true;
 		SND_sword.play();
+		std::cout << "You have obtained a sword!\n";
 	}
 
 

@@ -76,6 +76,7 @@ namespace global
 	// All sound data used
 	extern sf::SoundBuffer SNDBUF_mine;
 	extern sf::SoundBuffer SNDBUF_zombie;
+	extern sf::SoundBuffer SNDBUF_zombie_omg;
 	extern sf::SoundBuffer SNDBUF_player_hit;
 	extern sf::SoundBuffer SNDBUF_player_miss;
 	extern sf::SoundBuffer SNDBUF_player_hurt;
@@ -104,6 +105,8 @@ namespace global
 
 	extern sf::Texture TXT_zombie_left;
 	extern sf::Texture TXT_zombie_right;
+	extern sf::Texture TXT_zombie_left_omg;
+	extern sf::Texture TXT_zombie_right_omg;
 
 
 } // End namespace

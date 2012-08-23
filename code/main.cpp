@@ -75,6 +75,7 @@ int main()
 	// Load all the sounds
 	global::SNDBUF_mine.loadFromFile("resources/sound/mine.wav");
 	global::SNDBUF_zombie.loadFromFile("resources/sound/zombie.wav");
+	global::SNDBUF_zombie_omg.loadFromFile("resources/sound/zombie_omg.wav");
 	global::SNDBUF_player_hit.loadFromFile("resources/sound/player_hit.wav");
 	global::SNDBUF_player_miss.loadFromFile("resources/sound/player_miss.wav");
 	global::SNDBUF_player_hurt.loadFromFile("resources/sound/player_hurt.wav");
@@ -101,6 +102,8 @@ int main()
 
 	global::TXT_zombie_left.loadFromFile("resources/texture/zombie_left.png");
 	global::TXT_zombie_right.loadFromFile("resources/texture/zombie_right.png");
+	global::TXT_zombie_left_omg.loadFromFile("resources/texture/zombie_left_omg.png");
+	global::TXT_zombie_right_omg.loadFromFile("resources/texture/zombie_right_omg.png");
 
 
 
@@ -180,6 +183,9 @@ int main_loop()
 				toggleScreen = true;
 			else
 				toggleScreen = false;
+
+			if(sf::Keyboard::isKeyPressed(sf::Keyboard::End))
+				global::bLoopRunning = false;
 
 
 			switch(global::gsGameState)

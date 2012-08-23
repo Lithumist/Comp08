@@ -598,15 +598,43 @@ void level::step()
 
 
 		// Init new zombie
-		if(*global::ptrCurLevel == 1)
-			zombie_hp = 1;
+
+
+		// Special?
+		bool spawnspec= false;
+		int specrnd = ut::random(1,100);
+
+		if(*global::ptrCurLevel >= 40)
+			specrnd == 4; // Level 40 and above takes no prisoners >:D
+
+		if(*global::ptrCurLevel > 5 && specrnd <= 4)////////////////////////////////////////////////
+		{
+			// 4% chance of spawning
+			spawnspec = true;
+
+			if(*global::ptrCurLevel == 1)
+				zombie_hp = 1;
+			else
+				zombie_hp = (int)(*global::ptrCurLevel*2); // _shitload_ of hp
+
+			zombie_damage = 4 * (*global::ptrCurLevel); // 4 times the damage of normal zombies
+		}
 		else
-			zombie_hp = (int)(*global::ptrCurLevel/2);
-		
-		zombie_damage = 2 * (*global::ptrCurLevel);
+		{
+
+			spawnspec = false;
+
+			if(*global::ptrCurLevel == 1)
+				zombie_hp = 1;
+			else
+				zombie_hp = (int)(*global::ptrCurLevel/2);
+
+			zombie_damage = 2 * (*global::ptrCurLevel);
+
+		}
 
 
-		new_zombie.reset(xp,yp,zombie_hp,zombie_damage);
+		new_zombie.reset(xp,yp,zombie_hp,zombie_damage,spawnspec);
 
 		// Add zombie to list
 		zombieList.push_back(new_zombie);
