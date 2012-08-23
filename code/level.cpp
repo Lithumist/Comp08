@@ -285,6 +285,25 @@ void level::generate()
 					{
 						addedExit2 = true;
 						addedExit = true;
+						 
+						// clear out a small room around the new exit
+						if(cell_data[getCellIndex(e_start_x+1,e_start_y)].type == 1)
+							cell_data[getCellIndex(e_start_x+1,e_start_y)].type = 0;
+						if(cell_data[getCellIndex(e_start_x-1,e_start_y)].type == 1)
+							cell_data[getCellIndex(e_start_x-1,e_start_y)].type = 0;
+						if(cell_data[getCellIndex(e_start_x,e_start_y+1)].type == 1)
+							cell_data[getCellIndex(e_start_x,e_start_y+1)].type = 0;
+						if(cell_data[getCellIndex(e_start_x,e_start_y-1)].type == 1)
+							cell_data[getCellIndex(e_start_x,e_start_y-1)].type = 0;
+						if(cell_data[getCellIndex(e_start_x+1,e_start_y+1)].type == 1)
+							cell_data[getCellIndex(e_start_x+1,e_start_y+1)].type = 0;
+						if(cell_data[getCellIndex(e_start_x+1,e_start_y-1)].type == 1)
+							cell_data[getCellIndex(e_start_x+1,e_start_y-1)].type = 0;
+						if(cell_data[getCellIndex(e_start_x-1,e_start_y+1)].type == 1)
+							cell_data[getCellIndex(e_start_x-1,e_start_y+1)].type = 0;
+						if(cell_data[getCellIndex(e_start_x-1,e_start_y-1)].type == 1)
+							cell_data[getCellIndex(e_start_x-1,e_start_y-1)].type = 0;
+
 					}
 				}
 
@@ -605,9 +624,9 @@ void level::step()
 		int specrnd = ut::random(1,100);
 
 		if(*global::ptrCurLevel >= 40)
-			specrnd == 4; // Level 40 and above takes no prisoners >:D
+			specrnd = 4; // Level 40 and above takes no prisoners >:D
 
-		if(*global::ptrCurLevel > 5 && specrnd <= 4)////////////////////////////////////////////////
+		if(*global::ptrCurLevel > 5 && specrnd <= 4)
 		{
 			// 4% chance of spawning
 			spawnspec = true;

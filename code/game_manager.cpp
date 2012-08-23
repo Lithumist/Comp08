@@ -85,8 +85,9 @@ void gameManager::events(sf::Event* evnt)
 		toggleLight = true;
 	else
 		toggleLight = false;
-
 	*/
+
+	
 
 
 	// Do player events
