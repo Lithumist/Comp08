@@ -161,10 +161,12 @@ void player::events(sf::Event* evnt)
 
 
 	// Update fast mine
+	/*
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num6) && !fastMine)
 		fastMine = true;
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num6) && fastMine)
 		fastMine = false;
+		*/
 }
 
 

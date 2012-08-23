@@ -68,6 +68,7 @@ void gameManager::events(sf::Event* evnt)
 
 
 	// Debug
+	/*
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Numpad1))
 		gamePlayer.hurt(10);
 
@@ -84,6 +85,7 @@ void gameManager::events(sf::Event* evnt)
 		toggleLight = true;
 	else
 		toggleLight = false;
+		*/
 
 	// Do player events
 	global::plPlayer->events(evnt);
