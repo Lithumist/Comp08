@@ -396,6 +396,7 @@ int main_loop()
 			break;
 		}
 
+		/*
 		float fps;
 		fps = 1.f/fpsClock.getElapsedTime().asSeconds();
 		fpsClock.restart();
@@ -404,6 +405,7 @@ int main_loop()
 		blktxt.setCharacterSize(12);
 		blktxt.setPosition(535,0);
 		global::rwpWindow->draw(blktxt);
+		*/
 
 		ut::frameEnd();
 
