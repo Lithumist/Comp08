@@ -32,6 +32,7 @@ void player::init(float xpos, float ypos)
 	placeCell = false;
 	rmLantern = false;
 	placeLantern = false;
+	centre = false;
 
 	fastMine = false;
 
@@ -163,6 +164,13 @@ void player::events(sf::Event* evnt)
 		attack = false;
 
 
+	// Update centre varible
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
+		centre = true;
+	else
+		centre = false;
+
+
 
 
 	// Update fast mine
@@ -268,6 +276,15 @@ void player::step()
 
 	cellBottomRight.left = cellPlayer.left+16;
 	cellBottomRight.top = cellPlayer.top+16;
+
+
+	// centre player if needed
+	if(centre)
+	{
+		centre = false;
+		x = cellPlayer.left;
+		y = cellPlayer.top;
+	}
 
 
 	// Handle attacking

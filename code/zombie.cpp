@@ -459,7 +459,7 @@ void zombie::damage(sf::Vector2f vecToZombie, int dmgAmmount)
 
 
 
-	std::cout << "zombie hit\n";
+	//std::cout << "zombie hit\n";
 
 	// do damage
 	curHp -= dmgAmmount;

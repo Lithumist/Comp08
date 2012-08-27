@@ -202,6 +202,9 @@ void level::generate()
 				cell_data[getCellIndex(xpos,ypos)].type = 2;
 				cell_data[getCellIndex(xpos,ypos)].x = xpos;
 				cell_data[getCellIndex(xpos,ypos)].y = ypos;
+				cell_data[getCellIndex(xpos,ypos)].isZombie = false;
+				cell_data[getCellIndex(xpos,ypos)].ptrZombie = NULL;
+				cell_data[getCellIndex(xpos,ypos)].looted = false;
 			}
 			else
 			{
@@ -209,6 +212,9 @@ void level::generate()
 				cell_data[getCellIndex(xpos,ypos)].type = 1;
 				cell_data[getCellIndex(xpos,ypos)].x = xpos;
 				cell_data[getCellIndex(xpos,ypos)].y = ypos;
+				cell_data[getCellIndex(xpos,ypos)].isZombie = false;
+				cell_data[getCellIndex(xpos,ypos)].ptrZombie = NULL;
+				cell_data[getCellIndex(xpos,ypos)].looted = false;
 			}
 		}
 	}
@@ -432,6 +438,7 @@ void level::generate()
 	}
 
 
+	spawnClock.restart();
 
 	map_is_ready = true;
 }
@@ -613,7 +620,14 @@ void level::step()
 		xp = spawnList[rndCell]->x*16;
 		yp = spawnList[rndCell]->y*16;
 
-		//std::cout << xp/16 << "," << yp/16 << std::endl;
+		time_t ltime = time(NULL);
+		struct tm* atime;
+		atime = localtime(&ltime);
+		//std::cout << xp/16 << "," << yp/16 << ". Time at " << atime->tm_hour << ":" << atime->tm_min << std::endl;
+
+
+		//if(spawnList[rndCell]->isZombie)
+			//std::cout << "CELL IS ALREADY ZOMBIE!\n";
 
 
 		// Init new zombie

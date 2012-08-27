@@ -95,7 +95,7 @@ class player
 
 		bool keyUp, keyDown, keyLeft, keyRight;
 
-		bool rmCell, placeCell, rmLantern, placeLantern;
+		bool rmCell, placeCell, rmLantern, placeLantern, centre;
 		bool fastMine;
 
 		bool hasReset;
